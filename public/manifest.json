@@ -1,0 +1,15 @@
+{
+  "name": "Lichess Puzzle Timer",
+  "description": "Using this chrome extension, a timer will appear when solving puzzles in lichess.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_icon": "images/lptimer-16.png"
+  },
+  "icons": {
+    "16": "images/lptimer-16.png",
+    "32": "images/lptimer-32.png",
+    "48": "images/lptimer-48.png",
+    "128": "images/lptimer-128.png"
+  }
+}
