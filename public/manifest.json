@@ -4,7 +4,12 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "action": {
-    "default_icon": "images/lptimer-16.png"
+    "default_icon": {
+      "16": "images/lptimer-16.png",
+      "32": "images/lptimer-32.png",
+      "48": "images/lptimer-48.png",
+      "128": "images/lptimer-128.png"
+    }
   },
   "icons": {
     "16": "images/lptimer-16.png",
