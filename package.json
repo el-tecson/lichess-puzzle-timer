@@ -1,0 +1,35 @@
+{
+  "name": "lichess-puzzle-timer",
+  "version": "1.0.0",
+  "description": "Using this chrome extension, a timer will appear when solving puzzles in lichess. Mimicking the tension felt when playing in a real game, especially blitz and bullet time control.",
+  "keywords": [
+    "chess",
+    "puzzle",
+    "timer"
+  ],
+  "homepage": "https://github.com/el-tecson/lichess-puzzle-timer#readme",
+  "bugs": {
+    "url": "https://github.com/el-tecson/lichess-puzzle-timer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/el-tecson/lichess-puzzle-timer.git"
+  },
+  "license": "MIT",
+  "author": "Emmanuel Leu Tecson",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
