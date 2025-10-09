@@ -11,6 +11,7 @@
     "target": "es6",
     "types": ["node", "react", "react-dom"],
     "lib": ["esnext", "dom"],
+    "moduleResolution": "bundler",
 
     // Other Outputs
     "sourceMap": true,
@@ -36,6 +37,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
-  }
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["dist", "public"]
 }
