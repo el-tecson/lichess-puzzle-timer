@@ -1,9 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import Checker from 'vite-plugin-checker'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tsconfigPaths(),
+    Checker({ typescript: true }),
+],
   build: {
     outDir: 'dist',
     rollupOptions: {
