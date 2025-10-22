@@ -4,9 +4,11 @@ import { resolve } from 'path'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import Checker from 'vite-plugin-checker'
 import path from 'path'
+import svgr from 'vite-plugin-svgr'
 
 export default defineConfig({
   plugins: [
+    svgr(),
     react(),
     tsconfigPaths(),
     Checker({ typescript: true }),
