@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import Checker from 'vite-plugin-checker'
+import path from 'path'
 
 export default defineConfig({
   plugins: [
@@ -24,6 +25,11 @@ export default defineConfig({
           return 'assets/[name].js'
         },
       },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })
