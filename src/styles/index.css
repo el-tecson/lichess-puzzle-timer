@@ -1,0 +1,20 @@
+@import "modern-normalize";
+@import "the-new-css-reset/css/reset.css";
+
+:root {
+    --txt-clr: #fff;
+    --bg-clr: #34312D;
+    --btn-bg: #262421;
+    --btn-hover: #191715;
+    --btn-rad: 4px;
+    --pad-8: 8px;
+    --pad-16: 16px;
+    --btn-pad: 10px;
+    --gap-big: 20px;
+    --gap: 10px;
+    --popup-width: 300px;
+}
+
+button:hover {
+    cursor: pointer;
+}
