@@ -20,7 +20,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "dev": "vite build --watch"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",
