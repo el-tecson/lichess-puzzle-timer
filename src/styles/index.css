@@ -1,7 +1,9 @@
 @import "modern-normalize";
 @import "the-new-css-reset/css/reset.css";
+@import "@/styles/fonts.css";
 
 :root {
+    font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --txt-clr: #fff;
     --bg-clr: #34312D;
     --btn-bg: #262421;

@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('@/assets/fonts/NotoSans.woff2') format('woff2'),
+        url('@/assets/fonts/NotoSans.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('@/assets/fonts/NotoSans-Italic.woff2') format('woff2'),
+        url('@/assets/fonts/NotoSans-Italic.woff') format('woff');
+    font-style: italic;
+}
