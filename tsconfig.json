@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
     "target": "es6",
-    "types": ["node", "react", "react-dom"],
+    "types": ["node", "react", "react-dom", "chrome"],
     "lib": ["esnext", "dom"],
     "moduleResolution": "bundler",
 
