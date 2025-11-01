@@ -1,0 +1,44 @@
+#root {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 48px 80px;
+    z-index: 0;
+}
+
+#background-overlay {
+    background-color: var(--settings-button-normal);
+    position: fixed;
+    min-height: 300px;
+    width: inherit;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+.logo {
+    color: var(--logo-color);
+    width: 303px;
+    height: 72px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 1rem;
+}
+
+.page-title {
+    font-size: 4rem;
+    font-weight: bold;
+}

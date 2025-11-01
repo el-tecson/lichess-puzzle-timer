@@ -17,5 +17,21 @@
     "32": "images/lptimer-32.png",
     "48": "images/lptimer-48.png",
     "128": "images/lptimer-128.png"
-  }
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["local.html", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/loadCustoms.js"]
+    }
+  ]
 }

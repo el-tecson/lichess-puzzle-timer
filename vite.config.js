@@ -12,18 +12,20 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     Checker({ typescript: true }),
-],
+  ],
   build: {
     outDir: 'dist',
     rollupOptions: {
       input: {
         popup: resolve(__dirname, 'popup.html'),
+        local: resolve(__dirname, 'local.html'),
+        "content/loadCustoms": resolve(__dirname, 'src/content/loadCustoms.tsx'),
       },
       output: {
         entryFileNames: assetInfo => {
           // keeps separate folders for background/content/popup
-          if (assetInfo.name.includes('background')) return 'background/[name].js'
-          if (assetInfo.name.includes('content')) return 'content/[name].js'
+          if (assetInfo.name.includes('background')) return '[name].js'
+          if (assetInfo.name.includes('content')) return '[name].js'
           return 'assets/[name].js'
         },
       },
