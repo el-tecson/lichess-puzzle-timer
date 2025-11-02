@@ -4,10 +4,6 @@
 
 :root {
     font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --txt-clr: #fff;
-    --bg-clr: #34312D;
-    --btn-bg: #262421;
-    --btn-hover: #191715;
     --btn-rad: 4px;
     --pad-8: 8px;
     --pad-16: 16px;
@@ -15,6 +11,8 @@
     --gap-big: 20px;
     --gap: 10px;
     --popup-width: 300px;
+    --global-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --overlay-hover: var(--background-color);
 }
 
 button:hover {
