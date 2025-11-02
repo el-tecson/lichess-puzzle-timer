@@ -1,6 +1,6 @@
 #popup {
     padding: var(--pad-16);
-    background-color: var(--bg-clr);
+    background-color: var(--background-color);
     min-width: var(--popup-width);
 }
 
@@ -21,12 +21,12 @@
     align-items: center;
     gap: var(--gap);
     padding: var(--btn-pad);
-    color: var(--txt-clr);
-    background-color: var(--btn-bg);
+    color: var(--text-color);
+    background-color: var(--button-color);
     border-radius: var(--btn-rad);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--global-transition);
 }
 
 .btn:hover {
-    background-color: var(--btn-hover);
+    background-color: var(--button-hover-color);
 }
