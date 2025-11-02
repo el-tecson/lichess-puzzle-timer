@@ -29,7 +29,6 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
-    "react-router-dom": "^7.9.5",
     "typescript": "^5.9.3",
     "vite": "^7.1.9",
     "vite-plugin-checker": "^0.11.0",
@@ -40,6 +39,7 @@
     "modern-normalize": "^3.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "the-new-css-reset": "^1.11.3"
+    "the-new-css-reset": "^1.11.3",
+    "react-router-dom": "^7.9.5"
   }
 }
