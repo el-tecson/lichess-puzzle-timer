@@ -13,6 +13,7 @@
     --popup-width: 300px;
     --global-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     --overlay-hover: var(--background-color);
+    --soft-shadow: 0 4px 4px rgba(0, 0, 0, 0.10);
 }
 
 button:hover {
