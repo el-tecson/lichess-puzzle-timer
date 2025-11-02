@@ -18,5 +18,7 @@
     "restartButtonHover": "#BD4500",
     "settingsButtonNormal": "#1E1E1E",
     "settingsButtonHover": "#121212",
-    "logoColor": "#FFFFFF"
+    "logoColor": "#FFFFFF",
+    "buttonColor": "#1E1E1E",
+    "buttonHoverColor": "#121212"
 }
