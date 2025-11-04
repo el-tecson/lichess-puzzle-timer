@@ -1,4 +1,4 @@
-export async function get(item: string, fallbackConfig = {}): Promise<Record<string, string>> {
+export async function get(item: string, fallbackConfig = {}): Promise<unknown> {
   if (!chrome?.storage?.sync) {
     console.warn("chrome.storage.sync not available, using fallback config");
     return fallbackConfig;
@@ -11,7 +11,7 @@ export async function get(item: string, fallbackConfig = {}): Promise<Record<str
   });
 }
 
-export async function set(item: string, value: Record<string, string>): Promise<void> {
+export async function set(item: string, value: Record<string, unknown>): Promise<void> {
   if (!chrome?.storage?.sync) {
     console.warn("chrome.storage.sync not available — cannot save config");
     return;
