@@ -9,12 +9,14 @@ export default function Input({
     initialState,
     configName,
     min = "0",
+    max = "9007199254740991",
     ...props
 }: {
     className?: string;
     initialState: number;
     configName: string;
     min?: string;
+    max?: string;
     [key: string]: any;
 }) {
     const [value, setValue] = useState(initialState);
@@ -31,6 +33,8 @@ export default function Input({
             as="input"
             ref={inputRef}
             type="number"
+            min={min}
+            max={max}
             value={value.toString()}
             onChange={handleChange}
             className="input"
