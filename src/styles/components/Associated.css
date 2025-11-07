@@ -1,0 +1,27 @@
+.associated {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+.associated > *:not(:first-child) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition:
+        opacity 150ms ease,
+        transform 150ms ease,
+        height 150ms ease,
+        margin 150ms ease,
+        padding 150ms ease;
+}
+
+.associated >
+:first-child:not(:has(.checkbox[data-checked])) ~ :not(:first-child) {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.95);
+    margin: 0;
+    margin-top: calc(var(--gap) - (var(--gap) * 2));
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+}
