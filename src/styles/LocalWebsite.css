@@ -10,7 +10,7 @@
 
 #background-overlay {
     background-color: var(--settings-button-normal);
-    position: fixed;
+    position: absolute;
     min-height: 300px;
     width: inherit;
     top: 0px;
