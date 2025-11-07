@@ -1,0 +1,12 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+.section-name {
+    padding: var(--gap) 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: solid 1px #FFFFFF20;
+}
