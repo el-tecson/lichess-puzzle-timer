@@ -16,6 +16,41 @@
     --soft-shadow: 0 4px 4px rgba(0, 0, 0, 0.10);
 }
 
+/* Hide arrows in Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.number {
+    font-family: 'Roboto Mono', "Source Code Pro", "Courier New", monospace;
+}
+
 button:hover {
     cursor: pointer;
+}
+
+.input-text {
+    display: inline-block;
+    width: fit-content;
+}
+
+.noselect,
+.noselect * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  -webkit-tap-highlight-color: transparent; /* Removes mobile highlight */
+}
+
+.padded {
+    margin-left: 2.5rem;
 }
