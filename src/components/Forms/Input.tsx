@@ -1,3 +1,4 @@
+import '@/styles/components/Forms/Input.css';
 import { Input as HUIInput } from "@headlessui/react";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
