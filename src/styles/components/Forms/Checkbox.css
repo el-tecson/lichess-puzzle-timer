@@ -26,3 +26,14 @@
     gap: 10px;
     width: fit-content;
 }
+
+.check-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: var(--input-color);
+    max-width: 32px;
+    max-height: 32px;
+}
