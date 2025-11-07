@@ -1,3 +1,4 @@
+import '@/styles/components/Templates/Checkbox.css';
 import { Checkbox as CustomCheckbox } from "@/components/Forms";
 import type { ReactNode } from "react";
 

@@ -1,0 +1,5 @@
+.checkbox-container {
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+}
