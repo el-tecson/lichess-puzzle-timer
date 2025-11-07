@@ -1,0 +1,28 @@
+.checkbox:hover {
+    cursor: pointer;
+}
+
+.check-icon {
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+        opacity 0.6s ease;
+}
+
+.checkbox[data-checked] .check-icon {
+    transform: scale(1.2); /* pop a bit bigger */
+    opacity: 1;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+        opacity 0.3s ease;
+}
+
+.checkbox:not([data-checked]) .check-icon {
+    opacity: 0%;
+    transform: scale(0);
+    transform-origin: center;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+}

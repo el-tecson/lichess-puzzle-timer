@@ -1,3 +1,4 @@
+import '@/styles/components/Forms/Checkbox.css';
 import { Checkbox as HUICheckbox } from "@headlessui/react";
 import CheckIcon from '@/assets/check.svg?react';
 import { useState } from "react";
