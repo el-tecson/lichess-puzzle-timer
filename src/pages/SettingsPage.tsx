@@ -1,5 +1,6 @@
 import { TabGroup, TabList, TabPanels } from "@headlessui/react";
 import * as Settings from "@/components/Settings/index";
+import "@/styles/Settings.css";
 
 export default function SettingsPage() {
     return (
