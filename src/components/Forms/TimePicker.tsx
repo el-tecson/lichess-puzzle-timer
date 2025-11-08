@@ -62,7 +62,7 @@ export default function TimePicker({
             <Dialog open={open} onClose={() => setOpen(false)} className="duration-dialog">
                 <DialogBackdrop className="duration-backdrop" />
 
-                <DialogPanel className="duration-panel">
+                <DialogPanel className="duration-panel noselect">
                     <p className="duration-panel-name">
                         {label}
                     </p>

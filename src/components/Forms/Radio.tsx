@@ -34,7 +34,7 @@ export default function Radio({
             value={selected}
             onChange={handleChange}
             aria-label={label}
-            className="radio-group"
+            className="radio-group noselect"
             {...props}
         >
             {options.map((opt) => (
