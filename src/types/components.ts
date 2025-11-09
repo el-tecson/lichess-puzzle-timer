@@ -39,3 +39,13 @@ export type TimePickerProps = {
     storageFunction: Function;
     [key: string]: any;
 }
+
+export type ListboxProps = {
+    className?: string;
+    initialState: string;
+    configName: string;
+    storageFunction: Function;
+    options: Record<string, Record<string, string>>;
+    label: string;
+    [key: string]: any;
+}
