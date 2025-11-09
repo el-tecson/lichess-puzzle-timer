@@ -19,7 +19,6 @@ export default defineConfig({
       input: {
         popup: resolve(__dirname, 'popup.html'),
         local: resolve(__dirname, 'local.html'),
-        "content/loadCustoms": resolve(__dirname, 'src/content/loadCustoms.tsx'),
       },
       output: {
         entryFileNames: assetInfo => {
