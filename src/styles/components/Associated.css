@@ -6,6 +6,7 @@
 
 .associated > *:not(:first-child) {
     opacity: 1;
+    margin-left: 2.5rem;
     transform: translateY(0) scale(1);
     transition:
         opacity 150ms ease,

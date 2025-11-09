@@ -50,7 +50,3 @@ button:hover {
 
   -webkit-tap-highlight-color: transparent; /* Removes mobile highlight */
 }
-
-.padded {
-    margin-left: 2.5rem;
-}
