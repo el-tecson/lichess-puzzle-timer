@@ -50,3 +50,56 @@ button:hover {
 
   -webkit-tap-highlight-color: transparent; /* Removes mobile highlight */
 }
+
+/* Make each dropdown position correctly under its own button */
+.listbox-wrapper {
+    position: relative;
+}
+
+/* Thin scrollbar width */
+.listbox-options::-webkit-scrollbar {
+    width: 4px;    /* very thin */
+    height: 4px;   /* if horizontal ever appears */
+}
+
+/* Track */
+.listbox-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Thumb (the draggable bar) */
+.listbox-options::-webkit-scrollbar-thumb {
+    background: #b9b9b9;
+    border-radius: 9999px;
+}
+
+.listbox-options::-webkit-scrollbar-thumb:hover {
+    background: #9a9a9a;
+}
+
+/* Hide scroll arrows (increase compatibility) */
+.listbox-options::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+@keyframes fadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dropdown appears */
+.listbox-options {
+    animation: fadeDropIn 150ms ease forwards;
+}
+
+.listbox-option {
+    cursor: pointer;
+}
