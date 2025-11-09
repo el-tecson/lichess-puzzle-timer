@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Tab, TabPanel } from "@/components/Tabs";
 import ComputerIcon from '@/assets/computer.svg?react';
-import { Input, Radio, TimePicker } from '@/components/Forms';
-import { Checkbox } from '@/components/Templates';
+import { Checkbox, Input, Radio, TimePicker } from '@/components/Settings/CustomComponents/BehaviorComponents';
 import getConfig from "@/utils/Settings/getConfig";
 import { CONFIG } from '@/constants';
 import Associated from '@/components/Associated';
@@ -52,7 +51,6 @@ export function BehaviorPanel() {
                         text="Skip to next puzzle when timer hits 0."
                     />
                     <Checkbox
-                        className="padded"
                         initialState={settings.behaviorSettings?.countdownBeforeSkipping}
                         configName="countdownBeforeSkipping"
                         text="Countdown before skipping:"
