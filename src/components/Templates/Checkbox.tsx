@@ -1,31 +1,18 @@
 import '@/styles/components/Templates/Checkbox.css';
 import { Checkbox as CustomCheckbox } from "@/components/Forms";
-import type { ReactNode } from "react";
+import type { CheckboxProps } from '@/types/templates';
 
 export default function Checkbox({
     className = '',
-    text,
-    configName,
-    initialState,
     children,
     ...props
-}: {
-    className?: string;
-    text: string;
-    configName: string;
-    initialState: boolean;
-    children?: ReactNode;
-    [key: string]: any;
-}) {
+}: CheckboxProps) {
     return (
         <div
             className={`checkbox-container noselect ${className}`}
-            {...props}
         >
             <CustomCheckbox
-                initialState={initialState}
-                configName={configName}
-                text={text}
+                {...props}
             />
             {children}
         </div>
