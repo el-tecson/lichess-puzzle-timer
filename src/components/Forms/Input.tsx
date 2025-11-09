@@ -2,8 +2,8 @@ import '@/styles/components/Forms/Input.css';
 import { Input as HUIInput } from "@headlessui/react";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
-import changeBehaviorSettings from "@/utils/Settings/behavior";
 import useAutosizeInput from "@/utils/hooks/useAutosizeInput";
+import type { InputProps } from "@/types/components";
 
 export default function Input({
     className = '',
@@ -11,22 +11,16 @@ export default function Input({
     configName,
     min = "0",
     max = "9007199254740991",
+    storageFunction,
     ...props
-}: {
-    className?: string;
-    initialState: number;
-    configName: string;
-    min?: string;
-    max?: string;
-    [key: string]: any;
-}) {
+}: InputProps) {
     const [value, setValue] = useState(initialState);
     const inputRef = useAutosizeInput(value);
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(event.target.value);
         setValue(newValue);
-        await changeBehaviorSettings(configName, newValue);
+        await storageFunction(configName, newValue);
     };
 
     return (

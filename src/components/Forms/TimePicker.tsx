@@ -9,19 +9,15 @@ import {
     ListboxOptions,
     ListboxOption,
 } from "@headlessui/react";
-import changeBehaviorSettings from "@/utils/Settings/behavior";
+import type { TimePickerProps } from '@/types/components';
 
 export default function TimePicker({
     initialState,
     configName,
     label,
+    storageFunction,
     ...props
-}: {
-    initialState: string;
-    configName: string;
-    label: string;
-    [key: string]: any;
-}) {
+}: TimePickerProps) {
     const [open, setOpen] = useState(false);
 
     const [hInit = "00", mInit = "00", sInit = "00"]: string[] =
@@ -47,7 +43,7 @@ export default function TimePicker({
         setHour(hour);
         setMinute(minute);
         setSecond(second);
-        await changeBehaviorSettings(configName, `${hour}:${minute}:${second}`);
+        await storageFunction(configName, `${hour}:${minute}:${second}`);
     };
 
     return (

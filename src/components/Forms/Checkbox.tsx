@@ -2,26 +2,21 @@ import '@/styles/components/Forms/Checkbox.css';
 import { Checkbox as HUICheckbox } from "@headlessui/react";
 import CheckIcon from '@/assets/check.svg?react';
 import { useState } from "react";
-import changeBehaviorSettings from "@/utils/Settings/behavior";
+import type { CheckboxProps } from '@/types/components';
 
 export default function Checkbox({
     className = '',
     initialState = false,
     configName,
     text = "[INSERT TEXT]",
+    storageFunction,
     ...props
-}: {
-    className?: string;
-    initialState: boolean;
-    configName: string;
-    text?: string;
-    [key: string]: any;
-}) {
+}: CheckboxProps) {
     const [enabled, setEnabled] = useState(initialState);
     const handleClick = async () => {
         const newValue = !enabled;
         setEnabled(newValue);
-        await changeBehaviorSettings(configName, newValue);
+        await storageFunction(configName, newValue);
     };
 
     return (

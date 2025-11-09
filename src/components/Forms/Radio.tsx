@@ -1,8 +1,8 @@
 import '@/styles/components/Forms/Radio.css';
 import { RadioGroup, Radio as HUIRadio } from '@headlessui/react';
 import { useState } from 'react';
-import changeBehaviorSettings from '@/utils/Settings/behavior';
 import CircleIcon from '@/assets/circle.svg?react';
+import type { RadioProps } from '@/types/components';
 
 export default function Radio({
     className = '',
@@ -10,23 +10,14 @@ export default function Radio({
     configName,
     options,
     label,
+    storageFunction,
     ...props
-}: {
-    className?: string;
-    initialState: string;
-    configName: string;
-    options: {
-        name: string;
-        optionName: string;
-    }[];
-    label: string;
-    [key: string]: any;
-}) {
+}: RadioProps) {
     const [selected, setSelected] = useState(initialState);
 
     const handleChange = async (newValue: string) => {
         setSelected(newValue);
-        await changeBehaviorSettings(configName, newValue);
+        await storageFunction(configName, newValue);
     };
 
     return (
