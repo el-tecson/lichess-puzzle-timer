@@ -11,6 +11,9 @@
         "puzzleLimit": true,
         "puzzleLimitNum": 50
     },
+    "customizationSettings": {
+        "currentCustomsName": "dark_custom"
+    },
     "preferencesSettings": {
         "showSmallPopup": true,
         "showSmallPopupOnTactics": false,
