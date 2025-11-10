@@ -1,0 +1,45 @@
+.listbox {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-big);
+}
+
+.listbox-label {
+    font-size: 1.25rem;
+}
+
+.listbox-button {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    padding: 10px;
+    background-color: var(--over-overlay-color);
+    border-radius: 4px;
+}
+
+.listbox-selected {
+    font-size: 1.125rem;
+}
+
+.listbox-options {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 5px;
+    background-color: var(--over-overlay-color);
+    border-radius: 4px;
+    box-shadow: var(--soft-shadow);
+    margin-top: 4px;
+    padding: 4px;
+}
+
+.listbox-option {
+    color: var(--text-color);
+    font-size: 1.125rem;
+    padding: 6px 21px;
+    transition: var(--global-transition);
+    border-radius: 2px;
+}
+
+.listbox-option:hover {
+    background-color: var(--overlay-color);
+}

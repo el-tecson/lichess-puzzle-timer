@@ -1,0 +1,129 @@
+/* Root wrapper */
+.time-picker-root {
+    display: inline-block;
+}
+
+/* Trigger button */
+.time-picker-trigger {
+    padding: 10px;
+    font-size: 2.25rem;
+    background: var(--input-color);
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* --- Dialog Styles --- */
+
+.duration-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.60);
+}
+
+.duration-dialog {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.duration-panel {
+    color: var(--text-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.duration-panel-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+
+/* Inner container with the 3 columns */
+.time-picker-dialog-inner {
+    display: flex;
+    align-items: center;
+
+    background: var(--input-color);
+    border-radius: 4px;
+    border: 8px solid var(--accent-color);
+
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.50);
+}
+
+/* Separator */
+.separator {
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+/* --- Listbox styling --- */
+
+.time-picker-dialog-inner
+.listbox-button {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 3rem;
+    min-width: 55px;
+    text-align: center;
+    cursor: pointer;
+    background-color: var(--input-color);
+}
+
+/* Options dropdown */
+.time-picker-dialog-inner
+.listbox-options {
+    position: absolute;
+    margin-top: 8px;
+    background: transparent;
+    border-radius: 8px;
+
+    max-height: 160px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 200;
+
+    box-shadow: var(--soft-shadow);
+}
+
+/* Listbox option */
+.time-picker-dialog-inner
+.listbox-option {
+    font-size: 3rem;
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--global-transition);
+    border-radius: 4px;
+}
+
+/* Selected */
+.time-picker-dialog-inner
+.listbox-option[data-headlessui-state~="selected"] {
+    background: var(--button-hover-color);
+    font-weight: bold;
+    box-shadow: var(--soft-shadow);
+}
+
+@keyframes dialogFadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.duration-panel {
+    animation: dialogFadeDropIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
