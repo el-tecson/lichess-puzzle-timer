@@ -23,7 +23,7 @@
 
 .listbox-options {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 5px;
     background-color: var(--over-overlay-color);
     border-radius: 4px;

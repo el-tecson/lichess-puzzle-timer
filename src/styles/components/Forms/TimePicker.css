@@ -75,6 +75,7 @@
     min-width: 55px;
     text-align: center;
     cursor: pointer;
+    background-color: var(--input-color);
 }
 
 /* Options dropdown */

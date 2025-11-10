@@ -66,3 +66,32 @@
     flex-direction: column;
     gap: var(--gap);
 }
+
+.combined {
+    display: flex;
+    gap: var(--gap-big);
+    align-items: center;
+}
+
+.combined.big-gap {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--gap) * 5);
+}
+
+.combined.downward {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-big);
+}
+
+.combined.downward .combined.downward {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap);
+}
+
+.color-label {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
