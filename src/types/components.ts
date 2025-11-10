@@ -49,3 +49,12 @@ export type ListboxProps = {
     label: string;
     [key: string]: any;
 }
+
+export type ColorPickerProps = {
+    className?: string;
+    initialState: string;
+    configName: string;
+    storageFunction: Function;
+    label: string;
+    [key: string]: any;
+}
