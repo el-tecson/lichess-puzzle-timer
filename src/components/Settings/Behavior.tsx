@@ -29,7 +29,7 @@ export function BehaviorPanel() {
             changes: Record<string, chrome.storage.StorageChange>,
             areaName: string
         ) => {
-            if (areaName === "sync" && changes[CONFIG]) {
+            if (areaName === "local" && changes[CONFIG]) {
                 setSettings(changes[CONFIG]?.newValue);
             }
         };
