@@ -27,6 +27,7 @@
     "@types/chrome": "^0.1.27",
     "@types/node": "^24.7.0",
     "@types/react": "^19.2.0",
+    "@types/react-color": "^3.0.13",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
     "typescript": "^5.9.3",
@@ -40,6 +41,7 @@
     "autosize-input": "^1.0.2",
     "modern-normalize": "^3.0.1",
     "react": "^19.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.5",
     "the-new-css-reset": "^1.11.3"
