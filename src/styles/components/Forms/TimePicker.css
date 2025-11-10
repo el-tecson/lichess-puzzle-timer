@@ -85,6 +85,8 @@
     margin-top: 8px;
     background: transparent;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
 
     max-height: 160px;
     overflow-y: auto;
