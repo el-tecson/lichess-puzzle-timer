@@ -8,7 +8,7 @@ export default function Popup() {
     return (
         <section id="popup">
             <div className="popup-container">
-                <Logo height="48" width="202" fill="#FFFFFF"/>
+                <Logo className='logo' height="48" width="202" onClick={openLocalWebsite}/>
                 <div className="buttons-container">
                     <button className="btn" id="openSettings" onClick={openSettings}>
                         <SettingsIcon />
@@ -31,5 +31,11 @@ export default function Popup() {
 function openSettings() {
     chrome.tabs.create({
         url: chrome.runtime.getURL("local.html#/settings")
+    });
+}
+
+function openLocalWebsite() {
+    chrome.tabs.create({
+        url: chrome.runtime.getURL("local.html")
     });
 }

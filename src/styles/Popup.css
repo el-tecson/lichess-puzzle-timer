@@ -30,3 +30,8 @@
 .btn:hover {
     background-color: var(--button-hover-color);
 }
+
+.logo {
+    cursor: pointer;
+    color: var(--text-color);
+}
