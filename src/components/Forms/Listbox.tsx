@@ -1,7 +1,7 @@
 import '@/styles/components/Forms/Listbox.css'
 import type { ListboxProps } from '@/types/components'
 import { Listbox as HUIListbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import DropdownArrow from '@/assets/dd-arrow.svg?react'
 
 export default function Listbox({
@@ -14,6 +14,10 @@ export default function Listbox({
     ...props
 }: ListboxProps) {
     const [selected, setSelected] = useState(initialState);
+    
+    useEffect(() => {
+        setSelected(initialState);
+    }, [initialState]);
 
     const handleChange = async (newValue: ListboxProps['initialState']) => {
         setSelected(newValue);
