@@ -1,13 +1,13 @@
 .section,
 .section-parts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
 }
 
 .section-name {
-  padding: var(--gap) 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border-bottom: solid 1px #ffffff20;
+    padding: var(--gap) 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: solid 1px #ffffff20;
 }

@@ -1,11 +1,11 @@
 .input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  font-size: 20px;
-  background-color: var(--input-color);
-  border-radius: 4px;
-  transition: width 0.15s ease;
-  appearance: textfield;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    font-size: 20px;
+    background-color: var(--input-color);
+    border-radius: 4px;
+    transition: width 0.15s ease;
+    appearance: textfield;
 }

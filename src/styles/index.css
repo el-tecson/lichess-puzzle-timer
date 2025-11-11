@@ -1,113 +1,113 @@
-@import "modern-normalize";
-@import "the-new-css-reset/css/reset.css";
-@import "@/styles/fonts.css";
+@import 'modern-normalize';
+@import 'the-new-css-reset/css/reset.css';
+@import '@/styles/fonts.css';
 
 :root {
-  font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --btn-rad: 4px;
-  --pad-8: 8px;
-  --pad-16: 16px;
-  --btn-pad: 10px;
-  --gap-big: 20px;
-  --gap: 10px;
-  --popup-width: 300px;
-  --global-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --overlay-hover: var(--background-color);
-  --soft-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --btn-rad: 4px;
+    --pad-8: 8px;
+    --pad-16: 16px;
+    --btn-pad: 10px;
+    --gap-big: 20px;
+    --gap: 10px;
+    --popup-width: 300px;
+    --global-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --overlay-hover: var(--background-color);
+    --soft-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Hide arrows in Chrome, Safari, Edge, Opera */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Hide arrows in Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+input[type='number'] {
+    -moz-appearance: textfield;
 }
 
 .number {
-  font-family: "Roboto Mono", "Source Code Pro", "Courier New", monospace;
+    font-family: 'Roboto Mono', 'Source Code Pro', 'Courier New', monospace;
 }
 
 button:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .input-text {
-  display: inline-block;
-  width: fit-content;
+    display: inline-block;
+    width: fit-content;
 }
 
 .noselect,
 .noselect * {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 
-  -webkit-tap-highlight-color: transparent; /* Removes mobile highlight */
+    -webkit-tap-highlight-color: transparent; /* Removes mobile highlight */
 }
 
 /* Make each dropdown position correctly under its own button */
 .listbox-wrapper {
-  position: relative;
+    position: relative;
 }
 
 /* Thin scrollbar width */
 .listbox-options::-webkit-scrollbar {
-  width: 4px; /* very thin */
-  height: 4px; /* if horizontal ever appears */
+    width: 4px; /* very thin */
+    height: 4px; /* if horizontal ever appears */
 }
 
 /* Track */
 .listbox-options::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 /* Thumb (the draggable bar) */
 .listbox-options::-webkit-scrollbar-thumb {
-  background: #b9b9b9;
-  border-radius: 9999px;
+    background: #b9b9b9;
+    border-radius: 9999px;
 }
 
 .listbox-options::-webkit-scrollbar-thumb:hover {
-  background: #9a9a9a;
+    background: #9a9a9a;
 }
 
 /* Hide scroll arrows (increase compatibility) */
 .listbox-options::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 @keyframes fadeDropIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    0% {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Dropdown appears */
 .listbox-options {
-  animation: fadeDropIn 150ms ease forwards;
+    animation: fadeDropIn 150ms ease forwards;
 }
 
 .listbox-option {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 body {
-  background-color: var(--background-color);
+    background-color: var(--background-color);
 }
 
 .padded {
-  padding-left: 3rem;
+    padding-left: 3rem;
 }
