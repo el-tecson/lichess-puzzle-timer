@@ -1,12 +1,12 @@
-import { Tab as HUITab } from '@headlessui/react'
+import { Tab as HUITab } from "@headlessui/react";
 
-export default function Tab({ className = '', ...props }) {
+export default function Tab({ className = "", ...props }) {
   return (
     <HUITab
       className={({ selected }) =>
-        `tab ${className} ${selected ? 'active' : ''}`
+        `tab ${className} ${selected ? "active" : ""}`
       }
       {...props}
     />
-  )
+  );
 }

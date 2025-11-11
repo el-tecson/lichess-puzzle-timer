@@ -1,97 +1,97 @@
 .tab-group {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .tab-list {
-    display: flex;
-    flex-direction: column;
-    min-width: 350px;
-    height: fit-content;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--soft-shadow);
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  height: fit-content;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--soft-shadow);
 }
 
 .tab {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 25px;
-    background-color: var(--overlay-color);
-    transition: var(--global-transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 25px;
+  background-color: var(--overlay-color);
+  transition: var(--global-transition);
 }
 
 .tab:not(nth-last-child) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .tab-name {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .tab.active {
-    background-color: var(--button-color);
+  background-color: var(--button-color);
 }
 
 .tab:hover:not(.active) {
-    background-color: var(--overlay-hover);
+  background-color: var(--overlay-hover);
 }
 
 .tab-panels {
-    flex: 1;
+  flex: 1;
 }
 
 .tab-panel {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-    border-radius: 8px;
-    background-color: var(--overlay-color);
-    box-shadow: var(--soft-shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 8px;
+  background-color: var(--overlay-color);
+  box-shadow: var(--soft-shadow);
 }
 
 .panel-name {
-    font-size: 2rem;
-    font-weight: bold;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .input-text {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
 
 .part {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
 
 .combined {
-    display: flex;
-    gap: var(--gap-big);
-    align-items: center;
+  display: flex;
+  gap: var(--gap-big);
+  align-items: center;
 }
 
 .combined.big-gap {
-    display: flex;
-    align-items: center;
-    gap: calc(var(--gap) * 5);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--gap) * 5);
 }
 
 .combined.downward {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-big);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-big);
 }
 
 .combined.downward .combined.downward {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--gap);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap);
 }
 
 .color-label {
-    font-size: 1.25rem;
-    font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
