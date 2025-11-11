@@ -4,6 +4,6 @@ declare module 'autosize-input' {
         options?: {
             minWidth?: number;
             maxWidth?: number;
-        },
+        }
     ): () => void;
 }

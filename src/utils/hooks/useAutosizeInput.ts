@@ -3,7 +3,7 @@ import autosizeInput from 'autosize-input';
 
 export default function useAutosizeInput(
     value: string | number,
-    options: { minWidth?: number; maxWidth?: number } = {},
+    options: { minWidth?: number; maxWidth?: number } = {}
 ) {
     const inputRef = useRef<HTMLInputElement>(null);
 
