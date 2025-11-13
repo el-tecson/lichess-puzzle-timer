@@ -53,6 +53,7 @@
     "react": "^19.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^19.2.0",
+    "react-draggable": "^4.5.0",
     "react-router-dom": "^7.9.5",
     "the-new-css-reset": "^1.11.3"
   }
