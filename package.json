@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/el-tecson/lichess-puzzle-timer.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Emmanuel Leu Tecson",
   "type": "module",
   "main": "index.js",
