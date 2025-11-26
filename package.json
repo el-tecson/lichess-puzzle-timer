@@ -21,7 +21,7 @@
   "main": "index.js",
   "scripts": {
     "build": "vite build",
-    "dev": "vite build --watch",
+    "dev": "concurrently \"vite build --watch\" \"vite build --config vite.content.config.js --watch\" \"vite build --config vite.background.config.js\"",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}' --ext .ts,.tsx,.js,.jsx --fix && prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'"
   },
   "devDependencies": {
@@ -33,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^8.46.4",
     "@typescript-eslint/parser": "^8.46.4",
     "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-define-config": "^2.1.0",
