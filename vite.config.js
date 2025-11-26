@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import Checker from 'vite-plugin-checker'
 import path from 'path'
 import svgr from 'vite-plugin-svgr'
+import { exec } from 'child_process'
 
 export default defineConfig({
   plugins: [
@@ -12,6 +13,12 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     Checker({ typescript: true }),
+    {
+      name: 'post-build',
+      buildEnd() {
+        exec('vite build --config vite.content.config.js && vite build --config vite.background.config.js');
+      }
+    },
   ],
   build: {
     outDir: 'dist',
