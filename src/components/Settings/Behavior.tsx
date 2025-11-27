@@ -66,16 +66,6 @@ export function BehaviorPanel() {
                         />
                     </Checkbox>
                 </Associated>
-                <Checkbox
-                    initialState={settings.behaviorSettings?.showSolution}
-                    configName="showSolution"
-                    text="Show solution/offer solution when timer hits 0."
-                />
-                <Checkbox
-                    initialState={settings.behaviorSettings?.showDialog}
-                    configName="showDialog"
-                    text={'Show "Time\'s Up!" dialog when timer hits 0.'}
-                />
                 <Section sectionName="Timer">
                     <Radio
                         initialState={settings.behaviorSettings.timerType}
@@ -107,16 +97,6 @@ export function BehaviorPanel() {
                         />
                     )}
                 </Section>
-                <Checkbox
-                    initialState={settings.behaviorSettings?.puzzleLimit}
-                    configName="puzzleLimit"
-                    text="Puzzle Limit:"
-                >
-                    <Input
-                        initialState={settings.behaviorSettings?.puzzleLimitNum}
-                        configName="puzzleLimitNum"
-                    />
-                </Checkbox>
             </div>
         </TabPanel>
     );

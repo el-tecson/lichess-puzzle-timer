@@ -105,16 +105,6 @@ export default function SmallPopup() {
                                     />
                                 </Checkbox>
                             </Associated>
-                            <Checkbox
-                                initialState={settings.behaviorSettings?.showSolution}
-                                configName="showSolution"
-                                text="Show solution/offer solution when timer hits 0."
-                            />
-                            <Checkbox
-                                initialState={settings.behaviorSettings?.showDialog}
-                                configName="showDialog"
-                                text={'Show "Time\'s Up!" dialog when timer hits 0.'}
-                            />
                             <Section sectionName="Timer">
                                 <Radio
                                     initialState={settings.behaviorSettings.timerType}
@@ -148,16 +138,6 @@ export default function SmallPopup() {
                                     />
                                 )}
                             </Section>
-                            <Checkbox
-                                initialState={settings.behaviorSettings?.puzzleLimit}
-                                configName="puzzleLimit"
-                                text="Puzzle Limit:"
-                            >
-                                <Input
-                                    initialState={settings.behaviorSettings?.puzzleLimitNum}
-                                    configName="puzzleLimitNum"
-                                />
-                            </Checkbox>
                             <button className="btn" id="donateBtn" onClick={() => click(openKoFi)}>
                                 <KoFiIcon />
                                 <span className="btn-text">Support me on Ko-Fi</span>
