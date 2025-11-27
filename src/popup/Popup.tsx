@@ -19,11 +19,15 @@ export default function Popup() {
                         <ReloadIcon />
                         <span className="btn-text">Reload timer</span>
                     </button>
-                    <button className="btn" id="donateBtn" onClick={() => {
-                        chrome.tabs.create({
-                            url: 'https://www.paypal.me/ElmerTecson',
-                        });
-                    }}>
+                    <button
+                        className="btn"
+                        id="donateBtn"
+                        onClick={() => {
+                            chrome.tabs.create({
+                                url: 'https://www.paypal.me/ElmerTecson',
+                            });
+                        }}
+                    >
                         <PayPalIcon />
                         <span className="btn-text">Donate via PayPal</span>
                     </button>
@@ -47,8 +51,8 @@ function openLocalWebsite() {
 
 function reloadAllLichessTabs() {
     chrome.tabs.query({}, (tabs) => {
-        tabs.forEach(tab => {
-            if (tab.id && typeof tab.url === "string" && tab.url.startsWith(LICHESS_LINK)) {
+        tabs.forEach((tab) => {
+            if (tab.id && typeof tab.url === 'string' && tab.url.startsWith(LICHESS_LINK)) {
                 chrome.tabs.reload(tab.id);
             }
         });

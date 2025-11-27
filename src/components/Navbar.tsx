@@ -22,12 +22,19 @@ export default function Navbar() {
                 <Link to="/settings">
                     <p className={`link ${path === '/settings' ? 'active' : ''}`}>Settings</p>
                 </Link>
-                <Link target="_blank" to="https://www.paypal.me/ElmerTecson" rel="noopener noreferrer">
-                    <p className="link" style={{
-                        border: '2px dashed var(--accent-color)',
-                        padding: '4px',
-                        borderRadius: '8px',
-                    }}>
+                <Link
+                    target="_blank"
+                    to="https://www.paypal.me/ElmerTecson"
+                    rel="noopener noreferrer"
+                >
+                    <p
+                        className="link"
+                        style={{
+                            border: '2px dashed var(--accent-color)',
+                            padding: '4px',
+                            borderRadius: '8px',
+                        }}
+                    >
                         Donate
                     </p>
                 </Link>

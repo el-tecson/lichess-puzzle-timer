@@ -135,7 +135,11 @@ export default function SmallPopup() {
                                     />
                                 )}
                             </Section>
-                            <button className="btn" id="donateBtn" onClick={() => click(openPayPal)}>
+                            <button
+                                className="btn"
+                                id="donateBtn"
+                                onClick={() => click(openPayPal)}
+                            >
                                 <PayPalIcon />
                                 <span className="btn-text">Donate via PayPal</span>
                             </button>
