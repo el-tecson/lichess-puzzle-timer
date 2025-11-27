@@ -9,6 +9,11 @@ import RestartIcon from '@/assets/reload.svg?react';
 import SettingsIcon from '@/assets/settings.svg?react';
 import timeStringToMs from '@/utils/timeStringToMs';
 import msToTimeString from '@/utils/msToTimeString';
+import NextBeep from '@/assets/audio/next-beep.wav';
+import SolvedBeep from '@/assets/audio/solved-beep.mp3';
+import TickTock from '@/assets/audio/tick-tock.wav';
+import WrongBeep from '@/assets/audio/wrong-beep.mp3';
+import playAudio, { unlockAudio } from '@/utils/playAudio';
 
 export default function TimerPopup() {
     const nodeRef = useRef<HTMLDivElement>(null);
@@ -59,6 +64,7 @@ export default function TimerPopup() {
 
                 if (next === 0) {
                     clearInterval(intervalRef.current!);
+                    if (settings?.preferencesSettings?.alertWhenTimerIsZero) playAudio(WrongBeep);
                     setRunning(false);
 
                     if (settings?.behaviorSettings?.timerType === '0' && settings?.behaviorSettings?.skipToNextPuzzle) {
@@ -67,9 +73,11 @@ export default function TimerPopup() {
                             : 1;
                         
                         // Call timerEnd to handle skip & reset safely
-                        timerEnd(initialTime, setCurrentTime, setRunning, delay);
+                        timerEnd(initialTime, setCurrentTime, setRunning, delay, settings.preferencesSettings.alertWhenNextPuzzle);
                     }
                 }
+
+                if (next === 3000 && settings?.preferencesSettings?.alertWhenTimeShort) playAudio(TickTock);
 
                 return next;
             });
@@ -98,6 +106,7 @@ export default function TimerPopup() {
                         // Puzzle solved (timer was running)
                         if (bigTime !== "00:00:00" && smallTime !== ":00") {
                             clearInterval(interval);
+                            if (settings.preferencesSettings.alertWhenSolved) playAudio(SolvedBeep);
                             setRunning(false);
 
                             const delay = (settings?.behaviorSettings?.countdownBeforeSkipping
@@ -128,6 +137,7 @@ export default function TimerPopup() {
                                         // Reset timer safely after next puzzle loads
                                         setCurrentTime(initialTime);
                                         setRunning(true);
+                                        if (settings.preferencesSettings.alertWhenNextPuzzle) playAudio(NextBeep);
                                     }
                                 }, 20);
                             }, delay);
@@ -141,9 +151,6 @@ export default function TimerPopup() {
             return () => observer.disconnect();
         }
     }, [running, settings, initialTime]);
-
-    // Start timer on mount
-    useEffect(() => { setRunning(true); }, []);
 
     if (!settings) return null;
 
@@ -172,6 +179,7 @@ export default function TimerPopup() {
                             <button
                                 className="timer-btn pause-play-button"
                                 onMouseUp={() => click(() => {
+                                    unlockAudio();
                                     setRunning(!running);
                                     chrome.runtime.sendMessage({ action: running ? 'pause' : 'play' });
                                 })}
@@ -230,7 +238,7 @@ function waitFor(selector: string, callback: (el: Element) => void) {
 }
 
 // Timer end & safe puzzle skip
-function timerEnd(initialTime: number, setCurrentTime: any, setRunning: any, delaySeconds: number) {
+function timerEnd(initialTime: number, setCurrentTime: any, setRunning: any, delaySeconds: number, playTheAudio: boolean) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
         (nextBtn as HTMLElement).click();
@@ -247,6 +255,7 @@ function timerEnd(initialTime: number, setCurrentTime: any, setRunning: any, del
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    if (playTheAudio) playAudio(NextBeep);
 
                 }, delaySeconds * 1000);
             });
@@ -260,6 +269,7 @@ function timerEnd(initialTime: number, setCurrentTime: any, setRunning: any, del
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    if (playTheAudio) playAudio(NextBeep);
 
                 }, delaySeconds * 1000);
             });
