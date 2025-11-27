@@ -1,8 +1,8 @@
-import Step1Img from "@/assets/static/step-1.png";
-import Step2Img from "@/assets/static/step-2.png";
-import Step3Img from "@/assets/static/step-3.png";
-import "@/styles/About.css";
-import "@/styles/HowToUse.css";
+import Step1Img from '@/assets/static/step-1.png';
+import Step2Img from '@/assets/static/step-2.png';
+import Step3Img from '@/assets/static/step-3.png';
+import '@/styles/About.css';
+import '@/styles/HowToUse.css';
 
 export default function HowToUsePage() {
     return (

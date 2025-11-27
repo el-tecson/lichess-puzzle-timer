@@ -9,7 +9,7 @@ export function unlockAudio() {
     if (!audioContext) {
         audioContext = new AudioContext();
     }
-    if (audioContext.state === "suspended") {
+    if (audioContext.state === 'suspended') {
         audioContext.resume();
     }
 }
@@ -17,7 +17,7 @@ export function unlockAudio() {
 export default async function playAudio(src: string) {
     try {
         if (!audioContext) {
-            console.warn("AudioContext not unlocked yet — call unlockAudio() on user click.");
+            console.warn('AudioContext not unlocked yet — call unlockAudio() on user click.');
             return;
         }
 
@@ -27,7 +27,9 @@ export default async function playAudio(src: string) {
 
         // Stop currently playing audio
         if (currentSource) {
-            try { currentSource.stop(); } catch {}
+            try {
+                currentSource.stop();
+            } catch {}
             currentSource.disconnect();
             currentSource = null;
         }
@@ -48,7 +50,6 @@ export default async function playAudio(src: string) {
             beepLocks[src] = false; // unlock when finished
         };
     } catch (e) {
-        console.error("Audio play error:", e);
+        console.error('Audio play error:', e);
     }
 }
-

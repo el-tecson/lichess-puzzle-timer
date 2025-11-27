@@ -130,6 +130,6 @@
     background-color: var(--button-hover-color);
 }
 
-.associated>*:not(:first-child) {
+.associated > *:not(:first-child) {
     margin-left: 1rem;
 }

@@ -25,7 +25,7 @@ export default function SmallPopup() {
     const clickRef = useRef(true);
     const click = (fn: Function) => {
         if (clickRef.current) fn();
-    }
+    };
 
     const [settings, setSettings] = useState<Record<string, any> | null>(null);
 
@@ -72,10 +72,7 @@ export default function SmallPopup() {
                 ) : (
                     <div className="big-popup">
                         <div className="popup-headers">
-                            <WideLogo
-                                className="wide-logo"
-                                onMouseUp={() => click(openSettings)}
-                            />
+                            <WideLogo className="wide-logo" onMouseUp={() => click(openSettings)} />
                             <div
                                 className="minimize-icon"
                                 onMouseUp={() => click(() => setShowFirst(true))}
