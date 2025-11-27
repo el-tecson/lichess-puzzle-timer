@@ -155,58 +155,62 @@ export default function TimerPopup() {
             onDrag={() => { clickRef.current = false; }}
         >
             <div ref={nodeRef} className="popup timer-popup">
-                <p className="timer number">
-                    {(() => {
-                        const [timeStr, msStr] = msToTimeString(currentTime || 0);
-                        return <>
-                            <span className="big-time">{timeStr}</span>
-                            <span className="small-time">:{msStr}</span>
-                        </>;
-                    })()}
-                </p>
-                <div className="timer-buttons">
-                    <div className="timer-btn-part">
-                        <button
-                            className="timer-btn pause-play-button"
-                            onMouseUp={() => click(() => {
-                                setRunning(!running);
-                                chrome.runtime.sendMessage({ action: running ? 'pause' : 'play' });
-                            })}
-                        >
-                            {running ? <PauseIcon className="pause-play-icon" /> : <PlayIcon className="pause-play-icon" />}
-                        </button>
-                        <button
-                            className="timer-btn cancel-button"
-                            onMouseUp={() => click(() => {
-                                setRunning(false);
-                                setCurrentTime(initialTime);
-                                chrome.runtime.sendMessage({ action: 'cancel' });
-                            })}
-                        >
-                            <CancelIcon className="cancel-icon" />
-                        </button>
+                {settings.preferencesSettings?.showTimer && (
+                    <p className="timer number">
+                        {(() => {
+                            const [timeStr, msStr] = msToTimeString(currentTime || 0);
+                            return <>
+                                <span className="big-time">{timeStr}</span>
+                                <span className="small-time">:{msStr}</span>
+                            </>;
+                        })()}
+                    </p>
+                )}
+                {settings.preferencesSettings?.showTimerButtons && (
+                    <div className="timer-buttons">
+                        <div className="timer-btn-part">
+                            <button
+                                className="timer-btn pause-play-button"
+                                onMouseUp={() => click(() => {
+                                    setRunning(!running);
+                                    chrome.runtime.sendMessage({ action: running ? 'pause' : 'play' });
+                                })}
+                            >
+                                {running ? <PauseIcon className="pause-play-icon" /> : <PlayIcon className="pause-play-icon" />}
+                            </button>
+                            <button
+                                className="timer-btn cancel-button"
+                                onMouseUp={() => click(() => {
+                                    setRunning(false);
+                                    setCurrentTime(initialTime);
+                                    chrome.runtime.sendMessage({ action: 'cancel' });
+                                })}
+                            >
+                                <CancelIcon className="cancel-icon" />
+                            </button>
+                        </div>
+                        <div className="timer-btn-part">
+                            <button
+                                className="timer-btn restart-button"
+                                onMouseUp={() => click(() => {
+                                    setCurrentTime(initialTime);
+                                    chrome.runtime.sendMessage({ action: 'restart' });
+                                })}
+                            >
+                                <RestartIcon className="restart-icon" />
+                            </button>
+                            <button
+                                className="timer-btn settings-button"
+                                onMouseUp={() => click(() => {
+                                    setRunning(false);
+                                    chrome.runtime.sendMessage({ action: 'openSettings' });
+                                })}
+                            >
+                                <SettingsIcon className="settings-icon" />
+                            </button>
+                        </div>
                     </div>
-                    <div className="timer-btn-part">
-                        <button
-                            className="timer-btn restart-button"
-                            onMouseUp={() => click(() => {
-                                setCurrentTime(initialTime);
-                                chrome.runtime.sendMessage({ action: 'restart' });
-                            })}
-                        >
-                            <RestartIcon className="restart-icon" />
-                        </button>
-                        <button
-                            className="timer-btn settings-button"
-                            onMouseUp={() => click(() => {
-                                setRunning(false);
-                                chrome.runtime.sendMessage({ action: 'openSettings' });
-                            })}
-                        >
-                            <SettingsIcon className="settings-icon" />
-                        </button>
-                    </div>
-                </div>
+                )}
             </div>
         </Draggable>
     );
