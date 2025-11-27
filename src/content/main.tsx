@@ -108,7 +108,7 @@ async function injectShadowDOM() {
 window.addEventListener("load", async () => {
     injectShadowDOM();     // For the first puzzle
     const config = await getConfig();
-    if (config.behaviorSettings?.timerType === '0') { 
+    if (config.behaviorSettings?.timerType === '0' && config.behaviorSettings?.skipToNextPuzzle) { 
         observePuzzleBoard();  // For SPA navigation
         setupPuzzleObserver(); // For detecting each puzzle load
     }

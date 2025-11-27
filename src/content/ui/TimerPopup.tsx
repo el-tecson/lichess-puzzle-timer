@@ -61,7 +61,7 @@ export default function TimerPopup() {
                     clearInterval(intervalRef.current!);
                     setRunning(false);
 
-                    if (settings?.behaviorSettings?.timerType === '0') {
+                    if (settings?.behaviorSettings?.timerType === '0' && settings?.behaviorSettings?.skipToNextPuzzle) {
                         const delay = settings?.behaviorSettings?.countdownBeforeSkipping
                             ? settings.behaviorSettings.countdownBeforeSkippingNum
                             : 1;
@@ -82,7 +82,7 @@ export default function TimerPopup() {
 
     // Stop timer when puzzle is solved
     useEffect(() => {
-        if (settings?.behaviorSettings?.timerType === '0') {
+        if (settings?.behaviorSettings?.timerType === '0' && settings.behaviorSettings?.skipToNextPuzzle) {
             const observer = new MutationObserver(() => {
                 const puzzleBoard = document.querySelector(".puzzle__board");
                 if (!puzzleBoard) return;
