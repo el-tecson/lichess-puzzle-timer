@@ -1,0 +1,36 @@
+@import '../fonts.css';
+@import '/src/styles/local.css';
+@import '/src/styles/index.css';
+@import './SmallPopup.css';
+@import './TimerPopup.css';
+
+:host {
+    --popup-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.12);
+    --global-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    color: var(--text-color);
+}
+
+.check-icon-container {
+    padding: 2px;
+}
+
+.check-icon {
+    width: 12px;
+    height: 12px;
+}
+
+.input-text {
+    font-size: 1rem;
+}
+
+.input {
+    padding: 4px;
+    font-size: 1rem;
+}
+
+.padded {
+    margin-left: 0.5rem;
+}

@@ -1,0 +1,135 @@
+.small-popup-icon {
+    background-color: var(--background-color);
+    padding: 2px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: var(--popup-shadow);
+    /* border: 1px solid rgb(from var(--accent-color) r g b / 1); */
+}
+
+.small-popup-icon svg {
+    fill: var(--logo-color);
+}
+
+.big-popup {
+    background-color: var(--background-color);
+    padding: 16px;
+    border-radius: 8px;
+    width: 307px;
+    box-shadow: var(--popup-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup-headers {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.wide-logo {
+    width: 202px;
+    height: 48px;
+    fill: var(--logo-color);
+    cursor: pointer;
+}
+
+.minimize-icon {
+    cursor: pointer;
+}
+
+.minimize-icon svg {
+    fill: var(--accent-color);
+    transition: var(--global-transition);
+}
+
+.minimize-icon:hover svg {
+    fill: var(--accent-hover-color);
+}
+
+.section-parts,
+.part,
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.radio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.associated,
+.checkbox-container,
+.section {
+    gap: 5px;
+}
+
+.circle-icon-container {
+    padding: 4px;
+    border-radius: 0.75rem;
+}
+
+.circle-icon {
+    width: 10px;
+    height: 10px;
+}
+
+.section-name {
+    padding: 5px 0;
+    font-size: 1.25rem;
+}
+
+@keyframes fadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.big-popup {
+    animation: fadeDropIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeForwardIn {
+    0% {
+        opacity: 0;
+        transform: translateY(25px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.small-popup-icon {
+    animation: fadeForwardIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    color: var(--text-color);
+    background-color: var(--button-color);
+    border-radius: 4px;
+    transition: var(--global-transition);
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: var(--button-hover-color);
+}
+
+.associated>*:not(:first-child) {
+    margin-left: 1rem;
+}
