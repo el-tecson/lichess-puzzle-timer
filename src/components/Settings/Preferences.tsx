@@ -64,6 +64,11 @@ export function PreferencesPanel() {
                         configName="alertWhenTimeShort"
                         text="Alert when timer has less than 3 seconds left."
                     />
+                    <Checkbox
+                        initialState={settings.preferencesSettings?.alertWhenSolved}
+                        configName="alertWhenSolved"
+                        text="Alert when puzzle had been solved."
+                    />
                 </Section>
                 <Section sectionName="Timer">
                     <Checkbox

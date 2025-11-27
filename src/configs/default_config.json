@@ -15,6 +15,7 @@
         "alertWhenTimerIsZero": true,
         "alertWhenNextPuzzle": true,
         "alertWhenTimeShort": true,
+        "alertWhenSolved": true,
         "showTimer": true,
         "showTimerButtons": true
     }
