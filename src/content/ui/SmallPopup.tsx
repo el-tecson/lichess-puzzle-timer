@@ -1,4 +1,4 @@
-import KoFiIcon from '@/assets/ko-fi.svg?react';
+import PayPalIcon from '@/assets/paypal.svg?react';
 import Draggable from 'react-draggable';
 import { useRef, useEffect, useState } from 'react';
 import { DEFAULT_POSITION } from '@/constants';
@@ -135,9 +135,9 @@ export default function SmallPopup() {
                                     />
                                 )}
                             </Section>
-                            <button className="btn" id="donateBtn" onClick={() => click(openKoFi)}>
-                                <KoFiIcon />
-                                <span className="btn-text">Support me on Ko-Fi</span>
+                            <button className="btn" id="donateBtn" onClick={() => click(openPayPal)}>
+                                <PayPalIcon />
+                                <span className="btn-text">Donate via PayPal</span>
                             </button>
                         </div>
                     </div>
@@ -160,6 +160,6 @@ function openSettings() {
     chrome.runtime.sendMessage({ action: 'openSettings' });
 }
 
-function openKoFi() {
-    chrome.runtime.sendMessage({ action: 'openKoFi' });
+function openPayPal() {
+    chrome.runtime.sendMessage({ action: 'openPayPal' });
 }

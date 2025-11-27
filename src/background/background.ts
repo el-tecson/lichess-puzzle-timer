@@ -4,9 +4,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             url: chrome.runtime.getURL('local.html#/settings'),
         });
     }
-    if (message.action === 'openKoFi') {
+    if (message.action === 'openPayPal') {
         chrome.tabs.create({
-            url: 'https://ko-fi.com/',
+            url: 'https://www.paypal.me/ElmerTecson',
         });
     }
 });
