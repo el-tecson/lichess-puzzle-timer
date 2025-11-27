@@ -18,7 +18,7 @@ export default function HowToUsePage() {
                     <img src={Step2Img} alt="step 2 image" />
                 </section>
                 <section>
-                    <h2>Step 3: Start Solving</h2>
+                    <h2>Step 3: Click the play button and start solving!</h2>
                     <img src={Step3Img} alt="step 3 image" />
                 </section>
             </div>
