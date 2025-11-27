@@ -12,6 +12,9 @@
       "128": "images/lptimer-128.png"
     }
   },
+  "background": {
+    "service_worker": "background.js"
+  },
   "icons": {
     "16": "images/lptimer-16.png",
     "32": "images/lptimer-32.png",
@@ -20,12 +23,22 @@
   },
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "scripting",
+    "activeTab"
   ],
   "web_accessible_resources": [
     {
       "resources": ["local.html", "assets/*"],
-      "matches": ["<all_urls>"]
+      "matches": ["https://lichess.org/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://lichess.org/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "type": "module"
     }
   ]
 }

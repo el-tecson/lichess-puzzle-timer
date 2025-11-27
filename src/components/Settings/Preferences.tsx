@@ -4,7 +4,6 @@ import { CONFIG } from '@/constants';
 import { Tab, TabPanel } from '@/components/Tabs';
 import PreferencesIcon from '@/assets/preferences.svg?react';
 import { Checkbox } from '@/components/Settings/CustomComponents/PreferencesComponents';
-import Associated from '@/components/Associated';
 import Section from '@/components/Section';
 
 export function PreferencesTab() {
@@ -44,23 +43,11 @@ export function PreferencesPanel() {
         <TabPanel>
             <p className="panel-name">Preferences</p>
             <div className="part">
-                <Associated>
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.showSmallPopup}
-                        configName="showSmallPopup"
-                        text="Show small popup icon."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.showSmallPopupOnTactics}
-                        configName="showSmallPopupOnTactics"
-                        text="Show small popup on tactics page."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.showSmallPopupEverywhere}
-                        configName="showSmallPopupEverywhere"
-                        text="Show small popup everywhere on the website."
-                    />
-                </Associated>
+                <Checkbox
+                    initialState={settings.preferencesSettings?.showSmallPopup}
+                    configName="showSmallPopup"
+                    text="Show small popup icon."
+                />
                 <Section sectionName="Sound">
                     <Checkbox
                         initialState={settings.preferencesSettings?.alertWhenTimerIsZero}
@@ -76,6 +63,11 @@ export function PreferencesPanel() {
                         initialState={settings.preferencesSettings?.alertWhenTimeShort}
                         configName="alertWhenTimeShort"
                         text="Alert when timer has less than 3 seconds left."
+                    />
+                    <Checkbox
+                        initialState={settings.preferencesSettings?.alertWhenSolved}
+                        configName="alertWhenSolved"
+                        text="Alert when puzzle had been solved."
                     />
                 </Section>
                 <Section sectionName="Timer">

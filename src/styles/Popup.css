@@ -33,5 +33,5 @@
 
 .logo {
     cursor: pointer;
-    color: var(--text-color);
+    color: var(--logo-color);
 }

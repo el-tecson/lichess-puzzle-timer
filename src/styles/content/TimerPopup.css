@@ -1,0 +1,82 @@
+.timer-popup {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    box-shadow: var(--popup-shadow);
+}
+
+.timer {
+    border-radius: 8px;
+    padding: 8px 4px;
+    display: flex;
+    align-items: flex-end;
+    background-color: var(--button-color);
+}
+
+.big-time {
+    font-size: 3rem;
+}
+
+.small-time {
+    font-size: 1.5rem;
+}
+
+.timer-btn {
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--global-transition);
+    display: flex;
+    align-items: center;
+}
+
+.pause-play-button {
+    background-color: var(--pause-play-button-normal);
+}
+
+.pause-play-button:hover {
+    background-color: var(--pause-play-button-hover);
+}
+
+.cancel-button {
+    background-color: var(--cancel-button-normal);
+}
+
+.cancel-button:hover {
+    background-color: var(--cancel-button-hover);
+}
+
+.restart-icon,
+.settings-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.restart-button {
+    background-color: var(--restart-button-normal);
+}
+
+.restart-button:hover {
+    background-color: var(--restart-button-hover);
+}
+
+.settings-button {
+    background-color: var(--settings-button-normal);
+}
+
+.settings-button:hover {
+    background-color: var(--settings-button-hover);
+}
+
+.timer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.timer-btn-part {
+    display: flex;
+    gap: 8px;
+}

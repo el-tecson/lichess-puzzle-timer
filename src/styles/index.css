@@ -1,6 +1,6 @@
 @import 'modern-normalize';
 @import 'the-new-css-reset/css/reset.css';
-@import '@/styles/fonts.css';
+@import './fonts.css';
 
 :root {
     font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

@@ -3,24 +3,19 @@
         "skipToNextPuzzle": true,
         "countdownBeforeSkipping": true,
         "countdownBeforeSkippingNum": 3,
-        "showSolution": true,
-        "showDialog": true,
         "timerType": "0",
         "timeControl0": "00:01:30",
-        "timeControl1": "00:10:00",
-        "puzzleLimit": true,
-        "puzzleLimitNum": 50
+        "timeControl1": "00:10:00"
     },
     "customizationSettings": {
         "currentCustomsName": "dark_custom"
     },
     "preferencesSettings": {
         "showSmallPopup": true,
-        "showSmallPopupOnTactics": false,
-        "showSmallPopupEverywhere": true,
         "alertWhenTimerIsZero": true,
         "alertWhenNextPuzzle": true,
         "alertWhenTimeShort": true,
+        "alertWhenSolved": true,
         "showTimer": true,
         "showTimerButtons": true
     }

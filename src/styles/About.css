@@ -1,0 +1,50 @@
+.page-body {
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--overlay-color);
+    box-shadow: var(--soft-shadow);
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+section {
+    padding-top: 25px;
+}
+
+section:not(:last-of-type) {
+    padding-bottom: 50px;
+    border-bottom: 2px solid #FFFFFF50;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+p {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    line-height: 2rem;
+}
+
+ul {
+    margin-left: 1rem;
+    list-style-type: disc;
+    color: var(--text-color);
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+a {
+    color: #7777FF;
+}
