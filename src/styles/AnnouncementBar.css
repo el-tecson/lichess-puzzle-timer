@@ -1,0 +1,63 @@
+.announcement-bar {
+  width: 100%;
+  background-color: rgb(from var(--accent-color) r g b / 0.75);
+  color: var(--text-color);
+  padding: 8px;
+  text-align: center;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+
+.announcement-bar > span {
+    margin-left: auto;
+}
+
+.announcement-bar a {
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.announcement-bar a:hover {
+  text-decoration: underline;
+}
+
+.close-announcement {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--global-transition);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.close-announcement:hover {
+    background-color: var(--accent-hover-color);
+}
+
+@keyframes fadeDropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.announcement-bar {
+    animation: fadeDropIn 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: .5s;
+}

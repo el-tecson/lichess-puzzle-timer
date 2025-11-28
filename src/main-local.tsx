@@ -9,11 +9,13 @@ import '@/styles/index.css';
 import '@/styles/local.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import AnnouncementBar from './components/AnnouncementBar';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <HashRouter>
             <div id="background-overlay"></div>
+            <AnnouncementBar />
             <Navbar />
             <Routes>
                 <Route path="/" element={<AboutPage />} />
