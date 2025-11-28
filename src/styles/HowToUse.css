@@ -1,4 +1,6 @@
 img {
     width: 1024px;
     height: 576px;
+    border-radius: 8px;
+    align-self: center;
 }

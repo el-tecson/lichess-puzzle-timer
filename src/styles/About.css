@@ -46,5 +46,9 @@ ul {
 }
 
 a {
-    color: #7777ff;
+    color: var(--accent-color);
+}
+
+a:hover {
+    color: var(--accent-hover-color);
 }
