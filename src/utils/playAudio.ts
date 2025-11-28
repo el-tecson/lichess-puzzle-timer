@@ -1,5 +1,6 @@
 let audioContext: AudioContext | null = null;
 let currentSource: AudioBufferSourceNode | null = null;
+let gainNode: GainNode | null = null;
 
 // Keeps track of currently “locked” beeps
 const beepLocks: Record<string, boolean> = {};
@@ -8,16 +9,24 @@ const beepLocks: Record<string, boolean> = {};
 export function unlockAudio() {
     if (!audioContext) {
         audioContext = new AudioContext();
+
+        // Create GainNode for volume control
+        gainNode = audioContext.createGain();
+        gainNode.gain.value = 0.2; // <-- Set volume here (0.0 – 1.0)
+
+        // Connect GainNode to output
+        gainNode.connect(audioContext.destination);
     }
-    if (audioContext.state === 'suspended') {
+
+    if (audioContext.state === "suspended") {
         audioContext.resume();
     }
 }
 
 export default async function playAudio(src: string) {
     try {
-        if (!audioContext) {
-            console.warn('AudioContext not unlocked yet — call unlockAudio() on user click.');
+        if (!audioContext || !gainNode) {
+            console.warn("AudioContext not unlocked yet — call unlockAudio() on user click.");
             return;
         }
 
@@ -27,9 +36,7 @@ export default async function playAudio(src: string) {
 
         // Stop currently playing audio
         if (currentSource) {
-            try {
-                currentSource.stop();
-            } catch {}
+            try { currentSource.stop(); } catch {}
             currentSource.disconnect();
             currentSource = null;
         }
@@ -40,7 +47,9 @@ export default async function playAudio(src: string) {
 
         const source = audioContext.createBufferSource();
         source.buffer = buffer;
-        source.connect(audioContext.destination);
+
+        // Route audio through gain node
+        source.connect(gainNode);
         source.start(0);
 
         currentSource = source;
@@ -50,6 +59,7 @@ export default async function playAudio(src: string) {
             beepLocks[src] = false; // unlock when finished
         };
     } catch (e) {
-        console.error('Audio play error:', e);
+        console.error("Audio play error:", e);
     }
 }
+
