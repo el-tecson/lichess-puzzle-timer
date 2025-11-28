@@ -18,10 +18,12 @@
 
 .big-time {
     font-size: 3rem;
+    cursor: default;
 }
 
 .small-time {
     font-size: 1.5rem;
+    cursor: default;
 }
 
 .timer-btn {
