@@ -12,7 +12,7 @@ export function unlockAudio() {
 
         // Create GainNode for volume control
         gainNode = audioContext.createGain();
-        gainNode.gain.value = 0.2; // <-- Set volume here (0.0 – 1.0)
+        gainNode.gain.value = 0.5; // <-- Set volume here (0.0 – 1.0)
 
         // Connect GainNode to output
         gainNode.connect(audioContext.destination);
