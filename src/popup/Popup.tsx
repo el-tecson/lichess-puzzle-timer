@@ -29,7 +29,7 @@ export default function Popup() {
                         }}
                     >
                         <PayPalIcon />
-                        <span className="btn-text">Donate via PayPal</span>
+                        <span className="btn-text">Support me on PayPal</span>
                     </button>
                 </div>
             </div>
