@@ -89,7 +89,7 @@ async function injectShadowDOM() {
             <MemoryRouter>
                 <SmallPopup />
             </MemoryRouter>
-        ) : null
+        ) : null,
     );
 
     // Forward pointer events to document so react-draggable works
@@ -115,7 +115,7 @@ async function injectShadowDOM() {
                 metaKey: pevt.metaKey,
             });
             document.dispatchEvent(pe);
-        })
+        }),
     );
     shadowRoot.appendChild(container);
 }
@@ -173,7 +173,7 @@ function onPuzzleLoad() {
 function waitForVoteButton() {
     const interval = setInterval(async () => {
         const voteBtn = document.querySelector(
-            '.puzzle__vote__buttons > .vote-up.vote'
+            '.puzzle__vote__buttons > .vote-up.vote',
         ) as HTMLElement | null;
         const continueBtn = document.querySelector('.continue') as HTMLElement | null;
         if (voteBtn || continueBtn) {

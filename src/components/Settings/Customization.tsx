@@ -37,7 +37,7 @@ export function CustomizationPanel() {
 
         const handleChange = (
             changes: Record<string, chrome.storage.StorageChange>,
-            areaName: string
+            areaName: string,
         ) => {
             if (areaName === 'local') {
                 if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);

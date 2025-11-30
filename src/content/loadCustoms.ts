@@ -15,7 +15,7 @@ export async function setRootVars(customs_config: Record<string, Record<string, 
 
 export async function setShadowRootVars(
     shadowRoot: ShadowRoot,
-    customs_config: Record<string, Record<string, string>>
+    customs_config: Record<string, Record<string, string>>,
 ) {
     const config = await getConfig();
     const selected = customs_config[config.customizationSettings!.currentCustomsName!]!;

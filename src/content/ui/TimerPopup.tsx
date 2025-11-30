@@ -37,7 +37,7 @@ export default function TimerPopup() {
 
         const handleChange = (
             changes: Record<string, chrome.storage.StorageChange>,
-            areaName: string
+            areaName: string,
         ) => {
             if (areaName === 'local' && changes[CONFIG]) {
                 setSettings(changes[CONFIG]?.newValue);
@@ -53,7 +53,7 @@ export default function TimerPopup() {
         if (!settings) return;
         const time = timeStringToMs(
             settings.behaviorSettings?.[`timeControl${settings.behaviorSettings?.timerType}`] ??
-                '00:00:00'
+                '00:00:00',
         );
         setInitialTime(time);
         setCurrentTime(time);
@@ -89,7 +89,7 @@ export default function TimerPopup() {
                             setCurrentTime,
                             setRunning,
                             delay,
-                            settings.preferencesSettings.alertWhenNextPuzzle
+                            settings.preferencesSettings.alertWhenNextPuzzle,
                         );
                     }
                 }
@@ -118,7 +118,7 @@ export default function TimerPopup() {
 
                 const interval = setInterval(() => {
                     const voteBtn = document.querySelector(
-                        '.puzzle__vote__buttons > .vote-up.vote'
+                        '.puzzle__vote__buttons > .vote-up.vote',
                     ) as HTMLElement | null;
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
                     if (voteBtn || continueBtn) {
@@ -296,7 +296,7 @@ function timerEnd(
     setCurrentTime: any,
     setRunning: any,
     delaySeconds: number,
-    playTheAudio: boolean
+    playTheAudio: boolean,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {

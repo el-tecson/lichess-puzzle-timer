@@ -32,7 +32,7 @@ export function BehaviorPanel() {
 
         const handleChange = (
             changes: Record<string, chrome.storage.StorageChange>,
-            areaName: string
+            areaName: string,
         ) => {
             if (areaName === 'local' && changes[CONFIG]) {
                 setSettings(changes[CONFIG]?.newValue);

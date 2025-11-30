@@ -40,5 +40,5 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/how-to-use" element={<HowToUsePage />} />
             </Routes>
         </HashRouter>
-    </StrictMode>
+    </StrictMode>,
 );
