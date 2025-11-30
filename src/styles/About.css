@@ -36,7 +36,7 @@ p {
 }
 
 ul {
-    margin-left: 1rem;
+    padding-left: 1.5rem;
     list-style-type: disc;
     color: var(--text-color);
     font-size: 1.25rem;
@@ -47,6 +47,7 @@ ul {
 
 a {
     color: var(--accent-color);
+    transition: var(--global-transition);
 }
 
 a:hover {
