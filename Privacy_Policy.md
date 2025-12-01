@@ -1,6 +1,6 @@
 # Lichess Puzzle Timer — Privacy Policy
 
-**Last updated:** November 30, 2025
+**Last updated:** December 1, 2025
 
 ## 1. Overview
 Lichess Puzzle Timer is a single-purpose Chrome extension that adds a timer and simple DOM interaction to the Lichess puzzle page.  
