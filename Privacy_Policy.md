@@ -39,9 +39,6 @@ These settings:
 ### `activeTab`
 Used only to run the timer script on the currently active Lichess puzzle tab.
 
-### `scripting`
-Used to inject the timer UI and interact with the DOM on the Lichess puzzle page.
-
 ### `storage`
 Used solely to save timer settings locally on the user's device.
 
