@@ -126,7 +126,6 @@ window.addEventListener('load', async () => {
     const config = await getConfig();
     if (config.behaviorSettings?.timerType === '0' && config.behaviorSettings?.skipToNextPuzzle) {
         observePuzzleBoard(); // For SPA navigation
-        setupPuzzleObserver(); // For detecting each puzzle load
     }
 });
 
@@ -141,63 +140,4 @@ function observePuzzleBoard() {
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-}
-
-// ---------------------------------------------------------------------------
-// Detect DOM changes to know when a NEW puzzle loads
-// ---------------------------------------------------------------------------
-function setupPuzzleObserver() {
-    const observer = new MutationObserver(() => {
-        // A new puzzle appeared
-        if (document.querySelector('.puzzle__board')) {
-            onPuzzleLoad();
-        }
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-    });
-}
-
-// ---------------------------------------------------------------------------
-// ONE PLACE where puzzle-related automation triggers
-// ---------------------------------------------------------------------------
-function onPuzzleLoad() {
-    waitForVoteButton();
-}
-
-// ---------------------------------------------------------------------------
-// Wait for vote-up button, then auto-click it after a delay
-// ---------------------------------------------------------------------------
-function waitForVoteButton() {
-    const interval = setInterval(async () => {
-        const voteBtn = document.querySelector(
-            '.puzzle__vote__buttons > .vote-up.vote',
-        ) as HTMLElement | null;
-        const continueBtn = document.querySelector('.continue') as HTMLElement | null;
-        if (voteBtn || continueBtn) {
-            const host = document.getElementById('lptimer-shadow-host');
-            const bigTime = host?.shadowRoot?.querySelector('.big-time')?.textContent ?? '00:00:00';
-            const smallTime = host?.shadowRoot?.querySelector('.small-time')?.textContent ?? ':00';
-
-            if (voteBtn && bigTime !== '00:00:00' && smallTime !== ':00') {
-                clearInterval(interval);
-                const config = await getConfig();
-                const delay =
-                    (config.behaviorSettings?.countdownBeforeSkipping
-                        ? config.behaviorSettings?.countdownBeforeSkippingNum
-                        : 1) * 1000;
-                if (voteBtn) {
-                    setTimeout(() => {
-                        voteBtn.click();
-                    }, delay);
-                } else if (continueBtn) {
-                    setTimeout(() => {
-                        continueBtn.click();
-                    }, delay);
-                }
-            }
-        }
-    }, 100);
 }
