@@ -1,7 +1,7 @@
 {
   "name": "Lichess Puzzle Timer",
   "description": "Using this chrome extension, a timer will appear when solving puzzles in lichess.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
