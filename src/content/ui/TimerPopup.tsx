@@ -15,6 +15,23 @@ import TickTock from '@/assets/audio/tick-tock.wav';
 import WrongBeep from '@/assets/audio/wrong-beep.mp3';
 import playAudio, { unlockAudio } from '@/utils/playAudio';
 
+let puzzleEndObserver: MutationObserver | null = null;
+let skipInProgress = false;
+
+function safeSkip(action: Function) {
+    if (skipInProgress) return;
+    skipInProgress = true;
+
+    try {
+        action();
+    } finally {
+        setTimeout(() => {
+            skipInProgress = false;
+        }, 1000); // give Lichess breathing room
+    }
+}
+
+
 export default function TimerPopup() {
     const nodeRef = useRef<HTMLDivElement>(null);
     const clickRef = useRef(true);
@@ -84,13 +101,15 @@ export default function TimerPopup() {
                             : 1;
 
                         // Call timerEnd to handle skip & reset safely
-                        timerEnd(
-                            initialTime,
-                            setCurrentTime,
-                            setRunning,
-                            delay,
-                            settings.preferencesSettings.alertWhenNextPuzzle,
-                        );
+                        safeSkip(() => {
+                            timerEnd(
+                                initialTime,
+                                setCurrentTime,
+                                setRunning,
+                                delay,
+                                settings.preferencesSettings.alertWhenNextPuzzle,
+                            );
+                        });
                     }
                 }
 
@@ -112,7 +131,8 @@ export default function TimerPopup() {
             settings?.behaviorSettings?.timerType === '0' &&
             settings.behaviorSettings?.skipToNextPuzzle
         ) {
-            const observer = new MutationObserver(() => {
+            if (puzzleEndObserver) puzzleEndObserver.disconnect();
+            puzzleEndObserver = new MutationObserver(() => {
                 const puzzleBoard = document.querySelector('.puzzle__board');
                 if (!puzzleBoard) return;
 
@@ -131,6 +151,7 @@ export default function TimerPopup() {
                         // Puzzle solved (timer was running)
                         if (bigTime !== '00:00:00' && smallTime !== ':00') {
                             clearInterval(interval);
+                            puzzleEndObserver?.disconnect();
                             if (settings.preferencesSettings.alertWhenSolved) playAudio(SolvedBeep);
                             setRunning(false);
 
@@ -141,11 +162,17 @@ export default function TimerPopup() {
 
                             if (voteBtn) {
                                 setTimeout(() => {
-                                    voteBtn.click();
+                                    safeSkip(() => {
+                                        if (document.body.contains(voteBtn))
+                                            voteBtn.click();
+                                    })
                                 }, delay);
                             } else if (continueBtn) {
                                 setTimeout(() => {
-                                    continueBtn.click();
+                                    safeSkip(() => {
+                                        if (document.body.contains(continueBtn))
+                                            continueBtn.click();
+                                    })
                                 }, delay);
                             }
 
@@ -166,16 +193,16 @@ export default function TimerPopup() {
                                         if (settings.preferencesSettings.alertWhenNextPuzzle)
                                             playAudio(NextBeep);
                                     }
-                                }, 20);
+                                }, 300);
                             }, delay);
                         }
                     }
-                }, 20);
+                }, 300);
             });
 
-            observer.observe(document.body, { childList: true, subtree: true });
+            puzzleEndObserver.observe(document.body, { childList: true, subtree: true });
 
-            return () => observer.disconnect();
+            return () => puzzleEndObserver?.disconnect();
         }
     }, [running, settings, initialTime]);
 
@@ -279,15 +306,20 @@ function waitFor(selector: string, callback: (el: Element) => void) {
         return;
     }
 
-    const observer = new MutationObserver((_mut, obs) => {
+    if (puzzleEndObserver) {
+        puzzleEndObserver.disconnect();
+    }
+
+    puzzleEndObserver = new MutationObserver((_mut, obs) => {
         const el = document.querySelector(selector);
         if (el) {
             obs.disconnect();
             callback(el);
+            puzzleEndObserver?.disconnect();
         }
     });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    puzzleEndObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 // Timer end & safe puzzle skip
@@ -307,7 +339,8 @@ function timerEnd(
             // Step 3: Wait for vote button
             waitFor('.puzzle__vote__buttons > .vote-up.vote', (voteBtn) => {
                 setTimeout(() => {
-                    (voteBtn as HTMLElement).click();
+                    if (document.body.contains(voteBtn))
+                        (voteBtn as HTMLElement).click();
 
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
@@ -319,7 +352,8 @@ function timerEnd(
             // Step 3: Wait for continue button (For unregistered user)
             waitFor('.continue', (continueBtn) => {
                 setTimeout(() => {
-                    (continueBtn as HTMLElement).click();
+                    if (document.body.contains(continueBtn))
+                        (continueBtn as HTMLElement).click();
 
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
