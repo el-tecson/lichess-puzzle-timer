@@ -168,14 +168,14 @@ export default function TimerPopup() {
                                 safeSkip(() => {
                                     if (document.body.contains(voteBtn))
                                         voteBtn.click();
-                                })
+                                });
                             }, delay);
                         } else if (continueBtn) {
                             setTimeout(() => {
                                 safeSkip(() => {
                                     if (document.body.contains(continueBtn))
                                         continueBtn.click();
-                                })
+                                });
                             }, delay);
                         }
 
