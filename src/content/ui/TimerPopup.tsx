@@ -142,62 +142,64 @@ export default function TimerPopup() {
                     ) as HTMLElement | null;
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
                     if (voteBtn || continueBtn) {
+                        clearInterval(interval);
+                        puzzleEndObserver?.disconnect();
                         const host = document.getElementById('lptimer-shadow-host');
                         const bigTime =
                             host?.shadowRoot?.querySelector('.big-time')?.textContent ?? '00:00:00';
                         const smallTime =
                             host?.shadowRoot?.querySelector('.small-time')?.textContent ?? ':00';
+                        if (
+                            settings.preferencesSettings.alertWhenSolved &&
+                            bigTime !== '00:00:00' &&
+                            smallTime !== ':00'
+                        ) {
+                            playAudio(SolvedBeep);
+                        }
+                        setRunning(false);
 
-                        // Puzzle solved (timer was running)
-                        if (bigTime !== '00:00:00' && smallTime !== ':00') {
-                            clearInterval(interval);
-                            puzzleEndObserver?.disconnect();
-                            if (settings.preferencesSettings.alertWhenSolved) playAudio(SolvedBeep);
-                            setRunning(false);
+                        const delay =
+                            (settings?.behaviorSettings?.countdownBeforeSkipping
+                                ? settings.behaviorSettings.countdownBeforeSkippingNum
+                                : 1) * 1000;
 
-                            const delay =
-                                (settings?.behaviorSettings?.countdownBeforeSkipping
-                                    ? settings.behaviorSettings.countdownBeforeSkippingNum
-                                    : 1) * 1000;
-
-                            if (voteBtn) {
-                                setTimeout(() => {
-                                    safeSkip(() => {
-                                        if (document.body.contains(voteBtn))
-                                            voteBtn.click();
-                                    })
-                                }, delay);
-                            } else if (continueBtn) {
-                                setTimeout(() => {
-                                    safeSkip(() => {
-                                        if (document.body.contains(continueBtn))
-                                            continueBtn.click();
-                                    })
-                                }, delay);
-                            }
-
+                        if (voteBtn) {
                             setTimeout(() => {
-                                // Wait for the *next puzzle* and its vote button
-                                const waitForNextPuzzle = setInterval(() => {
-                                    const newPuzzleReady =
-                                        document.querySelector('.puzzle__board') &&
-                                        (document.querySelector('.view_solution') ||
-                                            document.querySelector('.continue'));
-
-                                    if (newPuzzleReady) {
-                                        clearInterval(waitForNextPuzzle);
-
-                                        // Reset timer safely after next puzzle loads
-                                        setCurrentTime(initialTime);
-                                        setRunning(true);
-                                        if (settings.preferencesSettings.alertWhenNextPuzzle)
-                                            playAudio(NextBeep);
-                                    }
-                                }, 300);
+                                safeSkip(() => {
+                                    if (document.body.contains(voteBtn))
+                                        voteBtn.click();
+                                })
+                            }, delay);
+                        } else if (continueBtn) {
+                            setTimeout(() => {
+                                safeSkip(() => {
+                                    if (document.body.contains(continueBtn))
+                                        continueBtn.click();
+                                })
                             }, delay);
                         }
+
+                        setTimeout(() => {
+                            // Wait for the *next puzzle* and its vote button
+                            const waitForNextPuzzle = setInterval(() => {
+                                const newPuzzleReady =
+                                    document.querySelector('.puzzle__board') &&
+                                    (document.querySelector('.view_solution') ||
+                                        document.querySelector('.continue'));
+
+                                if (newPuzzleReady) {
+                                    clearInterval(waitForNextPuzzle);
+
+                                    // Reset timer safely after next puzzle loads
+                                    setCurrentTime(initialTime);
+                                    setRunning(true);
+                                    if (settings.preferencesSettings.alertWhenNextPuzzle)
+                                        playAudio(NextBeep);
+                                }
+                            }, 300);
+                        }, delay);
                     }
-                }, 300);
+                }, 10);
             });
 
             puzzleEndObserver.observe(document.body, { childList: true, subtree: true });
