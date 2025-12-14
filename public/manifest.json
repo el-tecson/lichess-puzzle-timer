@@ -22,8 +22,10 @@
     "128": "images/lptimer-128.png"
   },
   "permissions": [
-    "tabs",
     "storage"
+  ],
+  "host_permissions": [
+    "https://lichess.org/*"
   ],
   "web_accessible_resources": [
     {

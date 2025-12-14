@@ -50,11 +50,12 @@ function openLocalWebsite() {
 }
 
 function reloadAllLichessTabs() {
-    chrome.tabs.query({}, (tabs) => {
-        tabs.forEach((tab) => {
-            if (tab.id && typeof tab.url === 'string' && tab.url.startsWith(LICHESS_LINK)) {
-                chrome.tabs.reload(tab.id);
-            }
-        });
-    });
+    chrome.tabs.query(
+        { url: 'https://lichess.org/*' },
+        (tabs) => {
+            tabs.forEach((tab) => {
+                if (tab.id) chrome.tabs.reload(tab.id);
+            });
+        },
+    );
 }
