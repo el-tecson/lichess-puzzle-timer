@@ -14,6 +14,7 @@ import SolvedBeep from '@/assets/audio/solved-beep.mp3';
 import TickTock from '@/assets/audio/tick-tock.wav';
 import WrongBeep from '@/assets/audio/wrong-beep.mp3';
 import playAudio, { unlockAudio } from '@/utils/playAudio';
+import setTimeColor from '@/utils/dom/setTimeColor';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -108,6 +109,7 @@ export default function TimerPopup() {
                                 setRunning,
                                 delay,
                                 settings.preferencesSettings.alertWhenNextPuzzle,
+                                settings.preferencesSettings.showVisualLowTime,
                             );
                         });
                     }
@@ -115,7 +117,8 @@ export default function TimerPopup() {
 
                 if (next === 3000 && settings?.preferencesSettings?.alertWhenTimeShort)
                     playAudio(TickTock);
-
+                if (next === 3000 && settings?.preferencesSettings?.showVisualLowTime)
+                    setTimeColor('var(--bad-color)', 'bold', 'var(--ticking-animation)');
                 return next;
             });
         }, 10);
@@ -195,6 +198,8 @@ export default function TimerPopup() {
                                     setRunning(true);
                                     if (settings.preferencesSettings.alertWhenNextPuzzle)
                                         playAudio(NextBeep);
+                                    if (settings.preferencesSettings.showVisualLowTime)
+                                        setTimeColor('var(--text-color)');
                                 }
                             }, 300);
                         }, delay);
@@ -331,6 +336,7 @@ function timerEnd(
     setRunning: any,
     delaySeconds: number,
     playTheAudio: boolean,
+    showVisual: boolean,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -347,6 +353,7 @@ function timerEnd(
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    if (showVisual) setTimeColor('var(--text-color)');
                     if (playTheAudio) playAudio(NextBeep);
                 }, delaySeconds * 1000);
             });
@@ -360,6 +367,7 @@ function timerEnd(
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    if (showVisual) setTimeColor('var(--text-color)');
                     if (playTheAudio) playAudio(NextBeep);
                 }, delaySeconds * 1000);
             });

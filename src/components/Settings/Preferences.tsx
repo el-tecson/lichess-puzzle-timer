@@ -81,6 +81,11 @@ export function PreferencesPanel() {
                         configName="showTimerButtons"
                         text="Show buttons beside puzzle timer."
                     />
+                    <Checkbox
+                        initialState={settings.preferencesSettings?.showVisualLowTime}
+                        configName="showVisualLowTime"
+                        text="Show visual change when time is low."
+                    />
                 </Section>
             </div>
         </TabPanel>
