@@ -36,9 +36,6 @@ These settings:
 
 ## 4. Permissions Use
 
-### `tabs`
-Used solely to identify the current Lichess puzzle tab so the extension can run its timer and DOM interactions. It's also used to find all the Lichess tabs for the reload timer button.
-
 ### `storage`
 Used solely to save timer settings locally on the user's device.
 
