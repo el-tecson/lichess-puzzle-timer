@@ -3,7 +3,6 @@ import SettingsIcon from '@/assets/settings.svg?react';
 import ReloadIcon from '@/assets/reload.svg?react';
 import PayPalIcon from '@/assets/paypal.svg?react';
 import '@/styles/Popup.css';
-import { LICHESS_LINK } from '@/constants';
 
 export default function Popup() {
     return (
