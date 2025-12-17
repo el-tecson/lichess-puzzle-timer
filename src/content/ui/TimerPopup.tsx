@@ -132,7 +132,8 @@ export default function TimerPopup() {
     useEffect(() => {
         if (
             settings?.behaviorSettings?.timerType === '0' &&
-            settings.behaviorSettings?.skipToNextPuzzle
+            settings.behaviorSettings?.skipToNextPuzzle &&
+            running
         ) {
             if (puzzleEndObserver) puzzleEndObserver.disconnect();
             puzzleEndObserver = new MutationObserver(() => {
