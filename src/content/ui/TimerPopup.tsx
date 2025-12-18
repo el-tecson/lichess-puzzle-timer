@@ -90,6 +90,8 @@ export default function TimerPopup() {
 
                 if (next === 0) {
                     clearInterval(intervalRef.current!);
+                    if (settings?.preferencesSettings?.showVisualLowTime)
+                        setTimeColor('var(--bad-color)', 'bold');
                     if (settings?.preferencesSettings?.alertWhenTimerIsZero) playAudio(WrongBeep);
                     setRunning(false);
 
