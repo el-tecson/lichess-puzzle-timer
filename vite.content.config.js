@@ -13,7 +13,7 @@ export default defineConfig({
       input: path.resolve(__dirname, 'src/content/main.tsx'),
       output: {
         entryFileNames: 'content.js',
-        format: 'iife', // must be string
+        format: 'iife',
       },
     },
     target: 'esnext',
