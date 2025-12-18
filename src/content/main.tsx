@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import '@/background/loadDefaults';
+import '@/background/updateConfig';
 import { createRoot } from 'react-dom/client';
 import SmallPopup from '@/content/ui/SmallPopup';
 import TimerPopup from '@/content/ui/TimerPopup';

@@ -15,6 +15,7 @@
  */
 
 import '@/background/loadDefaults';
+import '@/background/updateConfig';
 import '@/content/loadCustoms';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import SettingsPage from '@/pages/SettingsPage';
