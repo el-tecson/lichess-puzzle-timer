@@ -159,6 +159,8 @@ export default function TimerPopup() {
                             smallTime !== ':00'
                         ) {
                             playAudio(SolvedBeep);
+                            if (settings.preferencesSettings.showVisualPuzzleSolved)
+                                setTimeColor('var(--good-color)', 'bold');
                         }
                         setRunning(false);
 

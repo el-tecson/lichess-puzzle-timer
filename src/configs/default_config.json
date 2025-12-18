@@ -18,6 +18,7 @@
         "alertWhenSolved": true,
         "showTimer": true,
         "showTimerButtons": true,
-        "showVisualLowTime": true
+        "showVisualLowTime": true,
+        "showVisualPuzzleSolved": true
     }
 }
