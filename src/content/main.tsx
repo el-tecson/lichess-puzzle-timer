@@ -24,6 +24,7 @@ import { setShadowRootVars } from './loadCustoms';
 import RootCSS from '@/styles/content/index.css?inline';
 import getConfig from '@/utils/Settings/getConfig';
 import { MemoryRouter } from 'react-router-dom';
+import AnalyticsPopup from '@/content/ui/AnalyticsPopup';
 
 async function injectStyles(shadowRoot: ShadowRoot, styles: Record<string, string>) {
     for (const css of Object.values(styles)) {
@@ -84,7 +85,10 @@ async function injectShadowDOM() {
     const config = await getConfig();
     root.render(
         isPuzzlePage() ? (
-            <TimerPopup />
+            <>
+                <TimerPopup />
+                {config.preferencesSettings?.showAnalyticsPopup && <AnalyticsPopup />}
+            </>
         ) : config.preferencesSettings?.showSmallPopup ? (
             <MemoryRouter>
                 <SmallPopup />

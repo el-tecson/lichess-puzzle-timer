@@ -48,6 +48,11 @@ export function PreferencesPanel() {
                     configName="showSmallPopup"
                     text="Show small popup icon."
                 />
+                <Checkbox
+                    initialState={settings.preferencesSettings?.showAnalyticsPopup}
+                    configName="showAnalyticsPopup"
+                    text="Show analytics popup."
+                />
                 <Section sectionName="Sound">
                     <Checkbox
                         initialState={settings.preferencesSettings?.alertWhenTimerIsZero}

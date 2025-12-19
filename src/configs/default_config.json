@@ -12,6 +12,7 @@
     },
     "preferencesSettings": {
         "showSmallPopup": true,
+        "showAnalyticsPopup": true,
         "alertWhenTimerIsZero": true,
         "alertWhenNextPuzzle": true,
         "alertWhenTimeShort": true,

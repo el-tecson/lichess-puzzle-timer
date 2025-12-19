@@ -15,6 +15,8 @@ import TickTock from '@/assets/audio/tick-tock.wav';
 import WrongBeep from '@/assets/audio/wrong-beep.mp3';
 import playAudio, { unlockAudio } from '@/utils/playAudio';
 import setTimeColor from '@/utils/dom/setTimeColor';
+import addUnsolved from '@/utils/Analytics/addUnsolved';
+import addSolved from '@/utils/Analytics/addSolved';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -45,6 +47,7 @@ export default function TimerPopup() {
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [running, setRunning] = useState(false);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const hasStartedRef = useRef(false);
 
     // Load config
     useEffect(() => {
@@ -90,6 +93,8 @@ export default function TimerPopup() {
 
                 if (next === 0) {
                     clearInterval(intervalRef.current!);
+                    hasStartedRef.current = false;
+                    addUnsolved();
                     if (settings?.preferencesSettings?.showVisualLowTime)
                         setTimeColor('var(--bad-color)', 'bold');
                     if (settings?.preferencesSettings?.alertWhenTimerIsZero) playAudio(WrongBeep);
@@ -112,6 +117,7 @@ export default function TimerPopup() {
                                 delay,
                                 settings.preferencesSettings.alertWhenNextPuzzle,
                                 settings.preferencesSettings.showVisualLowTime,
+                                hasStartedRef,
                             );
                         });
                     }
@@ -150,16 +156,16 @@ export default function TimerPopup() {
                     if (voteBtn || continueBtn) {
                         clearInterval(interval);
                         puzzleEndObserver?.disconnect();
-                        const host = document.getElementById('lptimer-shadow-host');
-                        const bigTime =
-                            host?.shadowRoot?.querySelector('.big-time')?.textContent ?? '00:00:00';
-                        const smallTime =
-                            host?.shadowRoot?.querySelector('.small-time')?.textContent ?? ':00';
+                        // const host = document.getElementById('lptimer-shadow-host');
+                        // const bigTime =
+                        //     host?.shadowRoot?.querySelector('.big-time')?.textContent ?? '00:00:00';
+                        // const smallTime =
+                        //     host?.shadowRoot?.querySelector('.small-time')?.textContent ?? ':00';
                         if (
                             settings.preferencesSettings.alertWhenSolved &&
-                            bigTime !== '00:00:00' &&
-                            smallTime !== ':00'
+                            hasStartedRef.current
                         ) {
+                            addSolved();
                             playAudio(SolvedBeep);
                             if (settings.preferencesSettings.showVisualPuzzleSolved)
                                 setTimeColor('var(--good-color)', 'bold');
@@ -254,6 +260,7 @@ export default function TimerPopup() {
                                     click(() => {
                                         unlockAudio();
                                         setRunning(!running);
+                                        hasStartedRef.current = true;
                                         chrome.runtime.sendMessage({
                                             action: running ? 'pause' : 'play',
                                         });
@@ -272,6 +279,8 @@ export default function TimerPopup() {
                                     click(() => {
                                         setRunning(false);
                                         setCurrentTime(initialTime);
+                                        setTimeColor('var(--text-color)', 'normal');
+                                        playAudio(NextBeep);
                                         chrome.runtime.sendMessage({ action: 'cancel' });
                                     })
                                 }
@@ -285,6 +294,8 @@ export default function TimerPopup() {
                                 onMouseUp={() =>
                                     click(() => {
                                         setCurrentTime(initialTime);
+                                        setTimeColor('var(--text-color)', 'normal');
+                                        playAudio(NextBeep);
                                         chrome.runtime.sendMessage({ action: 'restart' });
                                     })
                                 }
@@ -342,6 +353,7 @@ function timerEnd(
     delaySeconds: number,
     playTheAudio: boolean,
     showVisual: boolean,
+    hasStarted: any,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -358,6 +370,7 @@ function timerEnd(
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    hasStarted.current = true;
                     if (showVisual) setTimeColor('var(--text-color)');
                     if (playTheAudio) playAudio(NextBeep);
                 }, delaySeconds * 1000);
@@ -372,6 +385,7 @@ function timerEnd(
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    hasStarted.current = true;
                     if (showVisual) setTimeColor('var(--text-color)');
                     if (playTheAudio) playAudio(NextBeep);
                 }, delaySeconds * 1000);

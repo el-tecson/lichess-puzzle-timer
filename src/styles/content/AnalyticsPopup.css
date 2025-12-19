@@ -1,0 +1,12 @@
+.analytics-popup {
+    margin-top: 20px;
+}
+
+.analytics-popup {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 16px;
+    color: var(--text-color);
+    box-shadow: var(--popup-shadow);
+    max-width: 175px;
+}
