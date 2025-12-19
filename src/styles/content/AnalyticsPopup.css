@@ -9,4 +9,15 @@
     color: var(--text-color);
     box-shadow: var(--popup-shadow);
     max-width: 175px;
+    cursor: default;
+}
+
+.analytics .section-name {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.analytics-logo {
+    fill: var(--logo-color);
 }
