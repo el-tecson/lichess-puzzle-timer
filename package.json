@@ -1,6 +1,6 @@
 {
   "name": "lichess-puzzle-timer",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "Using this chrome extension, a timer will appear when solving puzzles in lichess. Mimicking the tension felt when playing in a real game, especially blitz and bullet time control.",
   "keywords": [
     "chess",
@@ -20,7 +20,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "vite build",
+    "build": "echo \"Starting build...\" && vite build && echo \"Finished building.\"",
     "dev": "concurrently \"vite build --watch\" \"vite build --config vite.content.config.js --watch\" \"vite build --config vite.background.config.js\"",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}' --ext .ts,.tsx,.js,.jsx --fix && prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'"
   },
