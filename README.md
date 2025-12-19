@@ -48,7 +48,7 @@ A Chrome extension that adds a **real-time timer** when solving puzzles on Liche
 This project is licensed under the **Apache License 2.0**.  
 See the [LICENSE](./LICENSE) file for details.
 
-[commits-link]:       https://github.com/official-stockfish/Stockfish/commits/master
+[commits-link]:       https://github.com/el-tecson/lichess-puzzle-timer/commits/main
 [issue-link]:         https://github.com/el-tecson/lichess-puzzle-timer/issues/new
 [license-link]:       https://github.com/el-tecson/lichess-puzzle-timer/blob/main/LICENSE
 [release-link]:       https://github.com/el-tecson/lichess-puzzle-timer/releases/latest
