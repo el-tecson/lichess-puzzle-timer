@@ -257,11 +257,10 @@ export default function TimerPopup() {
                                 onMouseUp={() =>
                                     click(() => {
                                         unlockAudio();
+                                        if (settings.preferencesSettings.alertButtonClicks)
+                                            playAudio(NextBeep);
                                         setRunning(!running);
                                         hasStartedRef.current = true;
-                                        chrome.runtime.sendMessage({
-                                            action: running ? 'pause' : 'play',
-                                        });
                                     })
                                 }
                             >
@@ -278,8 +277,8 @@ export default function TimerPopup() {
                                         setRunning(false);
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
-                                        playAudio(NextBeep);
-                                        chrome.runtime.sendMessage({ action: 'cancel' });
+                                        if (settings.preferencesSettings.alertButtonClicks)
+                                            playAudio(NextBeep);
                                     })
                                 }
                             >
@@ -293,8 +292,8 @@ export default function TimerPopup() {
                                     click(() => {
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
-                                        playAudio(NextBeep);
-                                        chrome.runtime.sendMessage({ action: 'restart' });
+                                        if (settings.preferencesSettings.alertButtonClicks)
+                                            playAudio(NextBeep);
                                     })
                                 }
                             >
@@ -305,6 +304,8 @@ export default function TimerPopup() {
                                 onMouseUp={() =>
                                     click(() => {
                                         setRunning(false);
+                                        if (settings.preferencesSettings.alertButtonClicks)
+                                            playAudio(NextBeep);
                                         chrome.runtime.sendMessage({ action: 'openSettings' });
                                     })
                                 }

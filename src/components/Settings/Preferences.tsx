@@ -74,6 +74,11 @@ export function PreferencesPanel() {
                         configName="alertWhenSolved"
                         text="Alert when puzzle had been solved."
                     />
+                    <Checkbox
+                        initialState={settings.preferencesSettings?.alertButtonClicks}
+                        configName="alertButtonClicks"
+                        text="Show sound when clicking timer buttons."
+                    />
                 </Section>
                 <Section sectionName="Timer">
                     <Checkbox

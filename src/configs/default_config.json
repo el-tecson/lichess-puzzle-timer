@@ -17,6 +17,7 @@
         "alertWhenNextPuzzle": true,
         "alertWhenTimeShort": true,
         "alertWhenSolved": true,
+        "alertButtonClicks": true,
         "showTimer": true,
         "showTimerButtons": true,
         "showVisualLowTime": true,
