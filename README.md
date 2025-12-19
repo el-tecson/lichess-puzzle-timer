@@ -1,6 +1,6 @@
 <div align="center">
 
-  [![Lichess Puzzle Timer][./public/images/lptimer-128.png]][https://chromewebstore.google.com/detail/ifloeapglolidlgbfjnfidpnpnobddof]
+  [![Lichess Puzzle Timer][logo-link]][download-link]
 
   <h3>Lichess Puzzle Timer</h3>
 
@@ -53,6 +53,7 @@ See the [LICENSE](./LICENSE) file for details.
 [license-link]:       https://github.com/el-tecson/lichess-puzzle-timer/blob/main/LICENSE
 [release-link]:       https://github.com/el-tecson/lichess-puzzle-timer/releases/latest
 [download-link]:      https://chromewebstore.google.com/detail/ifloeapglolidlgbfjnfidpnpnobddof
+[logo-link]:          ./public/images/lptimer-128.png
 
 [commits-badge]:      https://img.shields.io/github/commits-since/el-tecson/lichess-puzzle-timer/latest?style=for-the-badge
 [license-badge]:      https://img.shields.io/github/license/el-tecson/lichess-puzzle-timer?style=for-the-badge&label=license&color=success
