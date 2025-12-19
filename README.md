@@ -58,4 +58,4 @@ See the [LICENSE](./LICENSE) file for details.
 [commits-badge]:      https://img.shields.io/github/commits-since/el-tecson/lichess-puzzle-timer/latest?style=for-the-badge
 [license-badge]:      https://img.shields.io/github/license/el-tecson/lichess-puzzle-timer?style=for-the-badge&label=license&color=success
 [release-badge]:      https://img.shields.io/github/v/release/el-tecson/lichess-puzzle-timer?style=for-the-badge&label=official%20release
-[download-badge]:      https://img.shields.io/website?style=for-the-badge&down_color=red&down_message=Not Found&label=chrome%20extension&up_color=success&up_message=Download&url=https%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fifloeapglolidlgbfjnfidpnpnobddof
+[download-badge]:      https://img.shields.io/website?style=for-the-badge&down_color=red&down_message=Not%20Found&label=chrome%20extension&up_color=success&up_message=Download&url=https%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fifloeapglolidlgbfjnfidpnpnobddof
