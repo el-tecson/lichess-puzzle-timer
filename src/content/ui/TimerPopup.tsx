@@ -161,12 +161,10 @@ export default function TimerPopup() {
                         //     host?.shadowRoot?.querySelector('.big-time')?.textContent ?? '00:00:00';
                         // const smallTime =
                         //     host?.shadowRoot?.querySelector('.small-time')?.textContent ?? ':00';
-                        if (
-                            settings.preferencesSettings.alertWhenSolved &&
-                            hasStartedRef.current
-                        ) {
+                        if (hasStartedRef.current) {
                             addSolved();
-                            playAudio(SolvedBeep);
+                            if (settings.preferencesSettings.alertWhenSolved)
+                                playAudio(SolvedBeep);
                             if (settings.preferencesSettings.showVisualPuzzleSolved)
                                 setTimeColor('var(--good-color)', 'bold');
                         }
