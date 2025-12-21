@@ -1,4 +1,4 @@
-import type { AnalyticsData } from "@/types/analytics";
+import type { AnalyticsData } from '@/types/analytics';
 
 export default function getAnalytics(): Promise<AnalyticsData> {
     return new Promise((resolve) => {

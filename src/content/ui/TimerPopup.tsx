@@ -156,11 +156,6 @@ export default function TimerPopup() {
                     if (voteBtn || continueBtn) {
                         clearInterval(interval);
                         puzzleEndObserver?.disconnect();
-                        // const host = document.getElementById('lptimer-shadow-host');
-                        // const bigTime =
-                        //     host?.shadowRoot?.querySelector('.big-time')?.textContent ?? '00:00:00';
-                        // const smallTime =
-                        //     host?.shadowRoot?.querySelector('.small-time')?.textContent ?? ':00';
                         if (hasStartedRef.current) {
                             addSolved();
                             if (settings.preferencesSettings.alertWhenSolved)

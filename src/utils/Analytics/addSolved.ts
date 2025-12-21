@@ -1,4 +1,4 @@
-import getAnalytics from "./getAnalytics";
+import getAnalytics from './getAnalytics';
 
 export default async function addSolved() {
     const analytics = await getAnalytics();
@@ -7,7 +7,7 @@ export default async function addSolved() {
         data: {
             ...analytics,
             solved: analytics.solved! + 1,
-            totalPuzzles: analytics.totalPuzzles + 1
-        }
+            totalPuzzles: analytics.totalPuzzles + 1,
+        },
     });
 }
