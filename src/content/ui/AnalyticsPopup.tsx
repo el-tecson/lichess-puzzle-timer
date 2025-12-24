@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import getConfig from '@/utils/Settings/getConfig';
-import { CONFIG, DEFAULT_POSITION } from '@/constants';
+import { ANALYTICS_CONFIG, CONFIG, DEFAULT_POSITION } from '@/constants';
 import getAnalytics from '@/utils/Analytics/getAnalytics';
 import Section from '@/components/Section';
 import type { AnalyticsData } from '@/types/analytics';
@@ -21,19 +21,21 @@ export default function AnalyticsPopup() {
 
     useEffect(() => {
         (async () => {
-            const newAnalyticsData = await getAnalytics();
-            setAnalyticsData(newAnalyticsData);
+            const analyticsConfig = await getAnalytics();
+            setAnalyticsData(analyticsConfig);
         })();
 
-        const handleChange = async (msg: Record<string, any>) => {
-            if (msg.action === 'analyticsUpdated') {
-                const newAnalyticsData = await getAnalytics();
-                setAnalyticsData(newAnalyticsData);
+        const handleChange = (
+            changes: Record<string, chrome.storage.StorageChange>,
+            areaName: string,
+        ) => {
+            if (areaName === 'local' && changes[ANALYTICS_CONFIG]) {
+                setAnalyticsData(changes[ANALYTICS_CONFIG]?.newValue);
             }
         };
 
-        chrome.runtime.onMessage.addListener(handleChange);
-        return () => chrome.runtime.onMessage.removeListener(handleChange);
+        chrome.storage.onChanged.addListener(handleChange);
+        return () => chrome.storage.onChanged.removeListener(handleChange);
     }, []);
 
     useEffect(() => {
@@ -78,8 +80,7 @@ export default function AnalyticsPopup() {
                     className="analytics"
                 >
                     <p className="stats">
-                        Total Puzzles:
-                        <span className="user-data">
+                        Total Puzzles: <span className="user-data">
                             {analyticsData.totalPuzzles}
                         </span>
                     </p>

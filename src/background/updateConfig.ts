@@ -1,6 +1,7 @@
 import getConfig from '@/utils/Settings/getConfig';
 import default_config from '@/configs/default_config.json';
 import { set } from '@/utils/storage';
+import setAnalytics from '@/utils/Analytics/setAnalytics';
 
 type Config = typeof default_config;
 
@@ -39,6 +40,11 @@ async function updateConfig() {
     const userConfig: Partial<Config> = await getConfig();
     const updatedConfig = mergeConfig(default_config, userConfig);
     await set('config', updatedConfig);
+    await setAnalytics({
+        totalPuzzles: 0,
+        solved: 0,
+        unsolved: 0,
+    });
 }
 
 updateConfig();

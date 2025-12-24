@@ -94,7 +94,9 @@ export default function TimerPopup() {
                 if (next === 0) {
                     clearInterval(intervalRef.current!);
                     hasStartedRef.current = false;
-                    addUnsolved();
+                    if (settings?.preferencesSettings?.showAnalyticsPopup) {
+                        addUnsolved();
+                    }
                     if (settings?.preferencesSettings?.showVisualLowTime)
                         setTimeColor('var(--bad-color)', 'bold');
                     if (settings?.preferencesSettings?.alertWhenTimerIsZero) playAudio(WrongBeep);
@@ -156,8 +158,12 @@ export default function TimerPopup() {
                     if (voteBtn || continueBtn) {
                         clearInterval(interval);
                         puzzleEndObserver?.disconnect();
+                        console.log("tick");
                         if (hasStartedRef.current) {
-                            addSolved();
+                            hasStartedRef.current = false;
+                            if (settings.preferencesSettings.showAnalyticsPopup) {
+                                addSolved();
+                            }
                             if (settings.preferencesSettings.alertWhenSolved)
                                 playAudio(SolvedBeep);
                             if (settings.preferencesSettings.showVisualPuzzleSolved)
@@ -196,6 +202,7 @@ export default function TimerPopup() {
 
                                 if (newPuzzleReady) {
                                     clearInterval(waitForNextPuzzle);
+                                    hasStartedRef.current = true;
 
                                     // Reset timer safely after next puzzle loads
                                     setCurrentTime(initialTime);
@@ -208,7 +215,7 @@ export default function TimerPopup() {
                             }, 300);
                         }, delay);
                     }
-                }, 10);
+                }, 100);
             });
 
             puzzleEndObserver.observe(document.body, { childList: true, subtree: true });

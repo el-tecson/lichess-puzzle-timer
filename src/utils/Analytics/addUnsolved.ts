@@ -1,13 +1,12 @@
-import getAnalytics from './getAnalytics';
+import getAnalytics from "./getAnalytics";
+import setAnalytics from "./setAnalytics";
 
 export default async function addUnsolved() {
     const analytics = await getAnalytics();
-    chrome.runtime.sendMessage({
-        action: 'updateAnalytics',
-        data: {
-            ...analytics,
-            unsolved: analytics.unsolved! + 1,
-            totalPuzzles: analytics.totalPuzzles + 1,
-        },
-    });
+    await setAnalytics({
+        totalPuzzles: analytics.totalPuzzles + 1,
+        solved : analytics.solved,
+        unsolved: analytics.unsolved + 1
+    })
 }
+
