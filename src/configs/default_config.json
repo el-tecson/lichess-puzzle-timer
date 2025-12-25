@@ -15,6 +15,7 @@
         "enableTimer": true,
         "showAnalyticsPopup": true,
         "showSkipIndicator": true,
+        "enableSounds": true,
         "alertWhenTimerIsZero": true,
         "alertWhenNextPuzzle": true,
         "alertWhenTimeShort": true,
@@ -22,6 +23,7 @@
         "alertButtonClicks": true,
         "showTimer": true,
         "showTimerButtons": true,
+        "enableVisuals": true,
         "showVisualLowTime": true,
         "showVisualPuzzleSolved": true
     }

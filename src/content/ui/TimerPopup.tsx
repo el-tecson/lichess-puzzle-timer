@@ -100,9 +100,16 @@ export default function TimerPopup() {
                     if (settings?.preferencesSettings?.showAnalyticsPopup) {
                         addUnsolved();
                     }
-                    if (settings?.preferencesSettings?.showVisualLowTime)
+                    if (
+                        settings?.preferencesSettings?.enableVisuals &&
+                        settings?.preferencesSettings?.showVisualLowTime
+                    )
                         setTimeColor('var(--bad-color)', 'bold');
-                    if (settings?.preferencesSettings?.alertWhenTimerIsZero) playAudio(WrongBeep);
+                    if (
+                        settings?.preferencesSettings?.enableSounds &&
+                        settings?.preferencesSettings?.alertWhenTimerIsZero
+                    )
+                        playAudio(WrongBeep);
                     if (settings?.preferencesSettings.showSkipIndicator) {
                         showSkipIndicator();
                         const countdown = setInterval(() => {
@@ -140,14 +147,16 @@ export default function TimerPopup() {
                                 setSkipCountdown,
                                 settings.behaviorSettings.countdownBeforeSkippingNum,
                                 settings.preferencesSettings.showSkipIndicator,
+                                settings.preferencesSettings.enableSounds,
+                                settings.preferencesSettings.enableVisuals,
                             );
                         });
                     }
                 }
 
-                if (next === 3000 && settings?.preferencesSettings?.alertWhenTimeShort)
+                if (next === 3000 && settings?.preferencesSettings?.enableSounds && settings?.preferencesSettings?.alertWhenTimeShort)
                     playAudio(TickTock);
-                if (next === 3000 && settings?.preferencesSettings?.showVisualLowTime)
+                if (next === 3000 && settings?.preferencesSettings?.enableVisuals && settings?.preferencesSettings?.showVisualLowTime)
                     setTimeColor('var(--bad-color)', 'bold', 'var(--ticking-animation)');
                 return next;
             });
@@ -183,9 +192,15 @@ export default function TimerPopup() {
                             if (settings.preferencesSettings.showAnalyticsPopup) {
                                 addSolved();
                             }
-                            if (settings.preferencesSettings.alertWhenSolved)
+                            if (
+                                settings.preferencesSettings.enableSounds &&
+                                settings.preferencesSettings.alertWhenSolved
+                            )
                                 playAudio(SolvedBeep);
-                            if (settings.preferencesSettings.showVisualPuzzleSolved)
+                            if (
+                                settings.preferencesSettings.enableVisuals &&
+                                settings.preferencesSettings.showVisualPuzzleSolved
+                            )
                                 setTimeColor('var(--good-color)', 'bold');
                             if (settings.preferencesSettings.showSkipIndicator) {
                                 showSkipIndicator();
@@ -243,9 +258,15 @@ export default function TimerPopup() {
                                     // Reset timer safely after next puzzle loads
                                     setCurrentTime(initialTime);
                                     setRunning(true);
-                                    if (settings.preferencesSettings.alertWhenNextPuzzle)
+                                    if (
+                                        settings.preferencesSettings.enableSounds &&
+                                        settings.preferencesSettings.alertWhenNextPuzzle
+                                    )
                                         playAudio(NextBeep);
-                                    if (settings.preferencesSettings.showVisualLowTime)
+                                    if (
+                                        settings.preferencesSettings.enableVisuals &&
+                                        settings.preferencesSettings.showVisualLowTime
+                                    )
                                         setTimeColor('var(--text-color)');
                                 }
                             }, 300);
@@ -301,7 +322,10 @@ export default function TimerPopup() {
                                 onMouseUp={() =>
                                     click(() => {
                                         unlockAudio();
-                                        if (settings.preferencesSettings.alertButtonClicks)
+                                        if (
+                                            settings.preferencesSettings.enableSounds &&
+                                            settings.preferencesSettings.alertButtonClicks
+                                        )
                                             playAudio(NextBeep);
                                         setRunning(!running);
                                         hasStartedRef.current = true;
@@ -321,7 +345,10 @@ export default function TimerPopup() {
                                         setRunning(false);
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
-                                        if (settings.preferencesSettings.alertButtonClicks)
+                                        if (
+                                            settings.preferencesSettings.enableSounds &&
+                                            settings.preferencesSettings.alertButtonClicks
+                                        )
                                             playAudio(NextBeep);
                                     })
                                 }
@@ -336,7 +363,10 @@ export default function TimerPopup() {
                                     click(() => {
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
-                                        if (settings.preferencesSettings.alertButtonClicks)
+                                        if (
+                                            settings.preferencesSettings.enableSounds &&
+                                            settings.preferencesSettings.alertButtonClicks
+                                        )
                                             playAudio(NextBeep);
                                     })
                                 }
@@ -348,7 +378,10 @@ export default function TimerPopup() {
                                 onMouseUp={() =>
                                     click(() => {
                                         setRunning(false);
-                                        if (settings.preferencesSettings.alertButtonClicks)
+                                        if (
+                                            settings.preferencesSettings.enableSounds &&
+                                            settings.preferencesSettings.alertButtonClicks
+                                        )
                                             playAudio(NextBeep);
                                         chrome.runtime.sendMessage({ action: 'openSettings' });
                                     })
@@ -405,6 +438,8 @@ function timerEnd(
     setSkipCountdown: any,
     defaultSkipCountdown: number,
     showSkipIndicator: boolean,
+    allowAudio: boolean,
+    allowVisuals: boolean,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -426,8 +461,8 @@ function timerEnd(
                         hideSkipIndicator();
                     }
                     hasStarted.current = true;
-                    if (showVisual) setTimeColor('var(--text-color)');
-                    if (playTheAudio) playAudio(NextBeep);
+                    if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
+                    if (allowAudio && playTheAudio) playAudio(NextBeep);
                 }, delaySeconds * 1000);
             });
 
@@ -445,8 +480,8 @@ function timerEnd(
                         hideSkipIndicator();
                     }
                     hasStarted.current = true;
-                    if (showVisual) setTimeColor('var(--text-color)');
-                    if (playTheAudio) playAudio(NextBeep);
+                    if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
+                    if (allowAudio && playTheAudio) playAudio(NextBeep);
                 }, delaySeconds * 1000);
             });
         });

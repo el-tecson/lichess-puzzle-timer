@@ -44,11 +44,6 @@ export function PreferencesPanel() {
         <TabPanel>
             <p className="panel-name">Preferences</p>
             <div className="part">
-                <Checkbox
-                    initialState={settings.preferencesSettings?.showSmallPopup}
-                    configName="showSmallPopup"
-                    text="Show small popup icon."
-                />
                 <Associated>
                     <Switch
                         initialState={settings.preferencesSettings?.enableTimer}
@@ -66,34 +61,63 @@ export function PreferencesPanel() {
                         text="Show skip countdown."
                     />
                 </Associated>
+                <Checkbox
+                    initialState={settings.preferencesSettings?.showSmallPopup}
+                    configName="showSmallPopup"
+                    text="Show small popup icon."
+                />
                 <Section sectionName="Sound">
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.alertWhenTimerIsZero}
-                        configName="alertWhenTimerIsZero"
-                        text="Alert when timer has reached 0."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.alertWhenNextPuzzle}
-                        configName="alertWhenNextPuzzle"
-                        text="Alert when moving on to next puzzle."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.alertWhenTimeShort}
-                        configName="alertWhenTimeShort"
-                        text="Alert when timer has less than 3 seconds left."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.alertWhenSolved}
-                        configName="alertWhenSolved"
-                        text="Alert when puzzle had been solved."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.alertButtonClicks}
-                        configName="alertButtonClicks"
-                        text="Show sound when clicking timer buttons."
-                    />
+                    <Associated>
+                        <Switch
+                            initialState={settings.preferencesSettings?.enableSounds}
+                            configName="enableSounds"
+                            text="Enable sounds."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.alertWhenTimerIsZero}
+                            configName="alertWhenTimerIsZero"
+                            text="Alert when timer has reached 0."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.alertWhenNextPuzzle}
+                            configName="alertWhenNextPuzzle"
+                            text="Alert when moving on to next puzzle."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.alertWhenTimeShort}
+                            configName="alertWhenTimeShort"
+                            text="Alert when timer has less than 3 seconds left."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.alertWhenSolved}
+                            configName="alertWhenSolved"
+                            text="Alert when puzzle had been solved."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.alertButtonClicks}
+                            configName="alertButtonClicks"
+                            text="Show sound when clicking timer buttons."
+                        />
+                    </Associated>
                 </Section>
                 <Section sectionName="Timer">
+                    <Associated>
+                        <Switch
+                            initialState={settings.preferencesSettings?.enableVisuals}
+                            configName="enableVisuals"
+                            text="Enable visuals."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.showVisualLowTime}
+                            configName="showVisualLowTime"
+                            text="Show visual change when time is low."
+                        />
+                        <Checkbox
+                            initialState={settings.preferencesSettings?.showVisualPuzzleSolved}
+                            configName="showVisualPuzzleSolved"
+                            text="Show visual change when puzzle is solved."
+                        />
+                    </Associated>
                     <Checkbox
                         initialState={settings.preferencesSettings?.showTimer}
                         configName="showTimer"
@@ -103,16 +127,6 @@ export function PreferencesPanel() {
                         initialState={settings.preferencesSettings?.showTimerButtons}
                         configName="showTimerButtons"
                         text="Show buttons beside puzzle timer."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.showVisualLowTime}
-                        configName="showVisualLowTime"
-                        text="Show visual change when time is low."
-                    />
-                    <Checkbox
-                        initialState={settings.preferencesSettings?.showVisualPuzzleSolved}
-                        configName="showVisualPuzzleSolved"
-                        text="Show visual change when puzzle is solved."
                     />
                 </Section>
             </div>
