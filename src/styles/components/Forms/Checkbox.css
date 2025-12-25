@@ -42,4 +42,5 @@
 
 .check-icon {
     color: var(--good-color);
+    fill: var(--good-color);
 }
