@@ -39,3 +39,7 @@
     max-width: 32px;
     max-height: 32px;
 }
+
+.check-icon {
+    color: var(--good-color);
+}

@@ -12,6 +12,10 @@
     width: fit-content;
 }
 
+.circle-icon {
+    color: var(--good-color);
+}
+
 .circle-icon-container {
     padding: 0.5rem;
     border-radius: 1rem;
