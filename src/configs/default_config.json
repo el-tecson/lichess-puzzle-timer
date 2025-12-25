@@ -12,7 +12,9 @@
     },
     "preferencesSettings": {
         "showSmallPopup": true,
+        "enableTimer": true,
         "showAnalyticsPopup": true,
+        "showSkipIndicator": true,
         "alertWhenTimerIsZero": true,
         "alertWhenNextPuzzle": true,
         "alertWhenTimeShort": true,

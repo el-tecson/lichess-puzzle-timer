@@ -158,7 +158,6 @@ export default function TimerPopup() {
                     if (voteBtn || continueBtn) {
                         clearInterval(interval);
                         puzzleEndObserver?.disconnect();
-                        console.log("tick");
                         if (hasStartedRef.current) {
                             hasStartedRef.current = false;
                             if (settings.preferencesSettings.showAnalyticsPopup) {

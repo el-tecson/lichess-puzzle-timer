@@ -11,6 +11,7 @@ import getConfig from '@/utils/Settings/getConfig';
 import { CONFIG } from '@/constants';
 import Associated from '@/components/Associated';
 import Section from '@/components/Section';
+import { Switch } from './CustomComponents/PreferencesComponents';
 
 export function BehaviorTab() {
     return (
@@ -49,6 +50,11 @@ export function BehaviorPanel() {
         <TabPanel>
             <p className="panel-name">Behavior</p>
             <div className="part">
+                <Switch
+                    initialState={settings.preferencesSettings?.enableTimer}
+                    configName="enableTimer"
+                    text="Enable timer."
+                />
                 <Associated>
                     <Checkbox
                         initialState={settings.behaviorSettings?.skipToNextPuzzle}

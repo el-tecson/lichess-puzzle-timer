@@ -16,7 +16,7 @@
         padding 150ms ease;
 }
 
-.associated > :first-child:not(:has(.checkbox[data-checked])) ~ :not(:first-child) {
+.associated > :first-child:not(:has([data-checked])) ~ :not(:first-child) {
     opacity: 0;
     transform: translateY(-4px) scale(0.95);
     margin: 0;

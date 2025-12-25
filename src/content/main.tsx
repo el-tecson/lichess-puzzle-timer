@@ -86,8 +86,11 @@ async function injectShadowDOM() {
     root.render(
         isPuzzlePage() ? (
             <>
-                <TimerPopup />
-                {config.preferencesSettings?.showAnalyticsPopup && <AnalyticsPopup />}
+                {config.preferencesSettings?.enableTimer && <TimerPopup />}
+                {
+                    (config.preferencesSettings?.enableTimer && config.preferencesSettings?.showAnalyticsPopup)
+                    && <AnalyticsPopup />
+                }
             </>
         ) : config.preferencesSettings?.showSmallPopup ? (
             <MemoryRouter>

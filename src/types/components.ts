@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 export type CheckboxProps = {
     className?: string;
     initialState: boolean;
@@ -56,5 +54,14 @@ export type ColorPickerProps = {
     configName: string;
     storageFunction: Function;
     label: string;
+    [key: string]: any;
+};
+
+export type SwitchProps = {
+    className?: string;
+    initialState: boolean;
+    configName: string;
+    text?: string;
+    storageFunction: Function;
     [key: string]: any;
 };

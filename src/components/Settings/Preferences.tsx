@@ -3,8 +3,9 @@ import getConfig from '@/utils/Settings/getConfig';
 import { CONFIG } from '@/constants';
 import { Tab, TabPanel } from '@/components/Tabs';
 import PreferencesIcon from '@/assets/preferences.svg?react';
-import { Checkbox } from '@/components/Settings/CustomComponents/PreferencesComponents';
+import { Checkbox, Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 import Section from '@/components/Section';
+import Associated from '../Associated';
 
 export function PreferencesTab() {
     return (
@@ -48,11 +49,23 @@ export function PreferencesPanel() {
                     configName="showSmallPopup"
                     text="Show small popup icon."
                 />
-                <Checkbox
-                    initialState={settings.preferencesSettings?.showAnalyticsPopup}
-                    configName="showAnalyticsPopup"
-                    text="Show analytics popup."
-                />
+                <Associated>
+                    <Switch
+                        initialState={settings.preferencesSettings?.enableTimer}
+                        configName="enableTimer"
+                        text="Enable timer."
+                    />
+                    <Checkbox
+                        initialState={settings.preferencesSettings?.showAnalyticsPopup}
+                        configName="showAnalyticsPopup"
+                        text="Show analytics popup."
+                    />
+                    <Checkbox
+                        initialState={settings.preferencesSettings?.showSkipIndicator}
+                        configName="showSkipIndicator"
+                        text="Show skip countdown."
+                    />
+                </Associated>
                 <Section sectionName="Sound">
                     <Checkbox
                         initialState={settings.preferencesSettings?.alertWhenTimerIsZero}

@@ -16,6 +16,7 @@ import {
     Radio,
     TimePicker,
 } from '@/components/Settings/CustomComponents/BehaviorComponents';
+import { Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 
 export default function SmallPopup() {
     const nodeRef = useRef<HTMLDivElement>(null);
@@ -81,6 +82,11 @@ export default function SmallPopup() {
                             </div>
                         </div>
                         <div className="part">
+                            <Switch
+                                initialState={settings.preferencesSettings?.enableTimer}
+                                configName="enableTimer"
+                                text="Enable timer."
+                            />
                             <Associated>
                                 <Checkbox
                                     initialState={settings.behaviorSettings?.skipToNextPuzzle}
