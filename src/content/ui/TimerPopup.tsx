@@ -17,6 +17,8 @@ import playAudio, { unlockAudio } from '@/utils/playAudio';
 import setTimeColor from '@/utils/dom/setTimeColor';
 import addUnsolved from '@/utils/Analytics/addUnsolved';
 import addSolved from '@/utils/Analytics/addSolved';
+import hideSkipIndicator from '@/utils/dom/hideSkipIndicator';
+import showSkipIndicator from '@/utils/dom/showSkipIndicator';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -48,6 +50,7 @@ export default function TimerPopup() {
     const [running, setRunning] = useState(false);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const hasStartedRef = useRef(false);
+    const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
 
     // Load config
     useEffect(() => {
@@ -100,6 +103,20 @@ export default function TimerPopup() {
                     if (settings?.preferencesSettings?.showVisualLowTime)
                         setTimeColor('var(--bad-color)', 'bold');
                     if (settings?.preferencesSettings?.alertWhenTimerIsZero) playAudio(WrongBeep);
+                    if (settings?.preferencesSettings.showSkipIndicator) {
+                        showSkipIndicator();
+                        const countdown = setInterval(() => {
+                            setSkipCountdown(prev => {
+                                if (prev === null || prev <= 0) {
+                                    clearInterval(countdown);
+                                    return prev;
+                                }
+                                if (prev - 1 === 0) clearInterval(countdown);
+                                return prev - 1;
+                            });
+                        }, 1000);
+                    }
+                    
                     setRunning(false);
 
                     if (
@@ -120,6 +137,9 @@ export default function TimerPopup() {
                                 settings.preferencesSettings.alertWhenNextPuzzle,
                                 settings.preferencesSettings.showVisualLowTime,
                                 hasStartedRef,
+                                setSkipCountdown,
+                                settings.behaviorSettings.countdownBeforeSkippingNum,
+                                settings.preferencesSettings.showSkipIndicator,
                             );
                         });
                     }
@@ -167,6 +187,19 @@ export default function TimerPopup() {
                                 playAudio(SolvedBeep);
                             if (settings.preferencesSettings.showVisualPuzzleSolved)
                                 setTimeColor('var(--good-color)', 'bold');
+                            if (settings.preferencesSettings.showSkipIndicator) {
+                                showSkipIndicator();
+                                const countdown = setInterval(() => {
+                                    setSkipCountdown(prev => {
+                                        if (prev === null || prev <= 0) {
+                                            clearInterval(countdown);
+                                            return prev;
+                                        }
+                                        if (prev - 1 === 0) clearInterval(countdown);
+                                        return prev - 1;
+                                    });
+                                }, 1000);
+                            }
                         }
                         setRunning(false);
 
@@ -202,6 +235,10 @@ export default function TimerPopup() {
                                 if (newPuzzleReady) {
                                     clearInterval(waitForNextPuzzle);
                                     hasStartedRef.current = true;
+                                    if (settings.preferencesSettings.showSkipIndicator) {
+                                        setSkipCountdown(settings.behaviorSettings.countdownBeforeSkippingNum);
+                                        hideSkipIndicator();
+                                    }
 
                                     // Reset timer safely after next puzzle loads
                                     setCurrentTime(initialTime);
@@ -223,7 +260,13 @@ export default function TimerPopup() {
         }
     }, [running, settings, initialTime]);
 
+    useEffect(() => {
+        setSkipCountdown(settings?.behaviorSettings?.countdownBeforeSkippingNum);
+    }, [settings]);
+
     if (!settings) return null;
+
+    if (skipCountdown === null) return null;
 
     return (
         <Draggable
@@ -316,6 +359,11 @@ export default function TimerPopup() {
                         </div>
                     </div>
                 )}
+                {settings.preferencesSettings?.showSkipIndicator && (
+                    <p className="skip-indicator noselect" hidden>
+                        {(skipCountdown === 0) ? "Skipping..." : `Skipping in ${skipCountdown}...`}
+                    </p>
+                )}
             </div>
         </Draggable>
     );
@@ -354,6 +402,9 @@ function timerEnd(
     playTheAudio: boolean,
     showVisual: boolean,
     hasStarted: any,
+    setSkipCountdown: any,
+    defaultSkipCountdown: number,
+    showSkipIndicator: boolean,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -370,6 +421,10 @@ function timerEnd(
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    if (showSkipIndicator) {
+                        setSkipCountdown(defaultSkipCountdown);
+                        hideSkipIndicator();
+                    }
                     hasStarted.current = true;
                     if (showVisual) setTimeColor('var(--text-color)');
                     if (playTheAudio) playAudio(NextBeep);
@@ -385,6 +440,10 @@ function timerEnd(
                     // Step 4: Reset timer safely
                     setCurrentTime(initialTime);
                     setRunning(true);
+                    if (showSkipIndicator) {
+                        setSkipCountdown(defaultSkipCountdown);
+                        hideSkipIndicator();
+                    }
                     hasStarted.current = true;
                     if (showVisual) setTimeColor('var(--text-color)');
                     if (playTheAudio) playAudio(NextBeep);

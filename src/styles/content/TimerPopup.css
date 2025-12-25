@@ -10,6 +10,7 @@
     background-color: var(--background-color);
     border-radius: 8px;
     box-shadow: var(--popup-shadow);
+    position: relative;
 }
 
 .timer {
@@ -97,4 +98,13 @@
     100% {
         transform: scale(1);
     }
+}
+
+.skip-indicator {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    opacity: 50%;
+    color: var(--text-color);
+    bottom: 4px;
 }
