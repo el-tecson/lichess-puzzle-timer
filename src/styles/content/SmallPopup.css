@@ -151,3 +151,11 @@
 .switch[data-checked] .switch-icon {
     transform: translateX(1.5rem);
 }
+
+.listbox {
+    gap: 10px;
+}
+
+.listbox-button {
+    gap: 5px;
+}

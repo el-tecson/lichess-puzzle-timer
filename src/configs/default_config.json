@@ -2,10 +2,7 @@
     "behaviorSettings": {
         "skipToNextPuzzle": true,
         "countdownBeforeSkipping": true,
-        "countdownBeforeSkippingNum": 3,
-        "timerType": "0",
-        "timeControl0": "00:01:30",
-        "timeControl1": "00:10:00"
+        "currentTimePreset": "3NORMAL"
     },
     "customizationSettings": {
         "currentCustomsName": "dark_custom"

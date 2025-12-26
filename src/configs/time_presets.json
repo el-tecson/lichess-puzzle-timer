@@ -1,0 +1,44 @@
+{
+    "1VERY_FAST": {
+        "textLabel": "Very Fast",
+        "countdownBeforeSkippingNum": 3,
+        "timerType": "0",
+        "timeControl0": "00:00:10",
+        "timeControl1": "00:10:00"
+    },
+    "2FAST": {
+        "textLabel": "Fast",
+        "countdownBeforeSkippingNum": 3,
+        "timerType": "0",
+        "timeControl0": "00:00:20",
+        "timeControl1": "00:10:00"
+    },
+    "3NORMAL": {
+        "textLabel": "Normal",
+        "countdownBeforeSkippingNum": 3,
+        "timerType": "0",
+        "timeControl0": "00:01:00",
+        "timeControl1": "00:10:00"
+    },
+    "4SLOW": {
+        "textLabel": "Slow",
+        "countdownBeforeSkippingNum": 5,
+        "timerType": "0",
+        "timeControl0": "00:02:00",
+        "timeControl1": "00:10:00"
+    },
+    "5VERY_SLOW": {
+        "textLabel": "Very Slow",
+        "countdownBeforeSkippingNum": 15,
+        "timerType": "0",
+        "timeControl0": "00:05:00",
+        "timeControl1": "00:10:00"
+    },
+    "6CUSTOM": {
+        "textLabel": "Custom",
+        "countdownBeforeSkippingNum": 3,
+        "timerType": "0",
+        "timeControl0": "00:01:30",
+        "timeControl1": "00:10:00"
+    }
+}

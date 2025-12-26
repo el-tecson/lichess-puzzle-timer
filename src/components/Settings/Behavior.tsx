@@ -4,14 +4,16 @@ import ComputerIcon from '@/assets/computer.svg?react';
 import {
     Checkbox,
     Input,
+    Listbox,
     Radio,
     TimePicker,
 } from '@/components/Settings/CustomComponents/BehaviorComponents';
 import getConfig from '@/utils/Settings/getConfig';
-import { CONFIG } from '@/constants';
+import { CONFIG, TIME_PRESETS } from '@/constants';
 import Associated from '@/components/Associated';
 import Section from '@/components/Section';
 import { Switch } from './CustomComponents/PreferencesComponents';
+import getTimePresets from '@/utils/time-presets/getTimePresets';
 
 export function BehaviorTab() {
     return (
@@ -24,19 +26,27 @@ export function BehaviorTab() {
 
 export function BehaviorPanel() {
     const [settings, setSettings] = useState<Record<string, any> | null>(null);
+    const [timePresets, setTimePresets] = useState<Record<string, any> | null>(null);
+    const [activePreset, setActivePreset] = useState<{
+        name: string;
+        data: Record<string, any>;
+    } | null>(null);
 
     useEffect(() => {
         (async () => {
             const config = await getConfig();
             setSettings(config);
+            const timePresetsConfig = await getTimePresets();
+            setTimePresets(timePresetsConfig);
         })();
 
         const handleChange = (
             changes: Record<string, chrome.storage.StorageChange>,
             areaName: string,
         ) => {
-            if (areaName === 'local' && changes[CONFIG]) {
-                setSettings(changes[CONFIG]?.newValue);
+            if (areaName === 'local') {
+                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);
+                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue);
             }
         };
 
@@ -44,11 +54,27 @@ export function BehaviorPanel() {
         return () => chrome.storage.onChanged.removeListener(handleChange);
     }, []);
 
-    if (!settings) return null;
+    useEffect(() => {
+        if (!settings || !timePresets) return;
+
+        const currentName = settings.behaviorSettings?.currentTimePreset;
+        const data = timePresets[currentName] || {};
+
+        setActivePreset({ name: currentName, data });
+    }, [settings, timePresets]);
+
+    if (!settings || !activePreset) return;
 
     return (
         <TabPanel>
             <p className="panel-name">Behavior</p>
+            <Listbox
+                className="time-preset"
+                initialState={activePreset.name}
+                configName="currentTimePreset"
+                options={timePresets}
+                label="Preset:"
+            />
             <div className="part">
                 <Switch
                     initialState={settings.preferencesSettings?.enableTimer}
@@ -67,14 +93,15 @@ export function BehaviorPanel() {
                         text="Countdown before skipping:"
                     >
                         <Input
-                            initialState={settings.behaviorSettings?.countdownBeforeSkippingNum}
+                            key={activePreset.name}
+                            initialState={activePreset.data.countdownBeforeSkippingNum}
                             configName="countdownBeforeSkippingNum"
                         />
                     </Checkbox>
                 </Associated>
-                <Section sectionName="Timer">
+                <Section key={activePreset.name} sectionName="Timer">
                     <Radio
-                        initialState={settings.behaviorSettings.timerType}
+                        initialState={activePreset.data.timerType}
                         configName="timerType"
                         label="Type of timer"
                         options={[
@@ -88,16 +115,16 @@ export function BehaviorPanel() {
                             },
                         ]}
                     />
-                    {settings.behaviorSettings?.timerType === '0' && (
+                    {activePreset.data.timerType === '0' && (
                         <TimePicker
-                            initialState={settings.behaviorSettings?.timeControl0}
+                            initialState={activePreset.data.timeControl0}
                             configName="timeControl0"
                             label="Time Control"
                         />
                     )}
-                    {settings.behaviorSettings?.timerType === '1' && (
+                    {activePreset.data.timerType === '1' && (
                         <TimePicker
-                            initialState={settings.behaviorSettings?.timeControl1}
+                            initialState={activePreset.data.timeControl1}
                             configName="timeControl1"
                             label="Time Control"
                         />

@@ -1,7 +1,7 @@
 import PayPalIcon from '@/assets/paypal.svg?react';
 import Draggable from 'react-draggable';
 import { useRef, useEffect, useState } from 'react';
-import { DEFAULT_POSITION } from '@/constants';
+import { DEFAULT_POSITION, TIME_PRESETS } from '@/constants';
 import PopupIcon from '@/assets/lptimer-logo.svg?react';
 import WideLogo from '@/assets/lptimer-logo-wide.svg?react';
 import MinimizeIcon from '@/assets/minimize.svg?react';
@@ -13,10 +13,12 @@ import TimePickerCSS from '@/styles/components/Forms/TimePicker.css?inline';
 import {
     Checkbox,
     Input,
+    Listbox,
     Radio,
     TimePicker,
 } from '@/components/Settings/CustomComponents/BehaviorComponents';
 import { Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
+import getTimePresets from '@/utils/time-presets/getTimePresets';
 
 export default function SmallPopup() {
     const nodeRef = useRef<HTMLDivElement>(null);
@@ -29,19 +31,27 @@ export default function SmallPopup() {
     };
 
     const [settings, setSettings] = useState<Record<string, any> | null>(null);
+    const [timePresets, setTimePresets] = useState<Record<string, any> | null>(null);
+    const [activePreset, setActivePreset] = useState<{
+        name: string;
+        data: Record<string, any>;
+    } | null>(null);
 
     useEffect(() => {
         (async () => {
             const config = await getConfig();
             setSettings(config);
+            const timePresetsConfig = await getTimePresets();
+            setTimePresets(timePresetsConfig);
         })();
 
         const handleChange = (
             changes: Record<string, chrome.storage.StorageChange>,
             areaName: string,
         ) => {
-            if (areaName === 'local' && changes[CONFIG]) {
-                setSettings(changes[CONFIG]?.newValue);
+            if (areaName === 'local') {
+                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);
+                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue);
             }
         };
 
@@ -49,7 +59,16 @@ export default function SmallPopup() {
         return () => chrome.storage.onChanged.removeListener(handleChange);
     }, []);
 
-    if (!settings) return null;
+    useEffect(() => {
+        if (!settings || !timePresets) return;
+
+        const currentName = settings.behaviorSettings?.currentTimePreset;
+        const data = timePresets[currentName] || {};
+
+        setActivePreset({ name: currentName, data });
+    }, [settings, timePresets]);
+
+    if (!settings || !activePreset) return;
 
     return (
         <Draggable
@@ -81,6 +100,13 @@ export default function SmallPopup() {
                                 <MinimizeIcon />
                             </div>
                         </div>
+                        <Listbox
+                            className="time-preset"
+                            initialState={activePreset.name}
+                            configName="currentTimePreset"
+                            options={timePresets}
+                            label="Preset:"
+                        />
                         <div className="part">
                             <Switch
                                 initialState={settings.preferencesSettings?.enableTimer}
@@ -94,23 +120,20 @@ export default function SmallPopup() {
                                     text="Skip to next puzzle when timer hits 0."
                                 />
                                 <Checkbox
-                                    initialState={
-                                        settings.behaviorSettings?.countdownBeforeSkipping
-                                    }
+                                    initialState={settings.behaviorSettings?.countdownBeforeSkipping}
                                     configName="countdownBeforeSkipping"
                                     text="Countdown before skipping:"
                                 >
                                     <Input
-                                        initialState={
-                                            settings.behaviorSettings?.countdownBeforeSkippingNum
-                                        }
+                                        key={activePreset.name}
+                                        initialState={activePreset.data.countdownBeforeSkippingNum}
                                         configName="countdownBeforeSkippingNum"
                                     />
                                 </Checkbox>
                             </Associated>
-                            <Section sectionName="Timer">
+                            <Section key={activePreset.name} sectionName="Timer">
                                 <Radio
-                                    initialState={settings.behaviorSettings.timerType}
+                                    initialState={activePreset.data.timerType}
                                     configName="timerType"
                                     label="Type of timer"
                                     options={[
@@ -124,31 +147,21 @@ export default function SmallPopup() {
                                         },
                                     ]}
                                 />
-                                {settings.behaviorSettings?.timerType === '0' && (
+                                {activePreset.data.timerType === '0' && (
                                     <TimePicker
-                                        initialState={settings.behaviorSettings?.timeControl0}
+                                        initialState={activePreset.data.timeControl0}
                                         configName="timeControl0"
                                         label="Time Control"
-                                        onClick={addTimePickerCSS}
                                     />
                                 )}
-                                {settings.behaviorSettings?.timerType === '1' && (
+                                {activePreset.data.timerType === '1' && (
                                     <TimePicker
-                                        initialState={settings.behaviorSettings?.timeControl1}
+                                        initialState={activePreset.data.timeControl1}
                                         configName="timeControl1"
                                         label="Time Control"
-                                        onClick={addTimePickerCSS}
                                     />
                                 )}
                             </Section>
-                            <button
-                                className="btn"
-                                id="donateBtn"
-                                onClick={() => click(openPayPal)}
-                            >
-                                <PayPalIcon />
-                                <span className="btn-text">Support me on PayPal</span>
-                            </button>
                         </div>
                     </div>
                 )}

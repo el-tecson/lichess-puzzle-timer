@@ -37,7 +37,7 @@ export default function Listbox({
                     <p className="listbox-selected">{options[selected]?.textLabel}</p>
                     <DropdownArrow className="dropdown-arrow-icon" aria-hidden="true" />
                 </ListboxButton>
-                <ListboxOptions anchor="bottom" transition className="listbox-options">
+                <ListboxOptions anchor="bottom" transition className={`listbox-options ${className}`}>
                     {Object.entries(options).map(([key, value]) => (
                         <ListboxOption key={key} value={key} className="listbox-option">
                             {value.textLabel}

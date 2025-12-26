@@ -2,11 +2,13 @@ import {
     Input as CustomInput,
     Radio as CustomRadio,
     TimePicker as CustomTimePicker,
+    Listbox as CustomListbox
 } from '@/components/Forms';
 import { Checkbox as CustomCheckbox } from '@/components/Templates';
 import changeBehaviorSettings from '@/utils/Settings/behavior';
-import type { InputProps, RadioProps, TimePickerProps } from '@/types/components';
+import type { InputProps, ListboxProps, RadioProps, TimePickerProps } from '@/types/components';
 import type { CheckboxProps } from '@/types/templates';
+import { changeTimePresets } from '@/utils/time-presets/changeTimePresets';
 
 export function Checkbox({
     initialState,
@@ -28,7 +30,7 @@ export function Input({ initialState, configName, ...props }: Omit<InputProps, '
         <CustomInput
             initialState={initialState}
             configName={configName}
-            storageFunction={changeBehaviorSettings}
+            storageFunction={changeTimePresets}
             {...props}
         />
     );
@@ -47,7 +49,7 @@ export function Radio({
             configName={configName}
             options={options}
             label={label}
-            storageFunction={changeBehaviorSettings}
+            storageFunction={changeTimePresets}
             {...props}
         />
     );
@@ -64,7 +66,27 @@ export function TimePicker({
             initialState={initialState}
             configName={configName}
             label={label}
+            storageFunction={changeTimePresets}
+            {...props}
+        />
+    );
+}
+
+export function Listbox({
+    initialState,
+    configName,
+    storageFunction,
+    options,
+    label,
+    ...props
+}: Omit<ListboxProps, 'storageFunction'>) {
+    return (
+        <CustomListbox
+            initialState={initialState}
+            configName={configName}
             storageFunction={changeBehaviorSettings}
+            options={options}
+            label={label}
             {...props}
         />
     );

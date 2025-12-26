@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import getConfig from '@/utils/Settings/getConfig';
 import Draggable from 'react-draggable';
-import { DEFAULT_POSITION, CONFIG } from '@/constants';
+import { DEFAULT_POSITION, CONFIG, TIME_PRESETS } from '@/constants';
 import PlayIcon from '@/assets/play.svg?react';
 import PauseIcon from '@/assets/pause.svg?react';
 import CancelIcon from '@/assets/cancel.svg?react';
@@ -19,6 +19,7 @@ import addUnsolved from '@/utils/Analytics/addUnsolved';
 import addSolved from '@/utils/Analytics/addSolved';
 import hideSkipIndicator from '@/utils/dom/hideSkipIndicator';
 import showSkipIndicator from '@/utils/dom/showSkipIndicator';
+import getTimePresets from '@/utils/time-presets/getTimePresets';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -45,6 +46,11 @@ export default function TimerPopup() {
     };
 
     const [settings, setSettings] = useState<Record<string, any> | null>(null);
+    const [timePresets, setTimePresets] = useState<Record<string, any> | null>(null);
+    const [activePreset, setActivePreset] = useState<{
+        name: string;
+        data: Record<string, any>;
+    } | null>(null);
     const [initialTime, setInitialTime] = useState(0);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [running, setRunning] = useState(false);
@@ -57,14 +63,17 @@ export default function TimerPopup() {
         (async () => {
             const config = await getConfig();
             setSettings(config);
+            const timePresetsConfig = await getTimePresets();
+            setTimePresets(timePresetsConfig);
         })();
 
         const handleChange = (
             changes: Record<string, chrome.storage.StorageChange>,
             areaName: string,
         ) => {
-            if (areaName === 'local' && changes[CONFIG]) {
-                setSettings(changes[CONFIG]?.newValue);
+            if (areaName === 'local') {
+                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);
+                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue);
             }
         };
 
@@ -72,16 +81,25 @@ export default function TimerPopup() {
         return () => chrome.storage.onChanged.removeListener(handleChange);
     }, []);
 
+    useEffect(() => {
+        if (!settings || !timePresets) return;
+
+        const currentName = settings.behaviorSettings?.currentTimePreset;
+        const data = timePresets[currentName] || {};
+
+        setActivePreset({ name: currentName, data });
+    }, [settings, timePresets]);
+
     // Set initial timer
     useEffect(() => {
-        if (!settings) return;
+        if (!activePreset) return;
         const time = timeStringToMs(
-            settings.behaviorSettings?.[`timeControl${settings.behaviorSettings?.timerType}`] ??
+            activePreset.data?.[`timeControl${activePreset.data.timerType}`] ??
                 '00:00:00',
         );
         setInitialTime(time);
         setCurrentTime(time);
-    }, [settings]);
+    }, [activePreset]);
 
     // Timer logic
     useEffect(() => {
@@ -127,11 +145,11 @@ export default function TimerPopup() {
                     setRunning(false);
 
                     if (
-                        settings?.behaviorSettings?.timerType === '0' &&
+                        activePreset?.data.timerType === '0' &&
                         settings?.behaviorSettings?.skipToNextPuzzle
                     ) {
                         const delay = settings?.behaviorSettings?.countdownBeforeSkipping
-                            ? settings.behaviorSettings.countdownBeforeSkippingNum
+                            ? activePreset.data.countdownBeforeSkippingNum
                             : 1;
 
                         // Call timerEnd to handle skip & reset safely
@@ -145,7 +163,7 @@ export default function TimerPopup() {
                                 settings.preferencesSettings.showVisualLowTime,
                                 hasStartedRef,
                                 setSkipCountdown,
-                                settings.behaviorSettings.countdownBeforeSkippingNum,
+                                activePreset.data.countdownBeforeSkippingNum,
                                 settings.preferencesSettings.showSkipIndicator,
                                 settings.preferencesSettings.enableSounds,
                                 settings.preferencesSettings.enableVisuals,
@@ -165,13 +183,13 @@ export default function TimerPopup() {
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [running, settings, initialTime]);
+    }, [running, settings, initialTime, activePreset]);
 
     // Stop timer when puzzle is solved
     useEffect(() => {
         if (
-            settings?.behaviorSettings?.timerType === '0' &&
-            settings.behaviorSettings?.skipToNextPuzzle &&
+            activePreset?.data?.timerType === '0' &&
+            settings?.behaviorSettings?.skipToNextPuzzle &&
             running
         ) {
             if (puzzleEndObserver) puzzleEndObserver.disconnect();
@@ -220,7 +238,7 @@ export default function TimerPopup() {
 
                         const delay =
                             (settings?.behaviorSettings?.countdownBeforeSkipping
-                                ? settings.behaviorSettings.countdownBeforeSkippingNum
+                                ? activePreset.data.countdownBeforeSkippingNum
                                 : 1) * 1000;
 
                         if (voteBtn) {
@@ -251,7 +269,7 @@ export default function TimerPopup() {
                                     clearInterval(waitForNextPuzzle);
                                     hasStartedRef.current = true;
                                     if (settings.preferencesSettings.showSkipIndicator) {
-                                        setSkipCountdown(settings.behaviorSettings.countdownBeforeSkippingNum);
+                                        setSkipCountdown(activePreset.data.countdownBeforeSkippingNum);
                                         hideSkipIndicator();
                                     }
 
@@ -279,11 +297,11 @@ export default function TimerPopup() {
 
             return () => puzzleEndObserver?.disconnect();
         }
-    }, [running, settings, initialTime]);
+    }, [running, settings, initialTime, activePreset]);
 
     useEffect(() => {
-        setSkipCountdown(settings?.behaviorSettings?.countdownBeforeSkippingNum);
-    }, [settings]);
+        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+    }, [activePreset]);
 
     if (!settings) return null;
 
