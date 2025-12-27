@@ -1,5 +1,5 @@
 import { BASE_TIMER } from './timer-popup';
-import { BASE_ANALYTICS } from './analytics-popup';
+import { BASE_ANALYTICS, DEFAULT_ANALYTICS } from './analytics-popup';
 
 import { VERSION } from './version';
 
@@ -15,5 +15,5 @@ export const DEFAULT_POSITION = {
     y: 20,
 };
 
-export { BASE_TIMER, BASE_ANALYTICS };
+export { BASE_TIMER, BASE_ANALYTICS, DEFAULT_ANALYTICS };
 export { VERSION };

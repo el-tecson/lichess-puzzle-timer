@@ -95,3 +95,25 @@
     font-size: 1.25rem;
     font-weight: bold;
 }
+
+.btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    padding: var(--btn-pad);
+    color: var(--text-color);
+    background-color: var(--button-color);
+    border-radius: var(--btn-rad);
+    transition: var(--global-transition);
+    width: fit-content;
+    font-size: 20px;
+}
+
+.btn:hover {
+    background-color: var(--button-hover-color);
+}

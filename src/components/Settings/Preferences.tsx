@@ -6,6 +6,8 @@ import PreferencesIcon from '@/assets/preferences.svg?react';
 import { Checkbox, Slider, Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 import Section from '@/components/Section';
 import Associated from '../Associated';
+import resetEverything from '@/utils/Settings/resetEverything';
+import ResetIcon from "@/assets/reload.svg?react";
 
 export function PreferencesTab() {
     return (
@@ -133,6 +135,17 @@ export function PreferencesPanel() {
                         configName="showTimerButtons"
                         text="Show buttons beside puzzle timer."
                     />
+                </Section>
+                <Section sectionName="Danger Zone">
+                    <button
+                        className="btn reset-everything-btn"
+                        onClick={async () => {
+                            await resetEverything();
+                        }}
+                    >
+                        <ResetIcon />
+                        <span className="btn-text">Reset everything to defaults.</span>
+                    </button>                    
                 </Section>
             </div>
         </TabPanel>
