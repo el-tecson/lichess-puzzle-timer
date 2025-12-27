@@ -20,6 +20,8 @@ import hideSkipIndicator from '@/utils/dom/hideSkipIndicator';
 import showSkipIndicator from '@/utils/dom/showSkipIndicator';
 import getTimePresets from '@/utils/time-presets/getTimePresets';
 import { Rnd } from 'react-rnd';
+import closeSettingsPages from '@/utils/closeSettingsPages';
+import { markExtensionForClose } from '../main';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -432,6 +434,7 @@ export default function TimerPopup() {
                                                 settings.preferencesSettings.alertButtonClicks
                                         )
                                             playAudio(NextBeep);
+                                        markExtensionForClose();
                                         chrome.runtime.sendMessage({ action: 'openSettings' });
                                     })
                                 }

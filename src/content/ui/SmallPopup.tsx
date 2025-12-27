@@ -20,6 +20,8 @@ import {
 import { Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 import getTimePresets from '@/utils/time-presets/getTimePresets';
 import VersionIndicator from '@/components/VersionIndicator';
+import closeSettingsPages from '@/utils/closeSettingsPages';
+import { markExtensionForClose } from '../main';
 
 export default function SmallPopup() {
     const nodeRef = useRef<HTMLDivElement>(null);
@@ -93,7 +95,10 @@ export default function SmallPopup() {
                 ) : (
                     <div className="big-popup" style={{ position: 'relative' }}>
                         <div className="popup-headers">
-                            <WideLogo className="wide-logo" onMouseUp={() => click(openSettings)} />
+                            <WideLogo className="wide-logo" onMouseUp={() => {
+                                markExtensionForClose();
+                                click(openSettings)
+                            }} />
                             <div
                                 className="minimize-icon"
                                 onMouseUp={() => click(() => setShowFirst(true))}

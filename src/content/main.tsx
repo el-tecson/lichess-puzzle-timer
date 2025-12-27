@@ -25,6 +25,7 @@ import RootCSS from '@/styles/content/index.css?inline';
 import getConfig from '@/utils/Settings/getConfig';
 import { MemoryRouter } from 'react-router-dom';
 import AnalyticsPopup from '@/content/ui/AnalyticsPopup';
+import closeSettingsPages from '@/utils/closeSettingsPages';
 
 async function injectStyles(shadowRoot: ShadowRoot, styles: Record<string, string>) {
     for (const css of Object.values(styles)) {
@@ -148,3 +149,21 @@ function observePuzzleBoard() {
 
     observer.observe(document.body, { childList: true, subtree: true });
 }
+
+// ---------------------------------------------------------------------------
+// Auto-close settings extension pages
+// ---------------------------------------------------------------------------
+let shouldCloseExtension = false;
+
+// Called when user changes a setting
+export function markExtensionForClose() {
+    shouldCloseExtension = true;
+}
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && shouldCloseExtension) {
+        closeSettingsPages();
+
+        shouldCloseExtension = false; // prevent repeats
+    }
+});
