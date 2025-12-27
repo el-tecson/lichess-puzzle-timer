@@ -168,6 +168,14 @@ export default function SmallPopup() {
                                     />
                                 )}
                             </Section>
+                            <button
+                                className="btn"
+                                id="donateBtn"
+                                onClick={() => click(openPayPal)}
+                            >
+                                <PayPalIcon />
+                                <span className="btn-text">Support me on PayPal</span>
+                            </button>
                         </div>
                         {
                             !showFirst && <VersionIndicator
