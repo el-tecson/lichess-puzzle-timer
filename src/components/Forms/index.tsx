@@ -5,5 +5,6 @@ import TimePicker from '@/components/Forms/TimePicker';
 import Listbox from '@/components/Forms/Listbox';
 import ColorPicker from '@/components/Forms/ColorPicker';
 import Switch from '@/components/Forms/Switch';
+import Slider from '@/components/Forms/Slider';
 
-export { Checkbox, Input, Radio, TimePicker, Listbox, ColorPicker, Switch };
+export { Checkbox, Input, Radio, TimePicker, Listbox, ColorPicker, Switch, Slider };

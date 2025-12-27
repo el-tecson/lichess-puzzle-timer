@@ -1,3 +1,7 @@
+import { CONFIG } from "@/constants";
+import getConfig from "./Settings/getConfig";
+import decimalize from "./decimalize";
+
 let audioContext: AudioContext | null = null;
 let currentSource: AudioBufferSourceNode | null = null;
 let gainNode: GainNode | null = null;
@@ -6,16 +10,32 @@ let gainNode: GainNode | null = null;
 const beepLocks: Record<string, boolean> = {};
 
 // Must be called once after ANY user click
-export function unlockAudio() {
+export async function unlockAudio() {
     if (!audioContext) {
         audioContext = new AudioContext();
 
         // Create GainNode for volume control
         gainNode = audioContext.createGain();
-        gainNode.gain.value = 0.5; // <-- Set volume here (0.0 – 1.0)
+        const config = await getConfig();
+        gainNode.gain.value = 
+            decimalize(config.preferencesSettings?.soundVolume) ?? 0.5;
 
         // Connect GainNode to output
         gainNode.connect(audioContext.destination);
+
+        const handleChange = (
+            changes: Record<string, chrome.storage.StorageChange>,
+            areaName: string,
+        ) => {
+            if (areaName === 'local' && changes[CONFIG]) {
+                if (!gainNode) return;
+                const newConfig = changes[CONFIG].newValue;
+                gainNode.gain.value = 
+                    decimalize(newConfig.preferencesSettings?.soundVolume) ?? 0.5;
+            }
+        };
+
+        chrome.storage.onChanged.addListener(handleChange);
     }
 
     if (audioContext.state === 'suspended') {

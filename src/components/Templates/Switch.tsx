@@ -1,4 +1,4 @@
-import '@/styles/components/Templates/Checkbox.css';
+import '@/styles/components/Templates/switch.css';
 import { Switch as CustomSwitch } from '@/components/Forms';
 import type { SwitchProps } from '@/types/templates';
 

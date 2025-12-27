@@ -65,3 +65,14 @@ export type SwitchProps = {
     storageFunction: Function;
     [key: string]: any;
 };
+
+export type SliderProps = {
+    className?: string;
+    initialState: number;
+    configName: string;
+    step?: number;
+    min?: number;
+    max?: number;
+    storageFunction: Function;
+    [key: string]: any;
+}

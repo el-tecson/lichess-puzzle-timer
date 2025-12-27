@@ -18,6 +18,7 @@
         "alertWhenTimeShort": true,
         "alertWhenSolved": true,
         "alertButtonClicks": true,
+        "soundVolume": 50,
         "showTimer": true,
         "showTimerButtons": true,
         "enableVisuals": true,

@@ -3,7 +3,7 @@ import getConfig from '@/utils/Settings/getConfig';
 import { CONFIG } from '@/constants';
 import { Tab, TabPanel } from '@/components/Tabs';
 import PreferencesIcon from '@/assets/preferences.svg?react';
-import { Checkbox, Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
+import { Checkbox, Slider, Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 import Section from '@/components/Section';
 import Associated from '../Associated';
 
@@ -99,6 +99,11 @@ export function PreferencesPanel() {
                             text="Show sound when clicking timer buttons."
                         />
                     </Associated>
+                    <Slider
+                        initialState={settings.preferencesSettings?.soundVolume}
+                        configName="soundVolume"
+                        label="Volume:"
+                    />
                 </Section>
                 <Section sectionName="Timer">
                     <Associated>

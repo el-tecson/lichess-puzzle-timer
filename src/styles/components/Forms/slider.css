@@ -1,0 +1,20 @@
+.track {
+  height: 8px;
+  width: 50%;
+  background-color: var(--input-color);
+  border-radius: 4px;
+  position: relative;
+}
+
+.filled-track {
+    background-color: var(--text-color);
+    border-radius: 4px;
+}
+
+.thumb {
+  height: 16px;
+  width: 16px;
+  background-color: var(--text-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
