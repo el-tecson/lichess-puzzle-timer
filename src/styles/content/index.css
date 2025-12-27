@@ -4,6 +4,7 @@
 @import './SmallPopup.css';
 @import './TimerPopup.css';
 @import './AnalyticsPopup.css';
+@import '../components/version-indicator.css';
 
 :host {
     --popup-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.12);

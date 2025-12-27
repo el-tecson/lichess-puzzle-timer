@@ -19,6 +19,7 @@ import {
 } from '@/components/Settings/CustomComponents/BehaviorComponents';
 import { Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 import getTimePresets from '@/utils/time-presets/getTimePresets';
+import VersionIndicator from '@/components/VersionIndicator';
 
 export default function SmallPopup() {
     const nodeRef = useRef<HTMLDivElement>(null);
@@ -90,7 +91,7 @@ export default function SmallPopup() {
                         <PopupIcon />
                     </div>
                 ) : (
-                    <div className="big-popup">
+                    <div className="big-popup" style={{ position: 'relative' }}>
                         <div className="popup-headers">
                             <WideLogo className="wide-logo" onMouseUp={() => click(openSettings)} />
                             <div
@@ -163,6 +164,14 @@ export default function SmallPopup() {
                                 )}
                             </Section>
                         </div>
+                        {
+                            !showFirst && <VersionIndicator
+                                style={{
+                                    fontSize: '10px',
+                                    bottom: '0px'
+                                }}
+                            />
+                        }
                     </div>
                 )}
             </div>

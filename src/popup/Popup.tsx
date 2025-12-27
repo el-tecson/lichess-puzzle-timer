@@ -7,6 +7,7 @@ import { Switch } from '@/components/Settings/CustomComponents/PreferencesCompon
 import { useEffect, useState } from 'react';
 import getConfig from '@/utils/Settings/getConfig';
 import { CONFIG } from '@/constants';
+import VersionIndicator from '@/components/VersionIndicator';
 
 export default function Popup() {
     const [settings, setSettings] = useState<Record<string, any> | null>(null);
@@ -64,6 +65,12 @@ export default function Popup() {
                         <span className="btn-text">Support me on PayPal</span>
                     </button>
                 </div>
+                <VersionIndicator
+                    style={{
+                        left: '-16px',
+                        bottom: '-16px'
+                    }}
+                />
             </div>
         </section>
     );

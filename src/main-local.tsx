@@ -27,6 +27,7 @@ import '@/styles/local.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import AnnouncementBar from './components/AnnouncementBar';
+import VersionIndicator from './components/VersionIndicator';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -40,6 +41,11 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/how-to-use" element={<HowToUsePage />} />
             </Routes>
+            <VersionIndicator
+                style={{
+                    position: 'fixed'
+                }}
+            />
         </HashRouter>
     </StrictMode>,
 );

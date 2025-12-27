@@ -1,0 +1,8 @@
+.lpt-version-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    color: var(--text-color);
+    opacity: 50%;
+    cursor: default;
+}

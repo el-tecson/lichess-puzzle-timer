@@ -1,6 +1,8 @@
 import { BASE_TIMER } from './timer-popup';
 import { BASE_ANALYTICS } from './analytics-popup';
 
+import { VERSION } from './version';
+
 export const CONFIG = 'config';
 export const CUSTOMS_CONFIG = 'custom_conf';
 export const ANALYTICS_CONFIG = 'analyticsData';
@@ -14,3 +16,4 @@ export const DEFAULT_POSITION = {
 };
 
 export { BASE_TIMER, BASE_ANALYTICS };
+export { VERSION };
