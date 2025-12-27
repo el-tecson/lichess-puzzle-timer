@@ -1,8 +1,8 @@
-import "@/styles/components/Forms/Switch.css";
-import type { SwitchProps } from "@/types/components";
-import { Switch as HUISwitch } from "@headlessui/react";
-import { useState } from "react";
-import CircleIcon from "@/assets/circle.svg?react";
+import '@/styles/components/Forms/Switch.css';
+import type { SwitchProps } from '@/types/components';
+import { Switch as HUISwitch } from '@headlessui/react';
+import { useState } from 'react';
+import CircleIcon from '@/assets/circle.svg?react';
 
 export default function Switch({
     className = '',

@@ -1,20 +1,25 @@
 import { useRef, useState, useEffect } from 'react';
-import Draggable from 'react-draggable';
 import getConfig from '@/utils/Settings/getConfig';
-import { ANALYTICS_CONFIG, CONFIG, DEFAULT_POSITION } from '@/constants';
+import { ANALYTICS_CONFIG, BASE_ANALYTICS, BASE_TIMER, CONFIG, DEFAULT_POSITION } from '@/constants';
 import getAnalytics from '@/utils/Analytics/getAnalytics';
 import Section from '@/components/Section';
 import type { AnalyticsData } from '@/types/analytics';
 import SmallLogo from '@/assets/lptimer-logo.svg?react';
+import { Rnd } from 'react-rnd';
 
 export default function AnalyticsPopup() {
-    const nodeRef = useRef<HTMLDivElement>(null);
-
     // Track whether the mouse actually moved
     const clickRef = useRef(true);
     // const click = (fn: Function) => {
     //     if (clickRef.current) fn();
     // };
+
+    const [size, setSize] = useState(BASE_ANALYTICS);
+    const [position, setPosition] = useState({
+        x: DEFAULT_POSITION.x,
+        y: DEFAULT_POSITION.y + BASE_TIMER.height + 20,
+    });
+    const [scale, setScale] = useState(1);
 
     const [settings, setSettings] = useState<Record<string, any> | null>(null);
     const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
@@ -61,17 +66,44 @@ export default function AnalyticsPopup() {
     if (!settings.preferencesSettings.showAnalyticsPopup) return null;
 
     return (
-        <Draggable
-            defaultPosition={DEFAULT_POSITION}
-            nodeRef={nodeRef}
-            onStart={() => {
-                clickRef.current = true; // assume a click initially
+        <Rnd
+            size={size}
+            position={position}
+            lockAspectRatio
+            enableResizing={{
+                bottomRight: true,
+                topLeft: true,
+                bottomLeft: true,
+                topRight: true,
             }}
-            onDrag={() => {
-                clickRef.current = false; // dragging happened
+            onDragStop={(_, d) => {
+                setPosition({ x: d.x, y: d.y });
+                setTimeout(() => clickRef.current = true, 1);
+            }}
+            onResize={(_, __, ref, ___, pos) => {
+                setSize({
+                    width: ref.offsetWidth,
+                    height: ref.offsetHeight,
+                });
+                setPosition(pos);
+                const newScale = ref.offsetWidth / BASE_ANALYTICS.width;
+                setScale(newScale);
+                clickRef.current = true;
+            }}
+            onStart={() => { clickRef.current = true; }}
+            onDrag={() => { clickRef.current = false; }}
+            style={{
+                background: 'var(--background-color)',
+                borderRadius: '8px',
+                boxShadow: 'var(--popup-shadow)',
+                overflow: 'hidden',
+                cursor: 'default',
             }}
         >
-            <div ref={nodeRef} className="popup analytics-popup">
+            <div 
+                className="popup analytics-popup"
+                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
+            >
                 <Section
                     svg={
                         <SmallLogo height="24" width="24" className="analytics-logo" />
@@ -104,6 +136,6 @@ export default function AnalyticsPopup() {
                     </p>
                 </Section>
             </div>
-        </Draggable>
+        </Rnd>
     );
 }

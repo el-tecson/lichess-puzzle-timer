@@ -2,7 +2,7 @@ import {
     Input as CustomInput,
     Radio as CustomRadio,
     TimePicker as CustomTimePicker,
-    Listbox as CustomListbox
+    Listbox as CustomListbox,
 } from '@/components/Forms';
 import { Checkbox as CustomCheckbox } from '@/components/Templates';
 import changeBehaviorSettings from '@/utils/Settings/behavior';

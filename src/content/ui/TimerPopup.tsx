@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
-import getConfig from '@/utils/Settings/getConfig';
-import Draggable from 'react-draggable';
-import { DEFAULT_POSITION, CONFIG, TIME_PRESETS } from '@/constants';
+import getConfig from '@/utils/Settings/getConfig';;
+import { DEFAULT_POSITION, CONFIG, TIME_PRESETS, BASE_TIMER } from '@/constants';
 import PlayIcon from '@/assets/play.svg?react';
 import PauseIcon from '@/assets/pause.svg?react';
 import CancelIcon from '@/assets/cancel.svg?react';
@@ -20,6 +19,7 @@ import addSolved from '@/utils/Analytics/addSolved';
 import hideSkipIndicator from '@/utils/dom/hideSkipIndicator';
 import showSkipIndicator from '@/utils/dom/showSkipIndicator';
 import getTimePresets from '@/utils/time-presets/getTimePresets';
+import { Rnd } from 'react-rnd';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -57,6 +57,9 @@ export default function TimerPopup() {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const hasStartedRef = useRef(false);
     const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
+    const [size, setSize] = useState(BASE_TIMER);
+    const [position, setPosition] = useState(DEFAULT_POSITION);
+    const [scale, setScale] = useState(1);
 
     // Load config
     useEffect(() => {
@@ -131,7 +134,7 @@ export default function TimerPopup() {
                     if (settings?.preferencesSettings.showSkipIndicator) {
                         showSkipIndicator();
                         const countdown = setInterval(() => {
-                            setSkipCountdown(prev => {
+                            setSkipCountdown((prev) => {
                                 if (prev === null || prev <= 0) {
                                     clearInterval(countdown);
                                     return prev;
@@ -223,7 +226,7 @@ export default function TimerPopup() {
                             if (settings.preferencesSettings.showSkipIndicator) {
                                 showSkipIndicator();
                                 const countdown = setInterval(() => {
-                                    setSkipCountdown(prev => {
+                                    setSkipCountdown((prev) => {
                                         if (prev === null || prev <= 0) {
                                             clearInterval(countdown);
                                             return prev;
@@ -307,18 +310,45 @@ export default function TimerPopup() {
 
     if (skipCountdown === null) return null;
 
-    return (
-        <Draggable
-            defaultPosition={DEFAULT_POSITION}
-            nodeRef={nodeRef}
-            onStart={() => {
+    return (        
+        <Rnd
+            size={size}
+            position={position}
+            lockAspectRatio
+            enableResizing={{
+                bottomRight: true,
+                topLeft: true,
+                bottomLeft: true,
+                topRight: true,
+            }}
+            onDragStop={(_, d) => {
+                setPosition({ x: d.x, y: d.y });
+                setTimeout(() => clickRef.current = true, 1);
+            }}
+            onResize={(_, __, ref, ___, pos) => {
+                setSize({
+                    width: ref.offsetWidth,
+                    height: ref.offsetHeight,
+                });
+                setPosition(pos);
+                const newScale = ref.offsetWidth / BASE_TIMER.width;
+                setScale(newScale);
                 clickRef.current = true;
             }}
-            onDrag={() => {
-                clickRef.current = false;
+            onStart={() => { clickRef.current = true; }} onDrag={() => { clickRef.current = false; }}
+            style={{
+                background: 'var(--background-color)',
+                borderRadius: '8px',
+                boxShadow: 'var(--popup-shadow)',
+                overflow: 'hidden',
+                cursor: 'default',
             }}
         >
-            <div ref={nodeRef} className="popup timer-popup">
+            <div
+                ref={nodeRef}
+                className="popup timer-popup"
+                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
+            >
                 {settings.preferencesSettings?.showTimer && (
                     <p className="timer number">
                         {(() => {
@@ -343,8 +373,9 @@ export default function TimerPopup() {
                                         if (
                                             settings.preferencesSettings.enableSounds &&
                                             settings.preferencesSettings.alertButtonClicks
-                                        )
+                                        ) {
                                             playAudio(NextBeep);
+                                        }
                                         setRunning(!running);
                                         hasStartedRef.current = true;
                                     })
@@ -365,7 +396,7 @@ export default function TimerPopup() {
                                         setTimeColor('var(--text-color)', 'normal');
                                         if (
                                             settings.preferencesSettings.enableSounds &&
-                                            settings.preferencesSettings.alertButtonClicks
+                                                settings.preferencesSettings.alertButtonClicks
                                         )
                                             playAudio(NextBeep);
                                     })
@@ -383,7 +414,7 @@ export default function TimerPopup() {
                                         setTimeColor('var(--text-color)', 'normal');
                                         if (
                                             settings.preferencesSettings.enableSounds &&
-                                            settings.preferencesSettings.alertButtonClicks
+                                                settings.preferencesSettings.alertButtonClicks
                                         )
                                             playAudio(NextBeep);
                                     })
@@ -398,7 +429,7 @@ export default function TimerPopup() {
                                         setRunning(false);
                                         if (
                                             settings.preferencesSettings.enableSounds &&
-                                            settings.preferencesSettings.alertButtonClicks
+                                                settings.preferencesSettings.alertButtonClicks
                                         )
                                             playAudio(NextBeep);
                                         chrome.runtime.sendMessage({ action: 'openSettings' });
@@ -412,11 +443,11 @@ export default function TimerPopup() {
                 )}
                 {settings.preferencesSettings?.showSkipIndicator && (
                     <p className="skip-indicator noselect" hidden>
-                        {(skipCountdown === 0) ? "Skipping..." : `Skipping in ${skipCountdown}...`}
+                        {(skipCountdown === 0) ? 'Skipping...' : `Skipping in ${skipCountdown}...`}
                     </p>
                 )}
             </div>
-        </Draggable>
+        </Rnd>
     );
 }
 
