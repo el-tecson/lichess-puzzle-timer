@@ -40,7 +40,6 @@ function safeSkip(action: Function) {
 
 
 export default function TimerPopup() {
-    const nodeRef = useRef<HTMLDivElement>(null);
     const clickRef = useRef(true);
     const click = (fn: Function) => {
         if (clickRef.current) fn();
@@ -346,7 +345,6 @@ export default function TimerPopup() {
             }}
         >
             <div
-                ref={nodeRef}
                 className="popup timer-popup"
                 style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
             >
