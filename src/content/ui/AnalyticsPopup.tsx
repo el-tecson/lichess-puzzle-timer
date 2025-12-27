@@ -6,13 +6,15 @@ import Section from '@/components/Section';
 import type { AnalyticsData } from '@/types/analytics';
 import SmallLogo from '@/assets/lptimer-logo.svg?react';
 import { Rnd } from 'react-rnd';
+import ResetIcon from '@/assets/reload.svg?react';
+import setAnalytics from '@/utils/Analytics/setAnalytics';
 
 export default function AnalyticsPopup() {
     // Track whether the mouse actually moved
     const clickRef = useRef(true);
-    // const click = (fn: Function) => {
-    //     if (clickRef.current) fn();
-    // };
+    const click = (fn: Function) => {
+        if (clickRef.current) fn();
+    };
 
     const [size, setSize] = useState(BASE_ANALYTICS);
     const [position, setPosition] = useState({
@@ -134,6 +136,19 @@ export default function AnalyticsPopup() {
                     <p className="stats">
                         Unsolved: <span className="user-data">{analyticsData.unsolved}</span>
                     </p>
+                    <button
+                        className="btn reset-data-btn"
+                        onClick={() => click(async () => {
+                            await setAnalytics({
+                                totalPuzzles: 0,
+                                solved: 0,
+                                unsolved: 0,
+                            });
+                        })}
+                    >
+                        <ResetIcon />
+                        <span className="btn-text">Reset Data</span>
+                    </button>
                 </Section>
             </div>
         </Rnd>
