@@ -159,3 +159,12 @@
 .listbox-button {
     gap: 5px;
 }
+
+.input-text,
+.listbox-label,
+.section-name,
+.time-picker-trigger,
+.input,
+.listbox-selected {
+    color: var(--text-color);
+}
