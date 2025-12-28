@@ -40,6 +40,10 @@
     align-items: center;
 }
 
+.timer-btn svg {
+    color: #fff;
+}
+
 .pause-play-button {
     background-color: var(--pause-play-button-normal);
 }

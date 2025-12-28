@@ -75,11 +75,18 @@ export function CustomizationPanel() {
                     configName="textColor"
                     label="Text Color:"
                 />
-                <ColorPicker
-                    initialState={activePreset.data.backgroundColor}
-                    configName="backgroundColor"
-                    label="Background Color:"
-                />
+                <Combined>
+                    <ColorPicker
+                        initialState={activePreset.data.backgroundColor}
+                        configName="backgroundColor"
+                        label="Background Color:"
+                    />
+                    <ColorPicker
+                        initialState={activePreset.data.backgroundOverlayColor}
+                        configName="backgroundOverlayColor"
+                        label="Background Overlay Color:"
+                    />
+                </Combined>
                 <Combined>
                     <ColorPicker
                         initialState={activePreset.data.overlayColor}

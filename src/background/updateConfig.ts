@@ -1,10 +1,14 @@
 import getConfig from '@/utils/Settings/getConfig';
 import default_config from '@/configs/default_config.json';
+import default_customs_config from '@/configs/dark_custom.json';
 import { set } from '@/utils/storage';
 import setAnalytics from '@/utils/Analytics/setAnalytics';
 import getAnalytics from '@/utils/Analytics/getAnalytics';
+import getCustomsConfig from '@/utils/Settings/getCustomsConfig';
+import { CUSTOMS_CONFIG } from '@/constants';
 
 type Config = typeof default_config;
+type CustomsConfig = typeof default_customs_config;
 
 // Constrain T to object
 function mergeConfig<T extends object>(defaultCfg: T, userCfg: Partial<T>): T {
@@ -41,6 +45,9 @@ async function updateConfig() {
     const userConfig: Partial<Config> = await getConfig();
     const updatedConfig = mergeConfig(default_config, userConfig);
     await set('config', updatedConfig);
+    const customsConfig: Partial<CustomsConfig> = await getCustomsConfig();
+    const updatedCustomsConfig = mergeConfig(default_customs_config, customsConfig);
+    await set(CUSTOMS_CONFIG, updatedCustomsConfig);
     await setAnalytics(await getAnalytics());
 }
 

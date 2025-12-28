@@ -8,8 +8,12 @@
     z-index: 0;
 }
 
+svg {
+    color: var(--text-color);
+}
+
 #background-overlay {
-    background-color: var(--settings-button-normal);
+    background-color: var(--background-overlay-color);
     position: absolute;
     min-height: 300px;
     width: inherit;
