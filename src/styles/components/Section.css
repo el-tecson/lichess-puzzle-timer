@@ -9,5 +9,5 @@
     padding: var(--gap) 0;
     font-size: 1.5rem;
     font-weight: bold;
-    border-bottom: solid 1px #ffffff20;
+    border-bottom: solid 1px rgb(from var(--text-color) r g b / 0.20);
 }
