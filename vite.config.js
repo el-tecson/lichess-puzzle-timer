@@ -20,6 +20,9 @@ export default defineConfig({
       }
     },
   ],
+  define: {
+    'process.env.NODE_ENV': '"production"', // ✅ must be a string literal
+  },
   build: {
     outDir: 'dist',
     rollupOptions: {
