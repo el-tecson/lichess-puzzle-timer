@@ -97,7 +97,7 @@ export default function SmallPopup() {
                         <div className="popup-headers">
                             <WideLogo className="wide-logo" onMouseUp={() => {
                                 markExtensionForClose();
-                                click(openSettings)
+                                click(openSettings);
                             }} />
                             <div
                                 className="minimize-icon"
@@ -181,7 +181,7 @@ export default function SmallPopup() {
                             !showFirst && <VersionIndicator
                                 style={{
                                     fontSize: '10px',
-                                    bottom: '0px'
+                                    bottom: '0px',
                                 }}
                             />
                         }

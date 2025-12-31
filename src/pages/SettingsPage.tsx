@@ -10,7 +10,7 @@ export default function SettingsPage() {
                 window.close(); // ✅ allowed, no permissions needed
             }
         });
-    })
+    });
 
     return (
         <>

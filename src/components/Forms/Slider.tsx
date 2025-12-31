@@ -1,7 +1,7 @@
-import "@/styles/components/Forms/slider.css";
-import type { SliderProps } from "@/types/components";
-import { useState } from "react";
-import { Range } from "react-range";
+import '@/styles/components/Forms/slider.css';
+import type { SliderProps } from '@/types/components';
+import { useState } from 'react';
+import { Range } from 'react-range';
 
 export default function Slider({
     className = '',
@@ -54,5 +54,5 @@ export default function Slider({
                 <div {...props} key={props.key} className={`thumb ${className}`} />
             )}
         />
-    )
+    );
 }

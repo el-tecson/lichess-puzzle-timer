@@ -7,7 +7,7 @@ import { Checkbox, Slider, Switch } from '@/components/Settings/CustomComponents
 import Section from '@/components/Section';
 import Associated from '../Associated';
 import resetEverything from '@/utils/Settings/resetEverything';
-import ResetIcon from "@/assets/reload.svg?react";
+import ResetIcon from '@/assets/reload.svg?react';
 
 export function PreferencesTab() {
     return (

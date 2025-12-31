@@ -43,7 +43,7 @@ createRoot(document.getElementById('root')!).render(
             </Routes>
             <VersionIndicator
                 style={{
-                    position: 'fixed'
+                    position: 'fixed',
                 }}
             />
         </HashRouter>

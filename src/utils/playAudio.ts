@@ -1,6 +1,6 @@
-import { CONFIG } from "@/constants";
-import getConfig from "./Settings/getConfig";
-import decimalize from "./decimalize";
+import { CONFIG } from '@/constants';
+import getConfig from './Settings/getConfig';
+import decimalize from './decimalize';
 
 let audioContext: AudioContext | null = null;
 let currentSource: AudioBufferSourceNode | null = null;

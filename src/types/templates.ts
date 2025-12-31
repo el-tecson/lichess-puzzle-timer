@@ -1,7 +1,7 @@
 import type {
     CheckboxProps as CustomCheckboxProps, 
     SwitchProps as CustomSwitchProps, 
-    SliderProps as CustomSliderProps
+    SliderProps as CustomSliderProps,
 } from '@/types/components';
 import type { ReactNode } from 'react';
 

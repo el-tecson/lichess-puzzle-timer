@@ -6,5 +6,5 @@ export const BASE_ANALYTICS = {
 export const DEFAULT_ANALYTICS = {
     totalPuzzles: 0,
     solved: 0,
-    unsolved: 0
-}
+    unsolved: 0,
+};

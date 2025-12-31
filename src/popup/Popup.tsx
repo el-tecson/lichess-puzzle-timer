@@ -68,7 +68,7 @@ export default function Popup() {
                 <VersionIndicator
                     style={{
                         left: '-16px',
-                        bottom: '-16px'
+                        bottom: '-16px',
                     }}
                 />
             </div>
