@@ -10,7 +10,7 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
 {
   "name": "Lichess Puzzle Timer",
   "description": "Bring the tension of real games to every Lichess puzzle. Any motif, any difficulty, adjustable time.",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
@@ -22,7 +22,9 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
     }
   },
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+      "background.js"
+    ]
   },
   "icons": {
     "16": "images/lptimer-16.png",
@@ -38,18 +40,46 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
   ],
   "web_accessible_resources": [
     {
-      "resources": ["local.html", "assets/*"],
-      "matches": ["https://lichess.org/*"]
+      "resources": [
+        "local.html",
+        "assets/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "content_scripts": [
     {
-      "matches": ["https://lichess.org/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle",
-      "type": "module"
+      "matches": [
+        "https://lichess.org/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "lichess-puzzle-timer@eltecson.dev",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "id": "lichess-puzzle-timer@eltecson.dev",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  }
 }
 ```
 and update the version
