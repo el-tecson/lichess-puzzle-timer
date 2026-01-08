@@ -4,7 +4,20 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  target: 'es2018',
+  minify: 'esbuild',
+  sourcemap: false,
+  plugins: [react({
+      babel: {
+        plugins: [
+          ['@babel/plugin-transform-react-constant-elements'],
+          ['transform-react-remove-prop-types', { removeImport: true }],
+        ],
+      },
+    }), tsconfigPaths()],
+  define: {
+    'process.env.NODE_ENV': '"production"',
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: false,
@@ -15,6 +28,6 @@ export default defineConfig({
         format: 'iife', // must be string
       },
     },
-    target: 'esnext',
+    target: 'es2018',
   },
 })

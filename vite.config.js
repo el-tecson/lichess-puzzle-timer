@@ -8,9 +8,19 @@ import svgr from 'vite-plugin-svgr'
 import { exec } from 'child_process'
 
 export default defineConfig({
+  target: 'es2018',
+  minify: 'esbuild',
+  sourcemap: false,
   plugins: [
     svgr(),
-    react(),
+    react({
+      babel: {
+        plugins: [
+          ['@babel/plugin-transform-react-constant-elements'],
+          ['transform-react-remove-prop-types', { removeImport: true }],
+        ],
+      },
+    }),
     tsconfigPaths(),
     Checker({ typescript: true }),
     {
@@ -21,7 +31,7 @@ export default defineConfig({
     },
   ],
   define: {
-    'process.env.NODE_ENV': '"production"', // ✅ must be a string literal
+    'process.env.NODE_ENV': '"production"',
   },
   build: {
     outDir: 'dist',

@@ -23,7 +23,6 @@ import getCustomsConfig from '@/utils/Settings/getCustomsConfig';
 import { setShadowRootVars } from './loadCustoms';
 import RootCSS from '@/styles/content/index.css?inline';
 import getConfig from '@/utils/Settings/getConfig';
-import { MemoryRouter } from 'react-router-dom';
 import AnalyticsPopup from '@/content/ui/AnalyticsPopup';
 import closeSettingsPages from '@/utils/closeSettingsPages';
 
@@ -94,9 +93,7 @@ async function injectShadowDOM() {
                 }
             </>
         ) : config.preferencesSettings?.showSmallPopup ? (
-            <MemoryRouter>
-                <SmallPopup />
-            </MemoryRouter>
+            <SmallPopup />
         ) : null,
     );
 
