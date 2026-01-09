@@ -1,13 +1,15 @@
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+import browser from "webextension-polyfill";
+
+browser.runtime.onMessage.addListener((message: any) => {
     switch (message.action) {
     case 'openSettings':
-        chrome.tabs.create({
-            url: chrome.runtime.getURL('local.html#/settings'),
+        browser.tabs.create({
+            url: browser.runtime.getURL('local.html#/settings'),
         });
         break;
 
     case 'openPayPal':
-        chrome.tabs.create({
+        browser.tabs.create({
             url: 'https://www.paypal.me/ElmerTecson',
         });
         break;

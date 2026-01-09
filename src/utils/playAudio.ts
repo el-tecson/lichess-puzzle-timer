@@ -1,6 +1,10 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+
 import { CONFIG } from '@/constants';
 import getConfig from './Settings/getConfig';
 import decimalize from './decimalize';
+import type { ConfigProps } from '@/types/config';
 
 let audioContext: AudioContext | null = null;
 let currentSource: AudioBufferSourceNode | null = null;
@@ -24,18 +28,18 @@ export async function unlockAudio() {
         gainNode.connect(audioContext.destination);
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local' && changes[CONFIG]) {
                 if (!gainNode) return;
-                const newConfig = changes[CONFIG].newValue;
+                const newConfig = changes[CONFIG].newValue as ConfigProps;
                 gainNode.gain.value = 
                     decimalize(newConfig.preferencesSettings?.soundVolume) ?? 0.5;
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
     }
 
     if (audioContext.state === 'suspended') {
@@ -61,7 +65,7 @@ export default async function playAudio(src: string) {
             currentSource = null;
         }
 
-        const response = await fetch(chrome.runtime.getURL(src));
+        const response = await fetch(browser.runtime.getURL(src));
         const arrayBuffer = await response.arrayBuffer();
         const buffer = await audioContext.decodeAudioData(arrayBuffer);
 

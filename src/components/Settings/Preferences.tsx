@@ -1,3 +1,7 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+import type { ConfigProps } from '@/types/config';
+
 import { useState, useEffect } from 'react';
 import getConfig from '@/utils/Settings/getConfig';
 import { CONFIG } from '@/constants';
@@ -28,16 +32,16 @@ export function PreferencesPanel() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local' && changes[CONFIG]) {
-                setSettings(changes[CONFIG]?.newValue);
+                setSettings(changes[CONFIG]?.newValue as ConfigProps);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     if (!settings) return null;

@@ -1,30 +1,30 @@
-export async function get(item: string, fallbackConfig = {}): Promise<unknown> {
-    if (!chrome?.storage?.local) {
-        console.warn('chrome.storage.local not available, using fallback config');
+import browser from "webextension-polyfill";
+
+export async function get(item: string, fallbackConfig: unknown = {}): Promise<unknown> {
+    if (!browser?.storage?.local) {
+        console.warn('browser.storage.local not available, using fallback config');
         return fallbackConfig;
     }
 
-    return new Promise((resolve) => {
-        chrome.storage.local.get([item], (res) => {
-            resolve(res[item] || fallbackConfig);
-        });
-    });
+    try {
+        const res = await browser.storage.local.get(item); // <-- returns a Promise
+        return res[item] ?? fallbackConfig; // use nullish coalescing
+    } catch (err) {
+        console.error('Error reading from storage.local:', err);
+        return fallbackConfig;
+    }
 }
 
 export async function set(item: string, value: Record<string, unknown>): Promise<void> {
-    if (!chrome?.storage?.local) {
-        console.warn('chrome.storage.local not available — cannot save config');
+    if (!browser?.storage?.local) {
+        console.warn('browser.storage.local not available — cannot save config');
         return;
     }
 
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.set({ [item]: value }, () => {
-            if (chrome.runtime.lastError) {
-                console.error('Error saving to chrome.storage.local:', chrome.runtime.lastError);
-                reject(chrome.runtime.lastError);
-            } else {
-                resolve();
-            }
-        });
-    });
+    try {
+        await browser.storage.local.set({ [item]: value }); // <-- returns a Promise
+    } catch (err) {
+        console.error('Error saving to browser.storage.local:', err);
+        throw err;
+    }
 }

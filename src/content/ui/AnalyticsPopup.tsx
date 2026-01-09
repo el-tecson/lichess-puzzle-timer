@@ -1,3 +1,7 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+import type { ConfigProps } from '@/types/config';
+
 import { useRef, useState, useEffect } from 'react';
 import getConfig from '@/utils/Settings/getConfig';
 import { ANALYTICS_CONFIG, BASE_ANALYTICS, BASE_TIMER, CONFIG, DEFAULT_POSITION } from '@/constants';
@@ -23,7 +27,7 @@ export default function AnalyticsPopup() {
     });
     const [scale, setScale] = useState(1);
 
-    const [settings, setSettings] = useState<Record<string, any> | null>(null);
+    const [settings, setSettings] = useState<ConfigProps | null>(null);
     const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
 
     useEffect(() => {
@@ -33,16 +37,16 @@ export default function AnalyticsPopup() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local' && changes[ANALYTICS_CONFIG]) {
-                setAnalyticsData(changes[ANALYTICS_CONFIG]?.newValue);
+                setAnalyticsData(changes[ANALYTICS_CONFIG]?.newValue as AnalyticsData);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     useEffect(() => {
@@ -52,16 +56,16 @@ export default function AnalyticsPopup() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local' && changes[CONFIG]) {
-                setSettings(changes[CONFIG]?.newValue);
+                setSettings(changes[CONFIG]?.newValue as ConfigProps);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     if (!settings || !analyticsData) return null;

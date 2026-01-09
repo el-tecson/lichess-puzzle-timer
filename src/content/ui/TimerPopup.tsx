@@ -1,3 +1,7 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+import type { ConfigProps } from '@/types/config';
+
 import { useRef, useEffect, useState } from 'react';
 import getConfig from '@/utils/Settings/getConfig';;
 import { DEFAULT_POSITION, CONFIG, TIME_PRESETS, BASE_TIMER } from '@/constants';
@@ -45,11 +49,11 @@ export default function TimerPopup() {
         if (clickRef.current) fn();
     };
 
-    const [settings, setSettings] = useState<Record<string, any> | null>(null);
-    const [timePresets, setTimePresets] = useState<Record<string, any> | null>(null);
+    const [settings, setSettings] = useState<ConfigProps | null>(null);
+    const [timePresets, setTimePresets] = useState<ConfigProps | null>(null);
     const [activePreset, setActivePreset] = useState<{
         name: string;
-        data: Record<string, any>;
+        data: ConfigProps;
     } | null>(null);
     const [initialTime, setInitialTime] = useState(0);
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -71,17 +75,17 @@ export default function TimerPopup() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local') {
-                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);
-                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue);
+                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue as ConfigProps);
+                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue as ConfigProps);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     useEffect(() => {
@@ -432,7 +436,7 @@ export default function TimerPopup() {
                                         )
                                             playAudio(NextBeep);
                                         markExtensionForClose();
-                                        chrome.runtime.sendMessage({ action: 'openSettings' });
+                                        browser.runtime.sendMessage({ action: 'openSettings' });
                                     })
                                 }
                             >

@@ -1,3 +1,7 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+import type { ConfigProps } from '@/types/config';
+
 import { useEffect, useState } from 'react';
 import { Tab, TabPanel } from '@/components/Tabs';
 import ComputerIcon from '@/assets/computer.svg?react';
@@ -41,17 +45,17 @@ export function BehaviorPanel() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local') {
-                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);
-                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue);
+                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue as ConfigProps);
+                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue as ConfigProps);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     useEffect(() => {

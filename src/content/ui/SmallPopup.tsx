@@ -1,3 +1,7 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+import type { ConfigProps } from '@/types/config';
+
 import PayPalIcon from '@/assets/paypal.svg?react';
 import Draggable from 'react-draggable';
 import { useRef, useEffect, useState } from 'react';
@@ -33,11 +37,11 @@ export default function SmallPopup() {
         if (clickRef.current) fn();
     };
 
-    const [settings, setSettings] = useState<Record<string, any> | null>(null);
-    const [timePresets, setTimePresets] = useState<Record<string, any> | null>(null);
+    const [settings, setSettings] = useState<ConfigProps | null>(null);
+    const [timePresets, setTimePresets] = useState<ConfigProps | null>(null);
     const [activePreset, setActivePreset] = useState<{
         name: string;
-        data: Record<string, any>;
+        data: ConfigProps;
     } | null>(null);
 
     useEffect(() => {
@@ -49,17 +53,17 @@ export default function SmallPopup() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local') {
-                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue);
-                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue);
+                if (changes[CONFIG]) setSettings(changes[CONFIG].newValue as ConfigProps);
+                if (changes[TIME_PRESETS]) setTimePresets(changes[TIME_PRESETS].newValue as ConfigProps);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     useEffect(() => {
@@ -202,9 +206,9 @@ function addTimePickerCSS() {
 }
 
 function openSettings() {
-    chrome.runtime.sendMessage({ action: 'openSettings' });
+    browser.runtime.sendMessage({ action: 'openSettings' });
 }
 
 function openPayPal() {
-    chrome.runtime.sendMessage({ action: 'openPayPal' });
+    browser.runtime.sendMessage({ action: 'openPayPal' });
 }

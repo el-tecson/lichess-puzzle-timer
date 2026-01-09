@@ -1,3 +1,7 @@
+import browser from 'webextension-polyfill';
+import type { Storage } from 'webextension-polyfill';
+import type { ConfigProps } from '@/types/config';
+
 import Logo from '@/assets/lptimer-logo-wide.svg?react';
 import SettingsIcon from '@/assets/settings.svg?react';
 import ReloadIcon from '@/assets/reload.svg?react';
@@ -10,7 +14,7 @@ import { CONFIG } from '@/constants';
 import VersionIndicator from '@/components/VersionIndicator';
 
 export default function Popup() {
-    const [settings, setSettings] = useState<Record<string, any> | null>(null);
+    const [settings, setSettings] = useState<ConfigProps | null>(null);
 
     // Load config
     useEffect(() => {
@@ -20,16 +24,16 @@ export default function Popup() {
         })();
 
         const handleChange = (
-            changes: Record<string, chrome.storage.StorageChange>,
+            changes: Record<string, Storage.StorageChange>,
             areaName: string,
         ) => {
             if (areaName === 'local' && changes[CONFIG]) {
-                setSettings(changes[CONFIG]?.newValue);
+                setSettings(changes[CONFIG]?.newValue as ConfigProps);
             }
         };
 
-        chrome.storage.onChanged.addListener(handleChange);
-        return () => chrome.storage.onChanged.removeListener(handleChange);
+        browser.storage.onChanged.addListener(handleChange);
+        return () => browser.storage.onChanged.removeListener(handleChange);
     }, []);
 
     if (!settings) return null;
@@ -56,7 +60,7 @@ export default function Popup() {
                         className="btn"
                         id="donateBtn"
                         onClick={() => {
-                            chrome.tabs.create({
+                            browser.tabs.create({
                                 url: 'https://www.paypal.me/ElmerTecson',
                             });
                         }}
@@ -77,24 +81,27 @@ export default function Popup() {
 }
 
 function openSettings() {
-    chrome.tabs.create({
-        url: chrome.runtime.getURL('local.html#/settings'),
+    browser.tabs.create({
+        url: browser.runtime.getURL('local.html#/settings'),
     });
 }
 
 function openLocalWebsite() {
-    chrome.tabs.create({
-        url: chrome.runtime.getURL('local.html'),
+    browser.tabs.create({
+        url: browser.runtime.getURL('local.html'),
     });
 }
 
-function reloadAllLichessTabs() {
-    chrome.tabs.query(
-        { url: 'https://lichess.org/*' },
-        (tabs) => {
-            tabs.forEach((tab) => {
-                if (tab.id) chrome.tabs.reload(tab.id);
-            });
-        },
-    );
+async function reloadAllLichessTabs() {
+    try {
+        const tabs = await browser.tabs.query({ url: 'https://lichess.org/*' });
+        tabs.forEach((tab) => {
+            if (tab.id !== undefined) {
+                browser.tabs.reload(tab.id);
+            }
+        });
+    } catch (err) {
+        console.error('Failed to reload tabs:', err);
+    }
 }
+
