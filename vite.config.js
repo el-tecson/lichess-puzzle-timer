@@ -26,7 +26,7 @@ export default defineConfig({
     {
       name: 'post-build',
       buildEnd() {
-        exec('vite build --config vite.content.config.js && vite build --config vite.background.config.js');
+        exec('vite build --mode production --config vite.content.config.js && vite build --config vite.background.config.js');
       }
     },
   ],

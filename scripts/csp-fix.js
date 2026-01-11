@@ -12,10 +12,15 @@ code = code.replace(
 );
 
 /* --------------------------------------------------------- */
-/* 2. Remove the other mofo (focus is read-only)              */
+/* 2. Remove the other mofos (focus is read-only)              */
 /* --------------------------------------------------------- */
 code = code.replace(
-  /(a\.HTMLElement\.prototype\.focus=Ll.get\(a\)\.focus),/g,
+  /((?:\w+\.)?HTMLElement\.prototype\.focus=[^,]*),?/g,
+  ""
+);
+
+code = code.replace(
+  /windowObject\.HTMLElement\.prototype\.focus\s*=\s*function\(\)\s*\{\s*[^}]*focus\.apply\(this, arguments\);\s*\};/g,
   ""
 );
 
