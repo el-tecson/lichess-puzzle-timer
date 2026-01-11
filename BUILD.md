@@ -10,7 +10,7 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
 {
   "name": "Lichess Puzzle Timer",
   "description": "Bring the tension of real games to every Lichess puzzle. Any motif, any difficulty, adjustable time.",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",
@@ -57,7 +57,8 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
       "js": [
         "content.js"
       ],
-      "run_at": "document_idle"
+      "run_at": "document_end",
+      "type": "module"
     }
   ],
   "browser_specific_settings": {
