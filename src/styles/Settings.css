@@ -1,3 +1,5 @@
+@import './mobile/settings.css';
+
 .tab-group {
     display: flex;
     gap: 20px;
@@ -6,7 +8,6 @@
 .tab-list {
     display: flex;
     flex-direction: column;
-    min-width: 350px;
     height: fit-content;
     border-radius: 8px;
     overflow: hidden;
@@ -17,7 +18,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 15px 25px;
+    padding: 15px 125px 15px 25px;
     background-color: var(--overlay-color);
     transition: var(--global-transition);
 }

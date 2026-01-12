@@ -1,0 +1,5 @@
+@media (max-width: 600px) {
+    .associated>*:not(:first-child) {
+        margin-left: 1rem !important;
+    }
+}

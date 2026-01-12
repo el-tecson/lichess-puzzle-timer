@@ -1,0 +1,21 @@
+@media (max-width: 600px) {
+    .tab-group {
+        flex-direction: column !important;
+    }
+
+    .tab-list {
+        min-width: auto !important;
+    }
+
+    .combined {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    .color-picker-panel {
+        top: 100% !important;
+        left: 25% !important;
+        margin-top: 10px !important;
+        margin-left: auto !important;
+    }
+}
