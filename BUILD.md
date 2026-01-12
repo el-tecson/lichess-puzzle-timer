@@ -57,8 +57,7 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
       "js": [
         "content.js"
       ],
-      "run_at": "document_end",
-      "type": "module"
+      "run_at": "document_start"
     }
   ],
   "browser_specific_settings": {
