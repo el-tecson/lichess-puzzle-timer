@@ -32,7 +32,7 @@ export default function Input({
             max={max}
             value={value.toString()}
             onChange={handleChange}
-            className="input"
+            className="input no-drag"
             {...props}
         />
     );

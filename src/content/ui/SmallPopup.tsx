@@ -33,6 +33,12 @@ export default function SmallPopup() {
 
     // Track whether the mouse actually moved
     const clickRef = useRef(true);
+    const onPointerDown = () => {
+    clickRef.current = true;
+    };
+    const onPointerMove = () => {
+    clickRef.current = false;
+    };
     const click = (fn: Function) => {
         if (clickRef.current) fn();
     };
@@ -81,6 +87,8 @@ export default function SmallPopup() {
         <Draggable
             defaultPosition={DEFAULT_POSITION}
             nodeRef={nodeRef}
+            handle=".drag-handle"
+            cancel=".no-drag"
             onStart={() => {
                 clickRef.current = true; // assume a click initially
             }}
@@ -88,24 +96,33 @@ export default function SmallPopup() {
                 clickRef.current = false; // dragging happened
             }}
         >
-            <div ref={nodeRef} className="popup small-popup">
+            <div ref={nodeRef} className="popup drag-handle small-popup">
                 {showFirst ? (
                     <div
                         className="small-popup-icon"
-                        onMouseUp={() => click(() => setShowFirst(false))}
+                        onPointerDown={onPointerDown}
+                        onPointerMove={onPointerMove}
+                        onPointerUp={() => click(() => setShowFirst(false))}
                     >
                         <PopupIcon />
                     </div>
                 ) : (
                     <div className="big-popup" style={{ position: 'relative' }}>
                         <div className="popup-headers">
-                            <WideLogo className="wide-logo" onMouseUp={() => {
-                                markExtensionForClose();
-                                click(openSettings);
-                            }} />
+                            <WideLogo
+                                className="wide-logo"
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() => {
+                                    markExtensionForClose();
+                                    click(openSettings);
+                                }}
+                            />
                             <div
                                 className="minimize-icon"
-                                onMouseUp={() => click(() => setShowFirst(true))}
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() => click(() => setShowFirst(true))}
                             >
                                 <MinimizeIcon />
                             </div>
@@ -175,7 +192,9 @@ export default function SmallPopup() {
                             <button
                                 className="btn"
                                 id="donateBtn"
-                                onClick={() => click(openPayPal)}
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() => click(openPayPal)}
                             >
                                 <PayPalIcon />
                                 <span className="btn-text">Support me on PayPal</span>

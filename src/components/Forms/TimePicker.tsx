@@ -47,7 +47,7 @@ export default function TimePicker({
 
     return (
         <div className="time-picker-root number" {...props}>
-            <button className="time-picker-trigger" onClick={() => setOpen(true)}>
+            <button className="time-picker-trigger no-drag" onClick={() => setOpen(true)}>
                 {hour}:{minute}:{second}
             </button>
 
