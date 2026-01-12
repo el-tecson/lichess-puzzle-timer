@@ -24,6 +24,11 @@ code = code.replace(
   ""
 );
 
+code = code.replace(
+  /(document\.head\.appendChild\(__vite_style__\));/g,
+  "function appendStyleSafely(style){if(document.head){document.head.appendChild(style);}else{const obs = new MutationObserver(()=>{if(document.head){obs.disconnect();document.head.appendChild(style);}});obs.observe(document.documentElement,{childList:true});}};appendStyleSafely(__vite_style__);"
+)
+
 /* --------------------------------------------------------- */
 /* 3. Verify CSP cleanliness                                 */
 /* --------------------------------------------------------- */

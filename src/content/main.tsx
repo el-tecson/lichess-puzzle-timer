@@ -128,10 +128,7 @@ async function injectShadowDOM() {
 // --- MAIN ENTRY ---
 window.addEventListener('load', async () => {
     injectShadowDOM(); // For the first puzzle
-    const config = await getConfig();
-    if (config.behaviorSettings?.timerType === '0' && config.behaviorSettings?.skipToNextPuzzle) {
-        observePuzzleBoard(); // For SPA navigation
-    }
+    observePuzzleBoard(); // For SPA navigation
 });
 
 // ---------------------------------------------------------------------------
