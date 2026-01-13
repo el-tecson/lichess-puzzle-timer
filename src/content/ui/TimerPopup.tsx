@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import type { Storage } from 'webextension-polyfill';
 import type { ConfigProps } from '@/types/config';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, act } from 'react';
 import getConfig from '@/utils/Settings/getConfig';;
 import { DEFAULT_POSITION, CONFIG, TIME_PRESETS, BASE_TIMER } from '@/constants';
 import PlayIcon from '@/assets/play.svg?react';
@@ -153,6 +153,7 @@ export default function TimerPopup() {
                     if (settings?.preferencesSettings.showSkipIndicator) {
                         showSkipIndicator();
                         const countdown = setInterval(() => {
+                            if (hasStartedRef.current) clearInterval(countdown);
                             setSkipCountdown((prev) => {
                                 if (prev === null || prev <= 0) {
                                     clearInterval(countdown);
@@ -245,6 +246,9 @@ export default function TimerPopup() {
                             if (settings.preferencesSettings.showSkipIndicator) {
                                 showSkipIndicator();
                                 const countdown = setInterval(() => {
+                                    if (hasStartedRef.current) {
+                                        clearInterval(countdown);
+                                    }
                                     setSkipCountdown((prev) => {
                                         if (prev === null || prev <= 0) {
                                             clearInterval(countdown);
@@ -266,6 +270,7 @@ export default function TimerPopup() {
                         if (voteBtn) {
                             setTimeout(() => {
                                 safeSkip(() => {
+                                    if (hasStartedRef.current) return;
                                     if (document.body.contains(voteBtn))
                                         voteBtn.click();
                                 });
@@ -273,6 +278,7 @@ export default function TimerPopup() {
                         } else if (continueBtn) {
                             setTimeout(() => {
                                 safeSkip(() => {
+                                    if (hasStartedRef.current) return;
                                     if (document.body.contains(continueBtn))
                                         continueBtn.click();
                                 });
@@ -289,6 +295,7 @@ export default function TimerPopup() {
 
                                 if (newPuzzleReady) {
                                     clearInterval(waitForNextPuzzle);
+                                    if (hasStartedRef.current) return;
                                     hasStartedRef.current = true;
                                     if (settings.preferencesSettings.showSkipIndicator) {
                                         setSkipCountdown(activePreset.data.countdownBeforeSkippingNum);
@@ -413,9 +420,12 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        hasStartedRef.current = true;
                                         setRunning(false);
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
+                                        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+                                        hideSkipIndicator();
                                         if (
                                             settings.preferencesSettings.enableSounds &&
                                                 settings.preferencesSettings.alertButtonClicks
@@ -526,6 +536,7 @@ function timerEnd(
             // Step 3: Wait for vote button
             waitFor('.puzzle__vote__buttons > .vote-up.vote', (voteBtn) => {
                 setTimeout(() => {
+                    if (hasStarted) return;
                     if (document.body.contains(voteBtn))
                         (voteBtn as HTMLElement).click();
 
@@ -545,6 +556,7 @@ function timerEnd(
             // Step 3: Wait for continue button (For unregistered user)
             waitFor('.continue', (continueBtn) => {
                 setTimeout(() => {
+                    if (hasStarted) return;
                     if (document.body.contains(continueBtn))
                         (continueBtn as HTMLElement).click();
 
