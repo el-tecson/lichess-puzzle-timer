@@ -171,34 +171,31 @@ export default function TimerPopup() {
                     }
                     
                     setRunning(false);
+                    const delay = settings?.behaviorSettings.skipToNextPuzzle &&
+                        settings?.behaviorSettings?.countdownBeforeSkipping
+                        ? activePreset?.data.countdownBeforeSkippingNum
+                        : 1;
 
-                    if (
-                        activePreset?.data.timerType === '0' &&
-                        settings?.behaviorSettings?.skipToNextPuzzle
-                    ) {
-                        const delay = settings?.behaviorSettings?.countdownBeforeSkipping
-                            ? activePreset.data.countdownBeforeSkippingNum
-                            : 1;
-
-                        // Call timerEnd to handle skip & reset safely
-                        safeSkip(() => {
-                            timerEnd(
-                                initialTime,
-                                setCurrentTime,
-                                setRunning,
-                                delay,
-                                settings.preferencesSettings.alertWhenNextPuzzle,
-                                settings.preferencesSettings.showVisualLowTime,
-                                hasStartedRef,
-                                setSkipCountdown,
-                                activePreset.data.countdownBeforeSkippingNum,
-                                settings.preferencesSettings.showSkipIndicator,
-                                settings.preferencesSettings.enableSounds,
-                                settings.preferencesSettings.enableVisuals,
-                                disablePlayButton,
-                            );
-                        });
-                    }
+                    // Call timerEnd to handle skip & reset safely
+                    safeSkip(() => {
+                        timerEnd(
+                            initialTime,
+                            setCurrentTime,
+                            setRunning,
+                            delay,
+                            settings?.preferencesSettings.alertWhenNextPuzzle,
+                            settings?.preferencesSettings.showVisualLowTime,
+                            hasStartedRef,
+                            setSkipCountdown,
+                            activePreset?.data.countdownBeforeSkippingNum,
+                            settings?.preferencesSettings.showSkipIndicator,
+                            settings?.preferencesSettings.enableSounds,
+                            settings?.preferencesSettings.enableVisuals,
+                            disablePlayButton,
+                            settings?.behaviorSettings.skipToNextPuzzle,
+                            activePreset?.data.timerType,
+                        );
+                    });
                 }
 
                 if (next === 3000 && settings?.preferencesSettings?.enableSounds && settings?.preferencesSettings?.alertWhenTimeShort)
@@ -537,6 +534,8 @@ function timerEnd(
     allowAudio: boolean,
     allowVisuals: boolean,
     disablePlayButton: any,
+    skipToNextPuzzle: boolean,
+    timerType: string,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -547,42 +546,64 @@ function timerEnd(
             // Step 3: Wait for vote button
             waitFor('.puzzle__vote__buttons > .vote-up.vote', (voteBtn) => {
                 setTimeout(() => {
-                    if (hasStarted) return;
-                    disablePlayButton.current = false;
-                    if (document.body.contains(voteBtn))
+                    if (document.body.contains(voteBtn) && skipToNextPuzzle)
                         (voteBtn as HTMLElement).click();
 
-                    // Step 4: Reset timer safely
-                    setCurrentTime(initialTime);
-                    setRunning(true);
-                    if (showSkipIndicator) {
-                        setSkipCountdown(defaultSkipCountdown);
-                        hideSkipIndicator();
-                    }
-                    hasStarted.current = true;
-                    if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
-                    if (allowAudio && playTheAudio) playAudio(NextBeep);
+                    const waitForNextPuzzle = setInterval(() => {
+                        const newPuzzleReady =
+                            document.querySelector('.puzzle__board') &&
+                            document.querySelector('.view_solution');
+
+                        if (newPuzzleReady) {
+                            clearInterval(waitForNextPuzzle);
+                            if (hasStarted.current) return;
+                            disablePlayButton.current = false;
+                            hasStarted.current = true;
+                            if (showSkipIndicator) {
+                                setSkipCountdown(defaultSkipCountdown);
+                                hideSkipIndicator();
+                            }
+
+                            // Reset timer safely after next puzzle loads
+                            if (timerType === '0')
+                                setCurrentTime(initialTime);
+                            setRunning(true);
+                            if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
+                            if (allowAudio && playTheAudio) playAudio(NextBeep);
+                        }
+                    }, 300);
                 }, delaySeconds * 1000);
             });
 
             // Step 3: Wait for continue button (For unregistered user)
             waitFor('.continue', (continueBtn) => {
                 setTimeout(() => {
-                    if (hasStarted) return;
-                    disablePlayButton.current = false;
-                    if (document.body.contains(continueBtn))
+                    if (document.body.contains(continueBtn) && skipToNextPuzzle)
                         (continueBtn as HTMLElement).click();
 
-                    // Step 4: Reset timer safely
-                    setCurrentTime(initialTime);
-                    setRunning(true);
-                    if (showSkipIndicator) {
-                        setSkipCountdown(defaultSkipCountdown);
-                        hideSkipIndicator();
-                    }
-                    hasStarted.current = true;
-                    if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
-                    if (allowAudio && playTheAudio) playAudio(NextBeep);
+                    const waitForNextPuzzle = setInterval(() => {
+                        const newPuzzleReady =
+                            document.querySelector('.puzzle__board') &&
+                            document.querySelector('.view_solution');
+
+                        if (newPuzzleReady) {
+                            clearInterval(waitForNextPuzzle);
+                            if (hasStarted.current) return;
+                            disablePlayButton.current = false;
+                            hasStarted.current = true;
+                            if (showSkipIndicator) {
+                                setSkipCountdown(defaultSkipCountdown);
+                                hideSkipIndicator();
+                            }
+
+                            // Reset timer safely after next puzzle loads
+                            if (timerType === '0')
+                                setCurrentTime(initialTime);
+                            setRunning(true);
+                            if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
+                            if (allowAudio && playTheAudio) playAudio(NextBeep);
+                        }
+                    }, 300);
                 }, delaySeconds * 1000);
             });
         });
