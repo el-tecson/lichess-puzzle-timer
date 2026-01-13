@@ -69,10 +69,17 @@ export default function TimerPopup() {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const hasStartedRef = useRef(false);
     const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
-    const isMobileRef = useRef(false);
-    const [size, setSize] = useState(isMobileRef ? BASE_TIMER_MOBILE : BASE_TIMER);
+    const isMobileRef = useRef(isMobile());
+    const [size, setSize] = useState(BASE_TIMER);
     const [position, setPosition] = useState(DEFAULT_POSITION);
     const [scale, setScale] = useState(1);
+    const disablePlayButton = useRef(false);
+
+    useEffect(() => {
+        const mobile = isMobile();
+        isMobileRef.current = mobile;
+        setSize(mobile ? BASE_TIMER_MOBILE : BASE_TIMER);
+    }, []);
 
     // Load config
     useEffect(() => {
@@ -130,6 +137,7 @@ export default function TimerPopup() {
 
                 if (next === 0) {
                     clearInterval(intervalRef.current!);
+                    disablePlayButton.current = true;
                     hasStartedRef.current = false;
                     if (settings?.preferencesSettings?.showAnalyticsPopup) {
                         addUnsolved();
@@ -144,9 +152,13 @@ export default function TimerPopup() {
                         settings?.preferencesSettings?.alertWhenTimerIsZero
                     )
                         playAudio(WrongBeep);
-                    if (settings?.preferencesSettings.showSkipIndicator) {
+                    if (
+                        settings?.preferencesSettings.showSkipIndicator &&
+                        settings.behaviorSettings.skipToNextPuzzle
+                    ) {
                         showSkipIndicator();
                         const countdown = setInterval(() => {
+                            if (hasStartedRef.current) clearInterval(countdown);
                             setSkipCountdown((prev) => {
                                 if (prev === null || prev <= 0) {
                                     clearInterval(countdown);
@@ -183,6 +195,7 @@ export default function TimerPopup() {
                                 settings.preferencesSettings.showSkipIndicator,
                                 settings.preferencesSettings.enableSounds,
                                 settings.preferencesSettings.enableVisuals,
+                                disablePlayButton,
                             );
                         });
                     }
@@ -203,11 +216,7 @@ export default function TimerPopup() {
 
     // Stop timer when puzzle is solved
     useEffect(() => {
-        if (
-            activePreset?.data?.timerType === '0' &&
-            settings?.behaviorSettings?.skipToNextPuzzle &&
-            running
-        ) {
+        if (running) {
             if (puzzleEndObserver) puzzleEndObserver.disconnect();
             puzzleEndObserver = new MutationObserver(() => {
                 const puzzleBoard = document.querySelector('.puzzle__board');
@@ -220,25 +229,32 @@ export default function TimerPopup() {
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
                     if (voteBtn || continueBtn) {
                         clearInterval(interval);
+                        disablePlayButton.current = true;
                         puzzleEndObserver?.disconnect();
                         if (hasStartedRef.current) {
                             hasStartedRef.current = false;
-                            if (settings.preferencesSettings.showAnalyticsPopup) {
+                            if (settings?.preferencesSettings.showAnalyticsPopup) {
                                 addSolved();
                             }
                             if (
-                                settings.preferencesSettings.enableSounds &&
+                                settings?.preferencesSettings.enableSounds &&
                                 settings.preferencesSettings.alertWhenSolved
                             )
                                 playAudio(SolvedBeep);
                             if (
-                                settings.preferencesSettings.enableVisuals &&
+                                settings?.preferencesSettings.enableVisuals &&
                                 settings.preferencesSettings.showVisualPuzzleSolved
                             )
                                 setTimeColor('var(--good-color)', 'bold');
-                            if (settings.preferencesSettings.showSkipIndicator) {
+                            if (
+                                settings?.preferencesSettings.showSkipIndicator &&
+                                settings?.behaviorSettings.skipToNextPuzzle
+                            ) {
                                 showSkipIndicator();
                                 const countdown = setInterval(() => {
+                                    if (hasStartedRef.current) {
+                                        clearInterval(countdown);
+                                    }
                                     setSkipCountdown((prev) => {
                                         if (prev === null || prev <= 0) {
                                             clearInterval(countdown);
@@ -253,20 +269,23 @@ export default function TimerPopup() {
                         setRunning(false);
 
                         const delay =
-                            (settings?.behaviorSettings?.countdownBeforeSkipping
-                                ? activePreset.data.countdownBeforeSkippingNum
-                                : 1) * 1000;
+                            (settings?.behaviorSettings.skipToNextPuzzle &&
+                                settings?.behaviorSettings?.countdownBeforeSkipping
+                                ? activePreset?.data.countdownBeforeSkippingNum
+                                : 0.001) * 1000;
 
-                        if (voteBtn) {
+                        if (voteBtn && settings?.behaviorSettings.skipToNextPuzzle) {
                             setTimeout(() => {
                                 safeSkip(() => {
+                                    if (hasStartedRef.current) return;
                                     if (document.body.contains(voteBtn))
                                         voteBtn.click();
                                 });
                             }, delay);
-                        } else if (continueBtn) {
+                        } else if (continueBtn && settings?.behaviorSettings.skipToNextPuzzle) {
                             setTimeout(() => {
                                 safeSkip(() => {
+                                    if (hasStartedRef.current) return;
                                     if (document.body.contains(continueBtn))
                                         continueBtn.click();
                                 });
@@ -283,22 +302,25 @@ export default function TimerPopup() {
 
                                 if (newPuzzleReady) {
                                     clearInterval(waitForNextPuzzle);
+                                    if (hasStartedRef.current) return;
+                                    disablePlayButton.current = false;
                                     hasStartedRef.current = true;
-                                    if (settings.preferencesSettings.showSkipIndicator) {
-                                        setSkipCountdown(activePreset.data.countdownBeforeSkippingNum);
+                                    if (settings?.preferencesSettings.showSkipIndicator) {
+                                        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
                                         hideSkipIndicator();
                                     }
 
                                     // Reset timer safely after next puzzle loads
-                                    setCurrentTime(initialTime);
+                                    if (activePreset?.data.timerType === '0')
+                                        setCurrentTime(initialTime);
                                     setRunning(true);
                                     if (
-                                        settings.preferencesSettings.enableSounds &&
+                                        settings?.preferencesSettings.enableSounds &&
                                         settings.preferencesSettings.alertWhenNextPuzzle
                                     )
                                         playAudio(NextBeep);
                                     if (
-                                        settings.preferencesSettings.enableVisuals &&
+                                        settings?.preferencesSettings.enableVisuals &&
                                         settings.preferencesSettings.showVisualLowTime
                                     )
                                         setTimeColor('var(--text-color)');
@@ -318,10 +340,6 @@ export default function TimerPopup() {
     useEffect(() => {
         setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
     }, [activePreset]);
-
-    useEffect(() => {
-        isMobileRef.current = isMobile();
-    })
 
     if (!settings) return null;
 
@@ -348,7 +366,7 @@ export default function TimerPopup() {
                     height: ref.offsetHeight,
                 });
                 setPosition(pos);
-                const newScale = ref.offsetWidth / (isMobileRef ? BASE_TIMER_MOBILE.width : BASE_TIMER.width);
+                const newScale = ref.offsetWidth / (isMobileRef.current ? BASE_TIMER_MOBILE.width : BASE_TIMER.width);
                 setScale(newScale);
                 clickRef.current = true;
             }}
@@ -387,6 +405,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        if (disablePlayButton.current) return;
                                         unlockAudio();
                                         if (
                                             settings.preferencesSettings.enableSounds &&
@@ -411,9 +430,13 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        hasStartedRef.current = true;
                                         setRunning(false);
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
+                                        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+                                        hideSkipIndicator();
+                                        disablePlayButton.current = false;
                                         if (
                                             settings.preferencesSettings.enableSounds &&
                                                 settings.preferencesSettings.alertButtonClicks
@@ -514,6 +537,7 @@ function timerEnd(
     showSkipIndicator: boolean,
     allowAudio: boolean,
     allowVisuals: boolean,
+    disablePlayButton: any,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -524,6 +548,8 @@ function timerEnd(
             // Step 3: Wait for vote button
             waitFor('.puzzle__vote__buttons > .vote-up.vote', (voteBtn) => {
                 setTimeout(() => {
+                    if (hasStarted) return;
+                    disablePlayButton.current = false;
                     if (document.body.contains(voteBtn))
                         (voteBtn as HTMLElement).click();
 
@@ -543,6 +569,8 @@ function timerEnd(
             // Step 3: Wait for continue button (For unregistered user)
             waitFor('.continue', (continueBtn) => {
                 setTimeout(() => {
+                    if (hasStarted) return;
+                    disablePlayButton.current = false;
                     if (document.body.contains(continueBtn))
                         (continueBtn as HTMLElement).click();
 
