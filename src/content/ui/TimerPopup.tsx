@@ -69,10 +69,16 @@ export default function TimerPopup() {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const hasStartedRef = useRef(false);
     const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
-    const isMobileRef = useRef(false);
-    const [size, setSize] = useState(isMobileRef ? BASE_TIMER_MOBILE : BASE_TIMER);
+    const isMobileRef = useRef(isMobile());
+    const [size, setSize] = useState(BASE_TIMER);
     const [position, setPosition] = useState(DEFAULT_POSITION);
     const [scale, setScale] = useState(1);
+
+    useEffect(() => {
+        const mobile = isMobile();
+        isMobileRef.current = mobile;
+        setSize(mobile ? BASE_TIMER_MOBILE : BASE_TIMER);
+    }, []);
 
     // Load config
     useEffect(() => {
@@ -318,10 +324,6 @@ export default function TimerPopup() {
     useEffect(() => {
         setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
     }, [activePreset]);
-
-    useEffect(() => {
-        isMobileRef.current = isMobile();
-    })
 
     if (!settings) return null;
 
