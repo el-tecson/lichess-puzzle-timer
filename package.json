@@ -41,6 +41,7 @@
     "@typescript-eslint/parser": "^8.46.4",
     "@vitejs/plugin-react": "^5.0.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "baseline-browser-mapping": "^2.9.14",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
