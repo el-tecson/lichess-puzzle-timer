@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import type { Storage } from 'webextension-polyfill';
 import type { ConfigProps } from '@/types/config';
 
-import { useRef, useEffect, useState, act } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import getConfig from '@/utils/Settings/getConfig';;
 import { DEFAULT_POSITION, CONFIG, TIME_PRESETS, BASE_TIMER } from '@/constants';
 import PlayIcon from '@/assets/play.svg?react';
