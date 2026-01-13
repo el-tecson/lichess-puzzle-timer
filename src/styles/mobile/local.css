@@ -1,6 +1,6 @@
 @media (max-width: 600px) {
     #root {
-        padding: 24px 40px !important;
+        padding: 34px 20px !important;
     }
 
     .navbar .logo {
@@ -33,5 +33,9 @@
 
     .mobile-navbar .ps-menu-button:hover {
         background-color: var(--accent-color) !important;
+    }
+
+    .announcement-bar {
+        font-size: 0.86rem !important;
     }
 }
