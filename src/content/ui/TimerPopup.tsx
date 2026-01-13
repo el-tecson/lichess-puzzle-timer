@@ -152,7 +152,10 @@ export default function TimerPopup() {
                         settings?.preferencesSettings?.alertWhenTimerIsZero
                     )
                         playAudio(WrongBeep);
-                    if (settings?.preferencesSettings.showSkipIndicator) {
+                    if (
+                        settings?.preferencesSettings.showSkipIndicator &&
+                        settings.behaviorSettings.skipToNextPuzzle
+                    ) {
                         showSkipIndicator();
                         const countdown = setInterval(() => {
                             if (hasStartedRef.current) clearInterval(countdown);
@@ -213,11 +216,7 @@ export default function TimerPopup() {
 
     // Stop timer when puzzle is solved
     useEffect(() => {
-        if (
-            activePreset?.data?.timerType === '0' &&
-            settings?.behaviorSettings?.skipToNextPuzzle &&
-            running
-        ) {
+        if (running) {
             if (puzzleEndObserver) puzzleEndObserver.disconnect();
             puzzleEndObserver = new MutationObserver(() => {
                 const puzzleBoard = document.querySelector('.puzzle__board');
@@ -234,20 +233,23 @@ export default function TimerPopup() {
                         puzzleEndObserver?.disconnect();
                         if (hasStartedRef.current) {
                             hasStartedRef.current = false;
-                            if (settings.preferencesSettings.showAnalyticsPopup) {
+                            if (settings?.preferencesSettings.showAnalyticsPopup) {
                                 addSolved();
                             }
                             if (
-                                settings.preferencesSettings.enableSounds &&
+                                settings?.preferencesSettings.enableSounds &&
                                 settings.preferencesSettings.alertWhenSolved
                             )
                                 playAudio(SolvedBeep);
                             if (
-                                settings.preferencesSettings.enableVisuals &&
+                                settings?.preferencesSettings.enableVisuals &&
                                 settings.preferencesSettings.showVisualPuzzleSolved
                             )
                                 setTimeColor('var(--good-color)', 'bold');
-                            if (settings.preferencesSettings.showSkipIndicator) {
+                            if (
+                                settings?.preferencesSettings.showSkipIndicator &&
+                                settings?.behaviorSettings.skipToNextPuzzle
+                            ) {
                                 showSkipIndicator();
                                 const countdown = setInterval(() => {
                                     if (hasStartedRef.current) {
@@ -267,11 +269,12 @@ export default function TimerPopup() {
                         setRunning(false);
 
                         const delay =
-                            (settings?.behaviorSettings?.countdownBeforeSkipping
-                                ? activePreset.data.countdownBeforeSkippingNum
-                                : 1) * 1000;
+                            (settings?.behaviorSettings.skipToNextPuzzle &&
+                                settings?.behaviorSettings?.countdownBeforeSkipping
+                                ? activePreset?.data.countdownBeforeSkippingNum
+                                : 0.001) * 1000;
 
-                        if (voteBtn) {
+                        if (voteBtn && settings?.behaviorSettings.skipToNextPuzzle) {
                             setTimeout(() => {
                                 safeSkip(() => {
                                     if (hasStartedRef.current) return;
@@ -279,7 +282,7 @@ export default function TimerPopup() {
                                         voteBtn.click();
                                 });
                             }, delay);
-                        } else if (continueBtn) {
+                        } else if (continueBtn && settings?.behaviorSettings.skipToNextPuzzle) {
                             setTimeout(() => {
                                 safeSkip(() => {
                                     if (hasStartedRef.current) return;
@@ -302,21 +305,22 @@ export default function TimerPopup() {
                                     if (hasStartedRef.current) return;
                                     disablePlayButton.current = false;
                                     hasStartedRef.current = true;
-                                    if (settings.preferencesSettings.showSkipIndicator) {
-                                        setSkipCountdown(activePreset.data.countdownBeforeSkippingNum);
+                                    if (settings?.preferencesSettings.showSkipIndicator) {
+                                        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
                                         hideSkipIndicator();
                                     }
 
                                     // Reset timer safely after next puzzle loads
-                                    setCurrentTime(initialTime);
+                                    if (activePreset?.data.timerType === '0')
+                                        setCurrentTime(initialTime);
                                     setRunning(true);
                                     if (
-                                        settings.preferencesSettings.enableSounds &&
+                                        settings?.preferencesSettings.enableSounds &&
                                         settings.preferencesSettings.alertWhenNextPuzzle
                                     )
                                         playAudio(NextBeep);
                                     if (
-                                        settings.preferencesSettings.enableVisuals &&
+                                        settings?.preferencesSettings.enableVisuals &&
                                         settings.preferencesSettings.showVisualLowTime
                                     )
                                         setTimeColor('var(--text-color)');
