@@ -114,7 +114,12 @@ export default function AnalyticsPopup() {
         >
             <div 
                 className="popup analytics-popup"
-                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
+                style={{
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top left',
+                    width: `${BASE_ANALYTICS.width / scale}%`,
+                    height: `${BASE_ANALYTICS.height / scale}%`,
+                }}
             >
                 <Section
                     svg={
