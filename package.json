@@ -31,6 +31,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.28.5",
     "@types/chrome": "^0.1.27",
+    "@types/matchmediaquery": "^0.3.3",
     "@types/node": "^24.7.0",
     "@types/react": "^19.2.0",
     "@types/react-color": "^3.0.13",
@@ -59,6 +60,7 @@
     "@babel/plugin-transform-react-constant-elements": "^7.27.1",
     "@headlessui/react": "^2.2.9",
     "autosize-input": "^1.0.2",
+    "matchmediaquery": "^0.4.2",
     "modern-normalize": "^3.0.1",
     "react": "^19.2.0",
     "react-color": "^2.19.3",
