@@ -297,8 +297,7 @@ export default function TimerPopup() {
                             const waitForNextPuzzle = setInterval(() => {
                                 const newPuzzleReady =
                                     document.querySelector('.puzzle__board') &&
-                                    (document.querySelector('.view_solution') ||
-                                        document.querySelector('.continue'));
+                                    document.querySelector('.view_solution');
 
                                 if (newPuzzleReady) {
                                     clearInterval(waitForNextPuzzle);
