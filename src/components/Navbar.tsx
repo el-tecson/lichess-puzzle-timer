@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '@/assets/lptimer-logo-wide.svg?react';
+import MenuIcon from '@/assets/menu.svg?react';
 import {
     Sidebar,
     Menu,
@@ -37,7 +38,7 @@ export default function Navbar() {
                     display: "none",
                 }}
             >
-                ☰
+                <MenuIcon className="menu-icon" />
             </button>
 
             <Sidebar
