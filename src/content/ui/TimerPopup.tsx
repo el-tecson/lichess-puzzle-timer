@@ -73,6 +73,7 @@ export default function TimerPopup() {
     const [size, setSize] = useState(BASE_TIMER);
     const [position, setPosition] = useState(DEFAULT_POSITION);
     const [scale, setScale] = useState(1);
+    const disablePlayButton = useRef(false);
 
     useEffect(() => {
         const mobile = isMobile();
@@ -136,6 +137,7 @@ export default function TimerPopup() {
 
                 if (next === 0) {
                     clearInterval(intervalRef.current!);
+                    disablePlayButton.current = true;
                     hasStartedRef.current = false;
                     if (settings?.preferencesSettings?.showAnalyticsPopup) {
                         addUnsolved();
@@ -190,6 +192,7 @@ export default function TimerPopup() {
                                 settings.preferencesSettings.showSkipIndicator,
                                 settings.preferencesSettings.enableSounds,
                                 settings.preferencesSettings.enableVisuals,
+                                disablePlayButton,
                             );
                         });
                     }
@@ -227,6 +230,7 @@ export default function TimerPopup() {
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
                     if (voteBtn || continueBtn) {
                         clearInterval(interval);
+                        disablePlayButton.current = true;
                         puzzleEndObserver?.disconnect();
                         if (hasStartedRef.current) {
                             hasStartedRef.current = false;
@@ -296,6 +300,7 @@ export default function TimerPopup() {
                                 if (newPuzzleReady) {
                                     clearInterval(waitForNextPuzzle);
                                     if (hasStartedRef.current) return;
+                                    disablePlayButton.current = false;
                                     hasStartedRef.current = true;
                                     if (settings.preferencesSettings.showSkipIndicator) {
                                         setSkipCountdown(activePreset.data.countdownBeforeSkippingNum);
@@ -396,6 +401,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        if (disablePlayButton.current) return;
                                         unlockAudio();
                                         if (
                                             settings.preferencesSettings.enableSounds &&
@@ -426,6 +432,7 @@ export default function TimerPopup() {
                                         setTimeColor('var(--text-color)', 'normal');
                                         setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
                                         hideSkipIndicator();
+                                        disablePlayButton.current = false;
                                         if (
                                             settings.preferencesSettings.enableSounds &&
                                                 settings.preferencesSettings.alertButtonClicks
@@ -526,6 +533,7 @@ function timerEnd(
     showSkipIndicator: boolean,
     allowAudio: boolean,
     allowVisuals: boolean,
+    disablePlayButton: any,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -537,6 +545,7 @@ function timerEnd(
             waitFor('.puzzle__vote__buttons > .vote-up.vote', (voteBtn) => {
                 setTimeout(() => {
                     if (hasStarted) return;
+                    disablePlayButton.current = false;
                     if (document.body.contains(voteBtn))
                         (voteBtn as HTMLElement).click();
 
@@ -557,6 +566,7 @@ function timerEnd(
             waitFor('.continue', (continueBtn) => {
                 setTimeout(() => {
                     if (hasStarted) return;
+                    disablePlayButton.current = false;
                     if (document.body.contains(continueBtn))
                         (continueBtn as HTMLElement).click();
 
