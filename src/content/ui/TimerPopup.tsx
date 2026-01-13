@@ -45,6 +45,12 @@ function safeSkip(action: Function) {
 
 export default function TimerPopup() {
     const clickRef = useRef(true);
+    const onPointerDown = () => {
+        clickRef.current = true;
+    };
+    const onPointerMove = () => {
+        clickRef.current = false;
+    };
     const click = (fn: Function) => {
         if (clickRef.current) fn();
     };
@@ -370,7 +376,9 @@ export default function TimerPopup() {
                         <div className="timer-btn-part">
                             <button
                                 className="timer-btn pause-play-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         unlockAudio();
                                         if (
@@ -392,7 +400,9 @@ export default function TimerPopup() {
                             </button>
                             <button
                                 className="timer-btn cancel-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         setRunning(false);
                                         setCurrentTime(initialTime);
@@ -411,7 +421,9 @@ export default function TimerPopup() {
                         <div className="timer-btn-part">
                             <button
                                 className="timer-btn restart-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
@@ -427,7 +439,9 @@ export default function TimerPopup() {
                             </button>
                             <button
                                 className="timer-btn settings-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         setRunning(false);
                                         if (

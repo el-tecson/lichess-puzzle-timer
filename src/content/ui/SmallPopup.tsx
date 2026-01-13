@@ -34,10 +34,10 @@ export default function SmallPopup() {
     // Track whether the mouse actually moved
     const clickRef = useRef(true);
     const onPointerDown = () => {
-    clickRef.current = true;
+        clickRef.current = true;
     };
     const onPointerMove = () => {
-    clickRef.current = false;
+        clickRef.current = false;
     };
     const click = (fn: Function) => {
         if (clickRef.current) fn();
