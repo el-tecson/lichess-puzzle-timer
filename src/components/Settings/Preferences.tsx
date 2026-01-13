@@ -145,6 +145,7 @@ export function PreferencesPanel() {
                         className="btn reset-everything-btn"
                         onClick={async () => {
                             await resetEverything();
+                            window.location.reload();
                         }}
                     >
                         <ResetIcon />
