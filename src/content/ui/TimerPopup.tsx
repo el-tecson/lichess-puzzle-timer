@@ -362,7 +362,7 @@ export default function TimerPopup() {
                     height: ref.offsetHeight,
                 });
                 setPosition(pos);
-                const newScale = ref.offsetWidth / (isMobileRef ? BASE_TIMER_MOBILE.width : BASE_TIMER.width);
+                const newScale = ref.offsetWidth / (isMobileRef.current ? BASE_TIMER_MOBILE.width : BASE_TIMER.width);
                 setScale(newScale);
                 clickRef.current = true;
             }}
