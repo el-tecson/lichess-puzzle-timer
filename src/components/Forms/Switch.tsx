@@ -23,7 +23,7 @@ export default function Switch({
         <HUISwitch
             checked={enabled}
             onChange={handleClick}
-            className={`switch ${className}`}
+            className={`switch no-drag ${className}`}
             {...props}
         >
             <div className="switch-icon-container">

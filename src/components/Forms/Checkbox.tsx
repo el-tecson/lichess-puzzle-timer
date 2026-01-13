@@ -23,7 +23,7 @@ export default function Checkbox({
         <HUICheckbox
             checked={enabled}
             onChange={handleClick}
-            className={`checkbox ${className}`}
+            className={`checkbox no-drag ${className}`}
             {...props}
         >
             <div className="check-icon-container">

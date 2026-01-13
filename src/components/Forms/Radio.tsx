@@ -29,7 +29,7 @@ export default function Radio({
             {...props}
         >
             {options.map((opt) => (
-                <HUIRadio key={opt.optionName} value={opt.optionName} className="radio">
+                <HUIRadio key={opt.optionName} value={opt.optionName} className="radio no-drag">
                     <div className="circle-icon-container">
                         <CircleIcon className="circle-icon" />
                     </div>

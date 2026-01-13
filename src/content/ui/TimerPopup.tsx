@@ -25,6 +25,8 @@ import showSkipIndicator from '@/utils/dom/showSkipIndicator';
 import getTimePresets from '@/utils/time-presets/getTimePresets';
 import { Rnd } from 'react-rnd';
 import { markExtensionForClose } from '../main';
+import isMobile from '@/utils/dom/isMobile';
+import { BASE_TIMER_MOBILE } from '@/constants/timer-popup';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -45,6 +47,12 @@ function safeSkip(action: Function) {
 
 export default function TimerPopup() {
     const clickRef = useRef(true);
+    const onPointerDown = () => {
+        clickRef.current = true;
+    };
+    const onPointerMove = () => {
+        clickRef.current = false;
+    };
     const click = (fn: Function) => {
         if (clickRef.current) fn();
     };
@@ -61,7 +69,8 @@ export default function TimerPopup() {
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const hasStartedRef = useRef(false);
     const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
-    const [size, setSize] = useState(BASE_TIMER);
+    const isMobileRef = useRef(false);
+    const [size, setSize] = useState(isMobileRef ? BASE_TIMER_MOBILE : BASE_TIMER);
     const [position, setPosition] = useState(DEFAULT_POSITION);
     const [scale, setScale] = useState(1);
 
@@ -310,6 +319,10 @@ export default function TimerPopup() {
         setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
     }, [activePreset]);
 
+    useEffect(() => {
+        isMobileRef.current = isMobile();
+    })
+
     if (!settings) return null;
 
     if (skipCountdown === null) return null;
@@ -335,7 +348,7 @@ export default function TimerPopup() {
                     height: ref.offsetHeight,
                 });
                 setPosition(pos);
-                const newScale = ref.offsetWidth / BASE_TIMER.width;
+                const newScale = ref.offsetWidth / (isMobileRef ? BASE_TIMER_MOBILE.width : BASE_TIMER.width);
                 setScale(newScale);
                 clickRef.current = true;
             }}
@@ -370,7 +383,9 @@ export default function TimerPopup() {
                         <div className="timer-btn-part">
                             <button
                                 className="timer-btn pause-play-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         unlockAudio();
                                         if (
@@ -392,7 +407,9 @@ export default function TimerPopup() {
                             </button>
                             <button
                                 className="timer-btn cancel-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         setRunning(false);
                                         setCurrentTime(initialTime);
@@ -411,7 +428,9 @@ export default function TimerPopup() {
                         <div className="timer-btn-part">
                             <button
                                 className="timer-btn restart-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
@@ -427,7 +446,9 @@ export default function TimerPopup() {
                             </button>
                             <button
                                 className="timer-btn settings-button"
-                                onMouseUp={() =>
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={() =>
                                     click(() => {
                                         setRunning(false);
                                         if (

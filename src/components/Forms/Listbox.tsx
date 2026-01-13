@@ -33,7 +33,7 @@ export default function Listbox({
         <div className="listbox">
             <p className="listbox-label">{label}</p>
             <HUIListbox value={selected} onChange={handleChange} {...props}>
-                <ListboxButton className={`listbox-button noselect ${className}`}>
+                <ListboxButton className={`listbox-button noselect no-drag ${className}`}>
                     <p className="listbox-selected">{options[selected]?.textLabel}</p>
                     <DropdownArrow className="dropdown-arrow-icon" aria-hidden="true" />
                 </ListboxButton>

@@ -16,6 +16,12 @@ import setAnalytics from '@/utils/Analytics/setAnalytics';
 export default function AnalyticsPopup() {
     // Track whether the mouse actually moved
     const clickRef = useRef(true);
+    const onPointerDown = () => {
+        clickRef.current = true;
+    };
+    const onPointerMove = () => {
+        clickRef.current = false;
+    };
     const click = (fn: Function) => {
         if (clickRef.current) fn();
     };
@@ -108,7 +114,12 @@ export default function AnalyticsPopup() {
         >
             <div 
                 className="popup analytics-popup"
-                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
+                style={{
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top left',
+                    width: `${BASE_ANALYTICS.width / scale}%`,
+                    height: `${BASE_ANALYTICS.height / scale}%`,
+                }}
             >
                 <Section
                     svg={
@@ -142,7 +153,9 @@ export default function AnalyticsPopup() {
                     </p>
                     <button
                         className="btn reset-data-btn"
-                        onClick={() => click(async () => {
+                        onPointerDown={onPointerDown}
+                        onPointerMove={onPointerMove}
+                        onPointerUp={() => click(async () => {
                             await setAnalytics({
                                 totalPuzzles: 0,
                                 solved: 0,
