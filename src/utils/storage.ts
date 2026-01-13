@@ -1,4 +1,4 @@
-import browser from "webextension-polyfill";
+import browser from 'webextension-polyfill';
 
 export async function get(item: string, fallbackConfig: unknown = {}): Promise<unknown> {
     if (!browser?.storage?.local) {

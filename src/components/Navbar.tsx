@@ -5,7 +5,7 @@ import MenuIcon from '@/assets/menu.svg?react';
 import {
     Sidebar,
     Menu,
-    MenuItem
+    MenuItem,
 } from 'react-pro-sidebar';
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
                 className="mobile-navbar-btn"
                 onClick={() => setToggled(!toggled)}
                 style={{
-                    display: "none",
+                    display: 'none',
                 }}
             >
                 <MenuIcon className="menu-icon" />
@@ -45,7 +45,7 @@ export default function Navbar() {
                 className="mobile-navbar" 
                 toggled={toggled}
                 breakPoint="md"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 onBackdropClick={() => setToggled(false)}
             >
                 <Menu className="menu">

@@ -6,4 +6,4 @@ export const BASE_TIMER = {
 export const BASE_TIMER_MOBILE = {
     width: 324,
     height: 96,
-}
+};
