@@ -17,6 +17,7 @@
   [![Commits][commits-badge]][commits-link]
   <br>
   [![Download][download-badge]][download-link]
+  [![Firefox Download][download-firefox-badge]][download-firefox-link]
 
 </div>
 
@@ -53,9 +54,11 @@ See the [LICENSE](./LICENSE) file for details.
 [license-link]:       https://github.com/el-tecson/lichess-puzzle-timer/blob/main/LICENSE
 [release-link]:       https://github.com/el-tecson/lichess-puzzle-timer/releases/latest
 [download-link]:      https://chromewebstore.google.com/detail/ifloeapglolidlgbfjnfidpnpnobddof
+[download-firefox-link]:      https://addons.mozilla.org/en-US/android/addon/lichess-puzzle-timer/
 [logo-link]:          ./public/images/lptimer-128.png
 
 [commits-badge]:      https://img.shields.io/github/commits-since/el-tecson/lichess-puzzle-timer/latest?style=for-the-badge
 [license-badge]:      https://img.shields.io/github/license/el-tecson/lichess-puzzle-timer?style=for-the-badge&label=license&color=success
 [release-badge]:      https://img.shields.io/github/v/release/el-tecson/lichess-puzzle-timer?style=for-the-badge&label=official%20release
 [download-badge]:      https://img.shields.io/website?style=for-the-badge&down_color=red&down_message=Not%20Found&label=chrome%20extension&up_color=success&up_message=Download&url=https%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fifloeapglolidlgbfjnfidpnpnobddof
+[download-firefox-badge]:      https://img.shields.io/website?style=for-the-badge&down_color=red&down_message=Not%20Found&label=firefox%20add-on&up_color=success&up_message=Download&url=https%3A%2F%2Faddons.mozilla.org%2Fen-US%2Fandroid%2Faddon%2Flichess-puzzle-timer%2F
