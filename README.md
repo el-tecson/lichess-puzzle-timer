@@ -8,6 +8,8 @@
   <br>
   <strong>[Download the Chrome Extension »][download-link]</strong>
   <br>
+  <strong>[Download the Firefox Add-on (Desktop/Mobile) »][download-firefox-link]</strong>
+  <br>
   <br>
   [Report bug][issue-link]
 
