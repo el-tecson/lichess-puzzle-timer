@@ -154,7 +154,8 @@ export default function TimerPopup() {
                         playAudio(WrongBeep);
                     if (
                         settings?.preferencesSettings.showSkipIndicator &&
-                        settings.behaviorSettings.skipToNextPuzzle
+                        settings.behaviorSettings.skipToNextPuzzle &&
+                        activePreset?.data.timerType === '0'
                     ) {
                         showSkipIndicator();
                         const countdown = setInterval(() => {
@@ -169,33 +170,35 @@ export default function TimerPopup() {
                             });
                         }, 1000);
                     }
-                    
                     setRunning(false);
-                    const delay = settings?.behaviorSettings.skipToNextPuzzle &&
-                        settings?.behaviorSettings?.countdownBeforeSkipping
-                        ? activePreset?.data.countdownBeforeSkippingNum
-                        : 1;
-
+                    
                     // Call timerEnd to handle skip & reset safely
-                    safeSkip(() => {
-                        timerEnd(
-                            initialTime,
-                            setCurrentTime,
-                            setRunning,
-                            delay,
-                            settings?.preferencesSettings.alertWhenNextPuzzle,
-                            settings?.preferencesSettings.showVisualLowTime,
-                            hasStartedRef,
-                            setSkipCountdown,
-                            activePreset?.data.countdownBeforeSkippingNum,
-                            settings?.preferencesSettings.showSkipIndicator,
-                            settings?.preferencesSettings.enableSounds,
-                            settings?.preferencesSettings.enableVisuals,
-                            disablePlayButton,
-                            settings?.behaviorSettings.skipToNextPuzzle,
-                            activePreset?.data.timerType,
-                        );
-                    });
+                    if (activePreset?.data.timerType === '0') {
+                        const delay = settings?.behaviorSettings.skipToNextPuzzle &&
+                            settings?.behaviorSettings?.countdownBeforeSkipping
+                            ? activePreset?.data.countdownBeforeSkippingNum
+                            : 1;
+
+                        safeSkip(() => {
+                            timerEnd(
+                                initialTime,
+                                setCurrentTime,
+                                setRunning,
+                                delay,
+                                settings?.preferencesSettings.alertWhenNextPuzzle,
+                                settings?.preferencesSettings.showVisualLowTime,
+                                hasStartedRef,
+                                setSkipCountdown,
+                                activePreset?.data.countdownBeforeSkippingNum,
+                                settings?.preferencesSettings.showSkipIndicator,
+                                settings?.preferencesSettings.enableSounds,
+                                settings?.preferencesSettings.enableVisuals,
+                                disablePlayButton,
+                                settings?.behaviorSettings.skipToNextPuzzle,
+                                activePreset?.data.timerType,
+                            );
+                        });
+                    }
                 }
 
                 if (next === 3000 && settings?.preferencesSettings?.enableSounds && settings?.preferencesSettings?.alertWhenTimeShort)
