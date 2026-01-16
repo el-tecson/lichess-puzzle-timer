@@ -546,6 +546,7 @@ function timerEnd(
             // Step 3: Wait for vote button
             waitFor('.puzzle__vote__buttons > .vote-up.vote', (voteBtn) => {
                 setTimeout(() => {
+                    if (hasStarted.current) return;
                     if (document.body.contains(voteBtn) && skipToNextPuzzle)
                         (voteBtn as HTMLElement).click();
 
@@ -578,6 +579,7 @@ function timerEnd(
             // Step 3: Wait for continue button (For unregistered user)
             waitFor('.continue', (continueBtn) => {
                 setTimeout(() => {
+                    if (hasStarted.current) return;
                     if (document.body.contains(continueBtn) && skipToNextPuzzle)
                         (continueBtn as HTMLElement).click();
 
