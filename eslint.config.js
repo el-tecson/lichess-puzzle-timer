@@ -1,4 +1,3 @@
-// eslint.config.js
 import tsParser from '@typescript-eslint/parser';
 import typescript from '@typescript-eslint/eslint-plugin';
 import prettierPlugin from 'eslint-plugin-prettier';
@@ -25,13 +24,13 @@ export default [
             prettier: prettierPlugin,
         },
         rules: {
+            'max-len': 'off',
             quotes: ['error', 'single'],
             semi: ['error', 'always'],
             indent: ['error', 4],
             'arrow-parens': ['error', 'always'],
             'comma-dangle': ['error', 'always-multiline'],
             'object-curly-spacing': ['error', 'always'],
-            'max-len': ['error', { code: 100 }],
             'eol-last': ['error', 'always'],
             'prettier/prettier': [
                 'error',
