@@ -1,7 +1,7 @@
 .announcement-bar {
     width: 100%;
     background-color: rgb(from var(--accent-color) r g b / 0.75);
-    color: #FFFFFF;
+    color: #ffffff;
     padding: 8px;
     text-align: center;
     font-size: 1rem;
@@ -21,7 +21,7 @@
 }
 
 .announcement-bar a {
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: 600;
     text-decoration: none;
 }
