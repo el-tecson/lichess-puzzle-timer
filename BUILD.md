@@ -63,7 +63,7 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
   "browser_specific_settings": {
     "gecko": {
       "id": "lichess-puzzle-timer@eltecson.dev",
-      "strict_min_version": "140.0",
+      "strict_min_version": "109.0",
       "data_collection_permissions": {
         "required": [
           "none"
@@ -72,7 +72,7 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
     },
     "gecko_android": {
       "id": "lichess-puzzle-timer@eltecson.dev",
-      "strict_min_version": "142.0",
+      "strict_min_version": "109.0",
       "data_collection_permissions": {
         "required": [
           "none"
