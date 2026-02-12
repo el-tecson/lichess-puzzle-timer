@@ -9,8 +9,8 @@ then change lichess-puzzle-timer-firefox.zip's manifest.json to:
 ```json
 {
   "name": "Lichess Puzzle Timer, by El-Tecson",
-  "description": "Bring the tension of real games to every Lichess puzzle. Any motif, any difficulty, adjustable time.",
-  "version": "3.1.0",
+  "description": "Make every puzzle feel like a real game and build habits that actually transfer. Fully customizable timer with 2 timed modes and auto-skip option.",
+  "version": "3.2.2",
   "manifest_version": 3,
   "action": {
     "default_popup": "popup.html",

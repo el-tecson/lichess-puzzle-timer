@@ -1,7 +1,7 @@
 {
   "name": "lichess-puzzle-timer",
-  "version": "3.2.1",
-  "description": "Using this chrome extension, a timer will appear when solving puzzles in lichess. Mimicking the tension felt when playing in a real game, especially blitz and bullet time control.",
+  "version": "3.2.2",
+  "description": "Make every puzzle feel like a real game and build habits that actually transfer. Fully customizable timer with 2 timed modes and auto-skip option.",
   "keywords": [
     "chess",
     "puzzle",
