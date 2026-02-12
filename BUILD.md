@@ -8,7 +8,7 @@ tmp=lichess-puzzle-timer-firefox && mkdir "$tmp" && cp -r dist/* "$tmp/" && (cd 
 then change lichess-puzzle-timer-firefox.zip's manifest.json to:
 ```json
 {
-  "name": "Lichess Puzzle Timer",
+  "name": "Lichess Puzzle Timer, by El-Tecson",
   "description": "Bring the tension of real games to every Lichess puzzle. Any motif, any difficulty, adjustable time.",
   "version": "3.1.0",
   "manifest_version": 3,
