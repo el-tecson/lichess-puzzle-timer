@@ -149,7 +149,7 @@ export default function AnalyticsPopup() {
                         Solved: <span className="user-data">{analyticsData.solved}</span>
                     </p>
                     <p className="stats">
-                        Unsolved: <span className="user-data">{analyticsData.unsolved}</span>
+                        Failed: <span className="user-data">{analyticsData.unsolved}</span>
                     </p>
                     <button
                         className="btn reset-data-btn"
