@@ -28,6 +28,7 @@ import { markExtensionForClose } from '../main';
 import isMobile from '@/utils/dom/isMobile';
 import { BASE_TIMER_MOBILE } from '@/constants/timer-popup';
 import isFailed from '@/utils/dom/isFailed';
+import isJumpImmediatelyEnabled from '@/utils/dom/isJumpImmediatelyEnabled';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -76,6 +77,53 @@ export default function TimerPopup() {
     const [scale, setScale] = useState(1);
     const disablePlayButton = useRef(false);
     const isFailedPuzzle = useRef(false);
+    const runningRef = useRef(false);
+
+    useEffect(() => {
+        const puzzleTools = document.querySelector(".puzzle__tools");
+
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                if (mutation.type !== "childList") continue;
+
+                // Convert removedNodes NodeList to array
+                Array.from(mutation.removedNodes).forEach((node) => {
+                    if (node instanceof HTMLElement &&
+                        node.classList.contains("puzzle__feedback") &&
+                        node.classList.contains("after")) {
+                        if (!isJumpImmediatelyEnabled()) return;
+                        if (!runningRef.current) return;
+                        if (!isFailedPuzzle.current) addSolved();
+                        disablePlayButton.current = false;
+                        hasStartedRef.current = true;
+                        isFailedPuzzle.current = false;
+                        if (settings?.preferencesSettings.showSkipIndicator) {
+                            setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+                            hideSkipIndicator();
+                        }
+
+                        // Reset timer safely after next puzzle loads
+                        if (activePreset?.data.timerType === '0')
+                            setCurrentTime(initialTime);
+                        setRunning(true);
+                        if (
+                            settings?.preferencesSettings.enableSounds &&
+                            settings.preferencesSettings.alertWhenNextPuzzle
+                        )
+                            playAudio(NextBeep);
+                        if (
+                            settings?.preferencesSettings.enableVisuals &&
+                            settings.preferencesSettings.showVisualLowTime
+                        )
+                            setTimeColor('var(--text-color)');
+                    }
+                });
+            }
+        });
+
+        observer.observe(puzzleTools!, { childList: true, subtree: true });
+    }, [initialTime, activePreset, settings]);
+
 
     useEffect(() => {
         const mobile = isMobile();
@@ -173,6 +221,7 @@ export default function TimerPopup() {
                         }, 1000);
                     }
                     setRunning(false);
+                    runningRef.current = false;
                     
                     // Call timerEnd to handle skip & reset safely
                     if (activePreset?.data.timerType === '0') {
@@ -200,6 +249,7 @@ export default function TimerPopup() {
                                 settings?.behaviorSettings.skipToNextPuzzle,
                                 activePreset?.data.timerType,
                                 isFailedPuzzle,
+                                runningRef,
                             );
                         });
                     }
@@ -275,6 +325,7 @@ export default function TimerPopup() {
                             }
                         }
                         setRunning(false);
+                        runningRef.current = false;
 
                         const delay =
                             (settings?.behaviorSettings.skipToNextPuzzle &&
@@ -323,6 +374,7 @@ export default function TimerPopup() {
                                     if (activePreset?.data.timerType === '0')
                                         setCurrentTime(initialTime);
                                     setRunning(true);
+                                    runningRef.current = true;
                                     if (
                                         settings?.preferencesSettings.enableSounds &&
                                         settings.preferencesSettings.alertWhenNextPuzzle
@@ -423,6 +475,7 @@ export default function TimerPopup() {
                                             playAudio(NextBeep);
                                         }
                                         setRunning(!running);
+                                        runningRef.current = !runningRef.current;
                                         hasStartedRef.current = true;
                                     })
                                 }
@@ -441,6 +494,7 @@ export default function TimerPopup() {
                                     click(() => {
                                         hasStartedRef.current = true;
                                         setRunning(false);
+                                        runningRef.current = false;
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
                                         setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
@@ -483,6 +537,7 @@ export default function TimerPopup() {
                                 onPointerUp={() =>
                                     click(() => {
                                         setRunning(false);
+                                        runningRef.current = false;
                                         if (
                                             settings.preferencesSettings.enableSounds &&
                                                 settings.preferencesSettings.alertButtonClicks
@@ -550,6 +605,7 @@ function timerEnd(
     skipToNextPuzzle: boolean,
     timerType: string,
     isFailedPuzzle: any,
+    runningRef: any,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -584,6 +640,7 @@ function timerEnd(
                             if (timerType === '0')
                                 setCurrentTime(initialTime);
                             setRunning(true);
+                            runningRef.current = true;
                             if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
                             if (allowAudio && playTheAudio) playAudio(NextBeep);
                         }
@@ -618,6 +675,7 @@ function timerEnd(
                             if (timerType === '0')
                                 setCurrentTime(initialTime);
                             setRunning(true);
+                            runningRef.current = true;
                             if (allowVisuals && showVisual) setTimeColor('var(--text-color)');
                             if (allowAudio && playTheAudio) playAudio(NextBeep);
                         }
