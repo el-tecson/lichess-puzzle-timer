@@ -80,17 +80,17 @@ export default function TimerPopup() {
     const runningRef = useRef(false);
 
     useEffect(() => {
-        const puzzleTools = document.querySelector(".puzzle__tools");
+        const puzzleTools = document.querySelector('.puzzle__tools');
 
         const observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
-                if (mutation.type !== "childList") continue;
+                if (mutation.type !== 'childList') continue;
 
                 // Convert removedNodes NodeList to array
                 Array.from(mutation.removedNodes).forEach((node) => {
                     if (node instanceof HTMLElement &&
-                        node.classList.contains("puzzle__feedback") &&
-                        node.classList.contains("after")) {
+                        node.classList.contains('puzzle__feedback') &&
+                        node.classList.contains('after')) {
                         if (!isJumpImmediatelyEnabled()) return;
                         if (!runningRef.current) return;
                         if (!isFailedPuzzle.current) addSolved();
