@@ -175,7 +175,8 @@ export default function TimerPopup() {
                     // Call timerEnd to handle skip & reset safely
                     if (activePreset?.data.timerType === '0') {
                         const delay = settings?.behaviorSettings.skipToNextPuzzle &&
-                            settings?.behaviorSettings?.countdownBeforeSkipping
+                            settings?.behaviorSettings?.countdownBeforeSkipping &&
+                            activePreset?.data.countdownBeforeSkippingNum !== 0
                             ? activePreset?.data.countdownBeforeSkippingNum
                             : 1;
 
@@ -270,9 +271,10 @@ export default function TimerPopup() {
 
                         const delay =
                             (settings?.behaviorSettings.skipToNextPuzzle &&
-                                settings?.behaviorSettings?.countdownBeforeSkipping
+                                settings?.behaviorSettings?.countdownBeforeSkipping &&
+                                activePreset?.data.countdownBeforeSkippingNum !== 0
                                 ? activePreset?.data.countdownBeforeSkippingNum
-                                : 0.001) * 1000;
+                                : 1) * 1000;
 
                         if (voteBtn && settings?.behaviorSettings.skipToNextPuzzle) {
                             setTimeout(() => {
