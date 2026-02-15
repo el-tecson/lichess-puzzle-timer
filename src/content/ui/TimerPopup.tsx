@@ -27,6 +27,7 @@ import { Rnd } from 'react-rnd';
 import { markExtensionForClose } from '../main';
 import isMobile from '@/utils/dom/isMobile';
 import { BASE_TIMER_MOBILE } from '@/constants/timer-popup';
+import isFailed from '@/utils/dom/isFailed';
 
 let puzzleEndObserver: MutationObserver | null = null;
 let skipInProgress = false;
@@ -74,6 +75,7 @@ export default function TimerPopup() {
     const [position, setPosition] = useState(DEFAULT_POSITION);
     const [scale, setScale] = useState(1);
     const disablePlayButton = useRef(false);
+    const isFailedPuzzle = useRef(false);
 
     useEffect(() => {
         const mobile = isMobile();
@@ -140,7 +142,7 @@ export default function TimerPopup() {
                     disablePlayButton.current = true;
                     hasStartedRef.current = false;
                     if (settings?.preferencesSettings?.showAnalyticsPopup) {
-                        addUnsolved();
+                        if (!isFailedPuzzle.current) addUnsolved();
                     }
                     if (
                         settings?.preferencesSettings?.enableVisuals &&
@@ -197,6 +199,7 @@ export default function TimerPopup() {
                                 disablePlayButton,
                                 settings?.behaviorSettings.skipToNextPuzzle,
                                 activePreset?.data.timerType,
+                                isFailedPuzzle,
                             );
                         });
                     }
@@ -224,6 +227,10 @@ export default function TimerPopup() {
                 if (!puzzleBoard) return;
 
                 const interval = setInterval(() => {
+                    if (!isFailedPuzzle.current && isFailed()) {
+                        isFailedPuzzle.current = true;
+                        addUnsolved();
+                    }
                     const voteBtn = document.querySelector(
                         '.puzzle__vote__buttons > .vote-up.vote',
                     ) as HTMLElement | null;
@@ -235,7 +242,7 @@ export default function TimerPopup() {
                         if (hasStartedRef.current) {
                             hasStartedRef.current = false;
                             if (settings?.preferencesSettings.showAnalyticsPopup) {
-                                addSolved();
+                                if (!isFailedPuzzle.current) addSolved();
                             }
                             if (
                                 settings?.preferencesSettings.enableSounds &&
@@ -306,6 +313,7 @@ export default function TimerPopup() {
                                     if (hasStartedRef.current) return;
                                     disablePlayButton.current = false;
                                     hasStartedRef.current = true;
+                                    isFailedPuzzle.current = false;
                                     if (settings?.preferencesSettings.showSkipIndicator) {
                                         setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
                                         hideSkipIndicator();
@@ -541,6 +549,7 @@ function timerEnd(
     disablePlayButton: any,
     skipToNextPuzzle: boolean,
     timerType: string,
+    isFailedPuzzle: any,
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
@@ -565,6 +574,7 @@ function timerEnd(
                             if (hasStarted.current) return;
                             disablePlayButton.current = false;
                             hasStarted.current = true;
+                            isFailedPuzzle.current = false;
                             if (showSkipIndicator) {
                                 setSkipCountdown(defaultSkipCountdown);
                                 hideSkipIndicator();
@@ -598,6 +608,7 @@ function timerEnd(
                             if (hasStarted.current) return;
                             disablePlayButton.current = false;
                             hasStarted.current = true;
+                            isFailedPuzzle.current = false;
                             if (showSkipIndicator) {
                                 setSkipCountdown(defaultSkipCountdown);
                                 hideSkipIndicator();
