@@ -122,6 +122,8 @@ export default function TimerPopup() {
         });
 
         observer.observe(puzzleTools!, { childList: true, subtree: true });
+
+        return () => observer.disconnect();
     }, [initialTime, activePreset, settings]);
 
 
