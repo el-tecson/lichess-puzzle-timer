@@ -80,6 +80,22 @@ export default function TimerPopup() {
     const runningRef = useRef(false);
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            if (!isJumpImmediatelyEnabled()) return;
+            const complete = document.querySelector('div.complete');
+
+            if (
+                complete?.textContent?.trim() === 'Success!' &&
+                runningRef.current
+            ) {
+                setRunning(false);
+            }
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
         const puzzleTools = document.querySelector('.puzzle__tools');
 
         const observer = new MutationObserver((mutations) => {
