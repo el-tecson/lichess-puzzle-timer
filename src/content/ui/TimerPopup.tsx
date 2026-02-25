@@ -78,6 +78,8 @@ export default function TimerPopup() {
     const disablePlayButton = useRef(false);
     const isFailedPuzzle = useRef(false);
     const runningRef = useRef(false);
+    const rafRef = useRef<number | null>(null);
+    const lastTimeRef = useRef<number>(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -195,59 +197,58 @@ export default function TimerPopup() {
     // Timer logic
     useEffect(() => {
         if (!running) {
-            if (intervalRef.current) clearInterval(intervalRef.current);
+            if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
             return;
         }
 
-        intervalRef.current = setInterval(() => {
-            setCurrentTime((prev) => {
-                const next = Math.max(prev - 10, 0);
+        lastTimeRef.current = performance.now();
+
+        const loop = (now: number) => {
+            const elapsed = now - lastTimeRef.current;
+            lastTimeRef.current = now;
+
+            setCurrentTime(prev => {
+                const next = Math.max(prev - elapsed, 0);
 
                 if (next === 0) {
-                    clearInterval(intervalRef.current!);
+                    cancelAnimationFrame(rafRef.current!);
+
                     disablePlayButton.current = true;
                     hasStartedRef.current = false;
+
                     if (settings?.preferencesSettings?.showAnalyticsPopup) {
                         if (!isFailedPuzzle.current) addUnsolved();
                     }
-                    if (
-                        settings?.preferencesSettings?.enableVisuals &&
-                        settings?.preferencesSettings?.showVisualLowTime
-                    )
-                        setTimeColor('var(--bad-color)', 'bold');
-                    if (
-                        settings?.preferencesSettings?.enableSounds &&
-                        settings?.preferencesSettings?.alertWhenTimerIsZero
-                    )
+
+                    if (settings?.preferencesSettings?.enableVisuals &&
+                        settings?.preferencesSettings?.showVisualLowTime) {
+                        setTimeColor("var(--bad-color)", "bold");
+                    }
+
+                    if (settings?.preferencesSettings?.enableSounds &&
+                        settings?.preferencesSettings?.alertWhenTimerIsZero) {
                         playAudio(WrongBeep);
+                    }
+
                     if (
                         settings?.preferencesSettings.showSkipIndicator &&
                         settings.behaviorSettings.skipToNextPuzzle &&
-                        activePreset?.data.timerType === '0'
+                        activePreset?.data.timerType === "0"
                     ) {
                         showSkipIndicator();
-                        const countdown = setInterval(() => {
-                            if (hasStartedRef.current) clearInterval(countdown);
-                            setSkipCountdown((prev) => {
-                                if (prev === null || prev <= 0) {
-                                    clearInterval(countdown);
-                                    return prev;
-                                }
-                                if (prev - 1 === 0) clearInterval(countdown);
-                                return prev - 1;
-                            });
-                        }, 1000);
+                        const countdown = setInterval(() => { if (hasStartedRef.current) clearInterval(countdown); setSkipCountdown((prev) => { if (prev === null || prev <= 0) { clearInterval(countdown); return prev; } if (prev - 1 === 0) clearInterval(countdown); return prev - 1; }); }, 1000);
                     }
+
                     setRunning(false);
                     runningRef.current = false;
-                    
-                    // Call timerEnd to handle skip & reset safely
-                    if (activePreset?.data.timerType === '0') {
-                        const delay = settings?.behaviorSettings.skipToNextPuzzle &&
+
+                    if (activePreset?.data.timerType === "0") {
+                        const delay =
+                            settings?.behaviorSettings.skipToNextPuzzle &&
                             settings?.behaviorSettings?.countdownBeforeSkipping &&
                             activePreset?.data.countdownBeforeSkippingNum !== 0
-                            ? activePreset?.data.countdownBeforeSkippingNum
-                            : 1;
+                                ? activePreset?.data.countdownBeforeSkippingNum
+                                : 1;
 
                         safeSkip(() => {
                             timerEnd(
@@ -267,22 +268,37 @@ export default function TimerPopup() {
                                 settings?.behaviorSettings.skipToNextPuzzle,
                                 activePreset?.data.timerType,
                                 isFailedPuzzle,
-                                runningRef,
+                                runningRef
                             );
                         });
                     }
                 }
 
-                if (next === 3000 && settings?.preferencesSettings?.enableSounds && settings?.preferencesSettings?.alertWhenTimeShort)
-                    playAudio(TickTock);
-                if (next === 3000 && settings?.preferencesSettings?.enableVisuals && settings?.preferencesSettings?.showVisualLowTime)
-                    setTimeColor('var(--bad-color)', 'bold', 'var(--ticking-animation)');
+                if (
+                    next <= 3000 &&
+                    prev > 3000
+                ) {
+                    if (settings?.preferencesSettings?.enableSounds &&
+                        settings?.preferencesSettings?.alertWhenTimeShort) {
+                        playAudio(TickTock);
+                    }
+                    if (settings?.preferencesSettings?.enableVisuals &&
+                        settings?.preferencesSettings?.showVisualLowTime) {
+                        setTimeColor("var(--bad-color)", "bold", "var(--ticking-animation)");
+                    }
+                }
+
                 return next;
             });
-        }, 10);
 
+            rafRef.current = requestAnimationFrame(loop);
+        };
+
+        rafRef.current = requestAnimationFrame(loop);
+
+        // cleanup
         return () => {
-            if (intervalRef.current) clearInterval(intervalRef.current);
+            if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
         };
     }, [running, settings, initialTime, activePreset]);
 
