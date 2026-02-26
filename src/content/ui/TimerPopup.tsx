@@ -526,6 +526,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        unlockAudio();
                                         hasStartedRef.current = true;
                                         setRunning(false);
                                         runningRef.current = false;
@@ -552,6 +553,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        unlockAudio();
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
                                         if (
@@ -570,6 +572,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        unlockAudio();
                                         setRunning(false);
                                         runningRef.current = false;
                                         if (
