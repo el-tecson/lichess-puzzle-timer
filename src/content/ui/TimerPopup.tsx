@@ -319,7 +319,7 @@ export default function TimerPopup() {
                         '.puzzle__vote__buttons > .vote-up.vote',
                     ) as HTMLElement | null;
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
-                    if (voteBtn || continueBtn) {
+                    if ((voteBtn || continueBtn) && runningRef.current === true) {
                         clearInterval(interval);
                         disablePlayButton.current = true;
                         puzzleEndObserver?.disconnect();
