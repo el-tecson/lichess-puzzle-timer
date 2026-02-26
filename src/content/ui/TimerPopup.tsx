@@ -319,7 +319,7 @@ export default function TimerPopup() {
                         '.puzzle__vote__buttons > .vote-up.vote',
                     ) as HTMLElement | null;
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
-                    if (voteBtn || continueBtn) {
+                    if ((voteBtn || continueBtn) && runningRef.current === true) {
                         clearInterval(interval);
                         disablePlayButton.current = true;
                         puzzleEndObserver?.disconnect();
@@ -526,6 +526,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        unlockAudio();
                                         hasStartedRef.current = true;
                                         setRunning(false);
                                         runningRef.current = false;
@@ -552,6 +553,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        unlockAudio();
                                         setCurrentTime(initialTime);
                                         setTimeColor('var(--text-color)', 'normal');
                                         if (
@@ -570,6 +572,7 @@ export default function TimerPopup() {
                                 onPointerMove={onPointerMove}
                                 onPointerUp={() =>
                                     click(() => {
+                                        unlockAudio();
                                         setRunning(false);
                                         runningRef.current = false;
                                         if (
