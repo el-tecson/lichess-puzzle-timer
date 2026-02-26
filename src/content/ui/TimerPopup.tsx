@@ -207,7 +207,7 @@ export default function TimerPopup() {
             const elapsed = now - lastTimeRef.current;
             lastTimeRef.current = now;
 
-            setCurrentTime(prev => {
+            setCurrentTime((prev) => {
                 const next = Math.max(prev - elapsed, 0);
 
                 if (next === 0) {
@@ -222,7 +222,7 @@ export default function TimerPopup() {
 
                     if (settings?.preferencesSettings?.enableVisuals &&
                         settings?.preferencesSettings?.showVisualLowTime) {
-                        setTimeColor("var(--bad-color)", "bold");
+                        setTimeColor('var(--bad-color)', 'bold');
                     }
 
                     if (settings?.preferencesSettings?.enableSounds &&
@@ -233,7 +233,7 @@ export default function TimerPopup() {
                     if (
                         settings?.preferencesSettings.showSkipIndicator &&
                         settings.behaviorSettings.skipToNextPuzzle &&
-                        activePreset?.data.timerType === "0"
+                        activePreset?.data.timerType === '0'
                     ) {
                         showSkipIndicator();
                         const countdown = setInterval(() => { if (hasStartedRef.current) clearInterval(countdown); setSkipCountdown((prev) => { if (prev === null || prev <= 0) { clearInterval(countdown); return prev; } if (prev - 1 === 0) clearInterval(countdown); return prev - 1; }); }, 1000);
@@ -242,7 +242,7 @@ export default function TimerPopup() {
                     setRunning(false);
                     runningRef.current = false;
 
-                    if (activePreset?.data.timerType === "0") {
+                    if (activePreset?.data.timerType === '0') {
                         const delay =
                             settings?.behaviorSettings.skipToNextPuzzle &&
                             settings?.behaviorSettings?.countdownBeforeSkipping &&
@@ -268,7 +268,7 @@ export default function TimerPopup() {
                                 settings?.behaviorSettings.skipToNextPuzzle,
                                 activePreset?.data.timerType,
                                 isFailedPuzzle,
-                                runningRef
+                                runningRef,
                             );
                         });
                     }
@@ -284,7 +284,7 @@ export default function TimerPopup() {
                     }
                     if (settings?.preferencesSettings?.enableVisuals &&
                         settings?.preferencesSettings?.showVisualLowTime) {
-                        setTimeColor("var(--bad-color)", "bold", "var(--ticking-animation)");
+                        setTimeColor('var(--bad-color)', 'bold', 'var(--ticking-animation)');
                     }
                 }
 
