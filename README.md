@@ -43,6 +43,9 @@ A Chrome extension that adds a **real-time timer** when solving puzzles on Liche
 ### Q: Can I customize the timer?
 > Yes, you can absolutely customize the timer in the extension's settings webpage.
 
+### Q: The timer ended or stopped, but doesn't actually skip to the next puzzle even if "Skip to next puzzle" is turned on?
+> Occasionally, if the timer encounteres 2 scenarios at the same time (usually solved and failed scenario), the timer's skip would stop working. In this case, just press the cancel button, click the next puzzle or vote up button (if you haven't yet), and continue as usual. (currently dont know how to fix this bug yet)
+
 ## Contributing
 - Feel free to fork the repo and submit pull requests.
 - For major changes, please open an issue first to discuss what you’d like to change.
