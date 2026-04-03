@@ -29,7 +29,7 @@ input[type='number'] {
 }
 
 .number {
-    font-family: 'Roboto Mono', 'Source Code Pro', 'Courier New', monospace;
+    font-family: 'Roboto Mono', monospace, 'Source Code Pro', 'Courier New';
 }
 
 button:hover {
