@@ -68,7 +68,6 @@ export default function TimerPopup() {
     const [initialTime, setInitialTime] = useState(0);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [running, setRunning] = useState(false);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const hasStartedRef = useRef(false);
     const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
     const isMobileRef = useRef(isMobile());
