@@ -65,10 +65,11 @@ export default function TimerPopup() {
         name: string;
         data: ConfigProps;
     } | null>(null);
-    const [initialTime, setInitialTime] = useState(0);
+    const initialTime = useRef<number>(0);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [running, setRunning] = useState(false);
     const hasStartedRef = useRef(false);
+    const initialSkipCountdown = useRef<number | null>(null);
     const [skipCountdown, setSkipCountdown] = useState<number | null>(null);
     const isMobileRef = useRef(isMobile());
     const [size, setSize] = useState(BASE_TIMER);
@@ -115,13 +116,13 @@ export default function TimerPopup() {
                         hasStartedRef.current = true;
                         isFailedPuzzle.current = false;
                         if (settings?.preferencesSettings.showSkipIndicator) {
-                            setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+                            setSkipCountdown(initialSkipCountdown.current);
                             hideSkipIndicator();
                         }
 
                         // Reset timer safely after next puzzle loads
                         if (activePreset?.data.timerType === '0')
-                            setCurrentTime(initialTime);
+                            setCurrentTime(initialTime.current);
                         setRunning(true);
                         if (
                             settings?.preferencesSettings.enableSounds &&
@@ -189,8 +190,8 @@ export default function TimerPopup() {
             activePreset.data?.[`timeControl${activePreset.data.timerType}`] ??
                 '00:00:00',
         );
-        setInitialTime(time);
-        setCurrentTime(time);
+        initialTime.current = time;
+        setCurrentTime(initialTime.current);
     }, [activePreset]);
 
     // Timer logic
@@ -235,7 +236,17 @@ export default function TimerPopup() {
                         activePreset?.data.timerType === '0'
                     ) {
                         showSkipIndicator();
-                        const countdown = setInterval(() => { if (hasStartedRef.current) clearInterval(countdown); setSkipCountdown((prev) => { if (prev === null || prev <= 0) { clearInterval(countdown); return prev; } if (prev - 1 === 0) clearInterval(countdown); return prev - 1; }); }, 1000);
+                        setSkipCountdown(initialSkipCountdown.current);
+                        const countdown = setInterval(() => {
+                            if (hasStartedRef.current) clearInterval(countdown);
+                            setSkipCountdown((prev) => {
+                                if (prev === null || prev <= 0) {
+                                    clearInterval(countdown); return prev;
+                                }
+                                if (prev - 1 === 0) clearInterval(countdown);
+                                return prev - 1;
+                            });
+                        }, 1000);
                     }
 
                     setRunning(false);
@@ -245,13 +256,13 @@ export default function TimerPopup() {
                         const delay =
                             settings?.behaviorSettings.skipToNextPuzzle &&
                             settings?.behaviorSettings?.countdownBeforeSkipping &&
-                            activePreset?.data.countdownBeforeSkippingNum !== 0
-                                ? activePreset?.data.countdownBeforeSkippingNum
+                            initialSkipCountdown.current !== 0
+                                ? initialSkipCountdown.current!
                                 : 1;
 
                         safeSkip(() => {
                             timerEnd(
-                                initialTime,
+                                initialTime.current,
                                 setCurrentTime,
                                 setRunning,
                                 delay,
@@ -259,7 +270,7 @@ export default function TimerPopup() {
                                 settings?.preferencesSettings.showVisualLowTime,
                                 hasStartedRef,
                                 setSkipCountdown,
-                                activePreset?.data.countdownBeforeSkippingNum,
+                                initialSkipCountdown.current,
                                 settings?.preferencesSettings.showSkipIndicator,
                                 settings?.preferencesSettings.enableSounds,
                                 settings?.preferencesSettings.enableVisuals,
@@ -342,6 +353,7 @@ export default function TimerPopup() {
                                 settings?.behaviorSettings.skipToNextPuzzle
                             ) {
                                 showSkipIndicator();
+                                setSkipCountdown(initialSkipCountdown.current);
                                 const countdown = setInterval(() => {
                                     if (hasStartedRef.current) {
                                         clearInterval(countdown);
@@ -363,8 +375,8 @@ export default function TimerPopup() {
                         const delay =
                             (settings?.behaviorSettings.skipToNextPuzzle &&
                                 settings?.behaviorSettings?.countdownBeforeSkipping &&
-                                activePreset?.data.countdownBeforeSkippingNum !== 0
-                                ? activePreset?.data.countdownBeforeSkippingNum
+                                initialSkipCountdown.current !== 0
+                                ? initialSkipCountdown.current!
                                 : 1) * 1000;
 
                         if (voteBtn && settings?.behaviorSettings.skipToNextPuzzle) {
@@ -399,13 +411,13 @@ export default function TimerPopup() {
                                     hasStartedRef.current = true;
                                     isFailedPuzzle.current = false;
                                     if (settings?.preferencesSettings.showSkipIndicator) {
-                                        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+                                        setSkipCountdown(initialSkipCountdown.current);
                                         hideSkipIndicator();
                                     }
 
                                     // Reset timer safely after next puzzle loads
                                     if (activePreset?.data.timerType === '0')
-                                        setCurrentTime(initialTime);
+                                        setCurrentTime(initialTime.current);
                                     setRunning(true);
                                     runningRef.current = true;
                                     if (
@@ -432,7 +444,8 @@ export default function TimerPopup() {
     }, [running, settings, initialTime, activePreset]);
 
     useEffect(() => {
-        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+        initialSkipCountdown.current = activePreset?.data.countdownBeforeSkippingNum;
+        setSkipCountdown(initialSkipCountdown.current);
     }, [activePreset]);
 
     if (!settings) return null;
@@ -529,9 +542,9 @@ export default function TimerPopup() {
                                         hasStartedRef.current = true;
                                         setRunning(false);
                                         runningRef.current = false;
-                                        setCurrentTime(initialTime);
+                                        setCurrentTime(initialTime.current);
                                         setTimeColor('var(--text-color)', 'normal');
-                                        setSkipCountdown(activePreset?.data.countdownBeforeSkippingNum);
+                                        setSkipCountdown(initialSkipCountdown.current);
                                         hideSkipIndicator();
                                         disablePlayButton.current = false;
                                         if (
@@ -553,7 +566,7 @@ export default function TimerPopup() {
                                 onPointerUp={() =>
                                     click(() => {
                                         unlockAudio();
-                                        setCurrentTime(initialTime);
+                                        setCurrentTime(initialTime.current);
                                         setTimeColor('var(--text-color)', 'normal');
                                         if (
                                             settings.preferencesSettings.enableSounds &&
@@ -633,7 +646,7 @@ function timerEnd(
     showVisual: boolean,
     hasStarted: any,
     setSkipCountdown: any,
-    defaultSkipCountdown: number,
+    defaultSkipCountdown: number | null,
     showSkipIndicator: boolean,
     allowAudio: boolean,
     allowVisuals: boolean,
