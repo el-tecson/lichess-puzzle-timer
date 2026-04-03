@@ -485,7 +485,7 @@ export default function TimerPopup() {
                             return (
                                 <>
                                     <span className="big-time">{timeStr}</span>
-                                    <span className="small-time">:{msStr}</span>
+                                    <span className="small-time">.{msStr}</span>
                                 </>
                             );
                         })()}
