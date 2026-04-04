@@ -80,6 +80,7 @@ export default function TimerPopup() {
     const runningRef = useRef(false);
     const rafRef = useRef<number | null>(null);
     const lastTimeRef = useRef<number>(0);
+    const timerEndRef = useRef<number>(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -201,7 +202,9 @@ export default function TimerPopup() {
             return;
         }
 
-        lastTimeRef.current = performance.now();
+        const perfNow = performance.now();
+        lastTimeRef.current = perfNow;
+        timerEndRef.current = perfNow + initialTime.current;
 
         const loop = (now: number) => {
             const elapsed = now - lastTimeRef.current;
@@ -329,7 +332,8 @@ export default function TimerPopup() {
                         '.puzzle__vote__buttons > .vote-up.vote',
                     ) as HTMLElement | null;
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
-                    if ((voteBtn || continueBtn) && runningRef.current === true) {
+                    
+                    if ((voteBtn || continueBtn) && runningRef.current === true && performance.now() < timerEndRef.current) {
                         clearInterval(interval);
                         disablePlayButton.current = true;
                         puzzleEndObserver?.disconnect();
@@ -612,28 +616,33 @@ export default function TimerPopup() {
     );
 }
 
-// Wait for selector utility
-function waitFor(selector: string, callback: (el: Element) => void) {
+function waitFor(
+    selector: string,
+    callback: (el: Element | null) => void,
+    ignore?: boolean,
+    timeout = 1000
+) {
     const existing = document.querySelector(selector);
     if (existing) {
         callback(existing);
         return;
     }
 
-    if (puzzleEndObserver) {
-        puzzleEndObserver.disconnect();
-    }
-
-    puzzleEndObserver = new MutationObserver((_mut, obs) => {
+    const observer = new MutationObserver((_mut, obs) => {
         const el = document.querySelector(selector);
         if (el) {
+            clearTimeout(timer);
             obs.disconnect();
             callback(el);
-            puzzleEndObserver?.disconnect();
         }
     });
 
-    puzzleEndObserver.observe(document.body, { childList: true, subtree: true });
+    const timer = setTimeout(() => {
+        observer.disconnect();
+        if (ignore) callback(null);
+    }, timeout);
+
+    observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // Timer end & safe puzzle skip
@@ -658,8 +667,9 @@ function timerEnd(
 ) {
     // Step 1: Click "Next puzzle" button in solution view
     waitFor('.view_solution > .button.button-empty:nth-child(2)', (nextBtn) => {
-        (nextBtn as HTMLElement).click();
-
+        try {
+            (nextBtn as HTMLElement).click();
+        } catch {}
         // Step 2: Wait for next puzzle board to load
         waitFor('.puzzle__board', () => {
             // Step 3: Wait for vote button
@@ -731,6 +741,6 @@ function timerEnd(
                     }, 300);
                 }, delaySeconds * 1000);
             });
-        });
-    });
+        }, true);
+    }, true);
 }
