@@ -356,7 +356,8 @@ export default function TimerPopup() {
                                 setTimeColor('var(--good-color)', 'bold');
                             if (
                                 settings?.preferencesSettings.showSkipIndicator &&
-                                settings?.behaviorSettings.skipToNextPuzzle
+                                settings?.behaviorSettings.skipToNextPuzzle &&
+                                !(continueBtn && isJumpImmediatelyEnabled())
                             ) {
                                 showSkipIndicator();
                                 setSkipCountdown(initialSkipCountdown.current);
@@ -402,7 +403,6 @@ export default function TimerPopup() {
                                 });
                             }, delay);
                         }
-
                         setTimeout(() => {
                             // Wait for the *next puzzle* and its vote button
                             const waitForNextPuzzle = setInterval(() => {
@@ -438,7 +438,7 @@ export default function TimerPopup() {
                                         setTimeColor('var(--text-color)');
                                 }
                             }, 300);
-                        }, delay);
+                        }, !(continueBtn && isJumpImmediatelyEnabled()) ? delay : 1);
                     }
                 }, 100);
             });
