@@ -81,6 +81,7 @@ export default function TimerPopup() {
     const rafRef = useRef<number | null>(null);
     const lastTimeRef = useRef<number>(0);
     const timerEndRef = useRef<number>(0);
+    const puzzleCheckInterval = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -141,7 +142,6 @@ export default function TimerPopup() {
         });
 
         observer.observe(puzzleTools!, { childList: true, subtree: true });
-
         return () => observer.disconnect();
     }, [initialTime, activePreset, settings]);
 
@@ -323,7 +323,9 @@ export default function TimerPopup() {
                 const puzzleBoard = document.querySelector('.puzzle__board');
                 if (!puzzleBoard) return;
 
-                const interval = setInterval(() => {
+                if (puzzleCheckInterval.current) clearInterval(puzzleCheckInterval.current);
+
+                puzzleCheckInterval.current = setInterval(() => {
                     if (!isFailedPuzzle.current && isFailed()) {
                         isFailedPuzzle.current = true;
                         addUnsolved();
@@ -334,7 +336,7 @@ export default function TimerPopup() {
                     const continueBtn = document.querySelector('.continue') as HTMLElement | null;
                     
                     if ((voteBtn || continueBtn) && runningRef.current === true && performance.now() < timerEndRef.current) {
-                        clearInterval(interval);
+                        if (puzzleCheckInterval.current) clearInterval(puzzleCheckInterval.current);
                         disablePlayButton.current = true;
                         puzzleEndObserver?.disconnect();
                         if (hasStartedRef.current) {
