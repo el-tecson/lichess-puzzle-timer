@@ -622,7 +622,7 @@ function waitFor(
     selector: string,
     callback: (el: Element | null) => void,
     ignore?: boolean,
-    timeout = 100
+    timeout = 100,
 ) {
     const existing = document.querySelector(selector);
     if (existing) {
