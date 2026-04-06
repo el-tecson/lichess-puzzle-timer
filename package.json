@@ -25,7 +25,6 @@
     "build::background": "vite build --config=vite.background.config.js",
     "dev": "concurrently \"vite build --watch\" \"vite build --config vite.content.config.js --watch\" \"vite build --config vite.background.config.js\"",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}' --ext .ts,.tsx,.js,.jsx --fix && prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
-    "postbuild": "node scripts/csp-fix.js",
     "postinstall": "patch-package"
   },
   "devDependencies": {
