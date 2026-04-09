@@ -326,7 +326,7 @@ export default function TimerPopup() {
                 if (puzzleCheckInterval.current) clearInterval(puzzleCheckInterval.current);
 
                 puzzleCheckInterval.current = setInterval(() => {
-                    if (!isFailedPuzzle.current && isFailed()) {
+                    if (!isFailedPuzzle.current && isFailed() && hasStartedRef.current) {
                         isFailedPuzzle.current = true;
                         addUnsolved();
                     }
