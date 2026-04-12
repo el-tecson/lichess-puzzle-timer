@@ -326,7 +326,7 @@ export default function TimerPopup() {
                 if (puzzleCheckInterval.current) clearInterval(puzzleCheckInterval.current);
 
                 puzzleCheckInterval.current = setInterval(() => {
-                    if (!isFailedPuzzle.current && isFailed() && hasStartedRef.current) {
+                    if (!isFailedPuzzle.current && isFailed() && hasStartedRef.current && runningRef.current) {
                         isFailedPuzzle.current = true;
                         addUnsolved();
                     }
@@ -558,6 +558,9 @@ export default function TimerPopup() {
                                                 settings.preferencesSettings.alertButtonClicks
                                         )
                                             playAudio(NextBeep);
+                                        if (puzzleCheckInterval.current) clearInterval(puzzleCheckInterval.current);
+                                        if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+                                        puzzleEndObserver?.disconnect();
                                     })
                                 }
                             >
