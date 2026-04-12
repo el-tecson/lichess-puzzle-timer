@@ -558,6 +558,7 @@ export default function TimerPopup() {
                                                 settings.preferencesSettings.alertButtonClicks
                                         )
                                             playAudio(NextBeep);
+                                        isFailedPuzzle.current = false;
                                         if (puzzleCheckInterval.current) clearInterval(puzzleCheckInterval.current);
                                         if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
                                         puzzleEndObserver?.disconnect();
