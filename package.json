@@ -7,13 +7,13 @@
     "puzzle",
     "timer"
   ],
-  "homepage": "https://github.com/el-tecson/lichess-puzzle-timer#readme",
+  "homepage": "https://github.com/eltecson/lichess-puzzle-timer#readme",
   "bugs": {
-    "url": "https://github.com/el-tecson/lichess-puzzle-timer/issues"
+    "url": "https://github.com/eltecson/lichess-puzzle-timer/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/el-tecson/lichess-puzzle-timer.git"
+    "url": "git+ssh://git@github.com/eltecson/lichess-puzzle-timer.git"
   },
   "license": "Apache-2.0",
   "author": "Emmanuel Leu Tecson",

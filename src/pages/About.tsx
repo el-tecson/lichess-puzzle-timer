@@ -77,10 +77,10 @@ export default function AboutPage() {
                             <b>Github: </b>{' '}
                             <Link
                                 target="_blank"
-                                to="https://github.com/el-tecson/lichess-puzzle-timer"
+                                to="https://github.com/eltecson/lichess-puzzle-timer"
                                 rel="nooopener noreferrer"
                             >
-                                https://github.com/el-tecson/lichess-puzzle-timer
+                                https://github.com/eltecson/lichess-puzzle-timer
                             </Link>
                         </li>
                     </ul>
