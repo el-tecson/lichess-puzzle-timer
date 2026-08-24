@@ -5,7 +5,7 @@ import type { ConfigProps } from '@/types/config';
 import Logo from '@/assets/lptimer-logo-wide.svg?react';
 import SettingsIcon from '@/assets/settings.svg?react';
 import ReloadIcon from '@/assets/reload.svg?react';
-import PayPalIcon from '@/assets/paypal.svg?react';
+import KofiIcon from '@/assets/kofi.svg?react';
 import '@/styles/Popup.css';
 import { Switch } from '@/components/Settings/CustomComponents/PreferencesComponents';
 import { useEffect, useState } from 'react';
@@ -61,12 +61,12 @@ export default function Popup() {
                         id="donateBtn"
                         onClick={() => {
                             browser.tabs.create({
-                                url: 'https://www.paypal.me/ElmerTecson',
+                                url: 'https://ko-fi.com/emmanuelleutecson',
                             });
                         }}
                     >
-                        <PayPalIcon />
-                        <span className="btn-text">Support me on PayPal</span>
+                        <KofiIcon />
+                        <span className="btn-text">Support me on Kofi</span>
                     </button>
                 </div>
                 <VersionIndicator
