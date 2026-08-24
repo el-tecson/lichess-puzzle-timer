@@ -8,9 +8,9 @@ browser.runtime.onMessage.addListener((message: any) => {
         });
         break;
 
-    case 'openPayPal':
+    case 'openKofi':
         browser.tabs.create({
-            url: 'https://www.paypal.me/ElmerTecson',
+            url: 'https://ko-fi.com/emmanuelleutecson',
         });
         break;
     }
