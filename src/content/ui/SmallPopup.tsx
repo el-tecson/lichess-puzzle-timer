@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import type { Storage } from 'webextension-polyfill';
 import type { ConfigProps } from '@/types/config';
 
-import PayPalIcon from '@/assets/paypal.svg?react';
+import KofiIcon from '@/assets/kofi.svg?react';
 import Draggable from 'react-draggable';
 import { useRef, useEffect, useState } from 'react';
 import { DEFAULT_POSITION, TIME_PRESETS } from '@/constants';
@@ -194,10 +194,10 @@ export default function SmallPopup() {
                                 id="donateBtn"
                                 onPointerDown={onPointerDown}
                                 onPointerMove={onPointerMove}
-                                onPointerUp={() => click(openPayPal)}
+                                onPointerUp={() => click(openKofi)}
                             >
-                                <PayPalIcon />
-                                <span className="btn-text">Support me on PayPal</span>
+                                <KofiIcon />
+                                <span className="btn-text">Support me on Kofi</span>
                             </button>
                         </div>
                         {
