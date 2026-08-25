@@ -66,6 +66,11 @@ export default function Navbar() {
                             <p className={`link ${path === '/settings' ? 'active' : ''}`}>Settings</p>
                         </Link>
                     </MenuItem>
+                    <MenuItem className="menu-item">
+                        <Link to="https://ko-fi.com/emmanuelleutecson">
+                            <p className={`link support-link ${path === '/settings' ? 'active' : ''}`}>Support</p>
+                        </Link>
+                    </MenuItem>
                 </Menu>
             </Sidebar>
         </nav>
