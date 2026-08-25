@@ -59,6 +59,12 @@ svg {
 
 .support-link:hover {
     color: var(--accent-color);
+    opacity: 100%
+}
+
+.support-link {
+    color: var(--accent-color);
+    opacity: 75%;
 }
 
 .page-title {
