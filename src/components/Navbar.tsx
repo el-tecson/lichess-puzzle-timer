@@ -30,6 +30,11 @@ export default function Navbar() {
                 <Link to="/settings">
                     <p className={`link ${path === '/settings' ? 'active' : ''}`}>Settings</p>
                 </Link>
+                <Link to="https://ko-fi.com/emmanuelleutecson" target="_blank" rel="noopener noreferrer">
+                    <p className={`link support-link ${path === '/settings' ? 'active' : ''}`}>
+                        Support
+                    </p>
+                </Link>
             </div>
             <button
                 className="mobile-navbar-btn"
@@ -67,7 +72,7 @@ export default function Navbar() {
                         </Link>
                     </MenuItem>
                     <MenuItem className="menu-item">
-                        <Link to="https://ko-fi.com/emmanuelleutecson">
+                        <Link to="https://ko-fi.com/emmanuelleutecson" target="_blank" rel="noopener noreferrer">
                             <p className={`link support-link ${path === '/settings' ? 'active' : ''}`}>Support</p>
                         </Link>
                     </MenuItem>

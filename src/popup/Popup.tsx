@@ -66,7 +66,7 @@ export default function Popup() {
                         }}
                     >
                         <KofiIcon />
-                        <span className="btn-text">Support me on Kofi</span>
+                        <span className="btn-text">Support me on Ko-fi</span>
                     </button>
                 </div>
                 <VersionIndicator

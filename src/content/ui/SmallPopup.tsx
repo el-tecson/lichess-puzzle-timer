@@ -197,7 +197,7 @@ export default function SmallPopup() {
                                 onPointerUp={() => click(openKofi)}
                             >
                                 <KofiIcon />
-                                <span className="btn-text">Support me on Kofi</span>
+                                <span className="btn-text">Support me on Ko-fi</span>
                             </button>
                         </div>
                         {
@@ -228,6 +228,6 @@ function openSettings() {
     browser.runtime.sendMessage({ action: 'openSettings' });
 }
 
-function openPayPal() {
-    browser.runtime.sendMessage({ action: 'openPayPal' });
+function openKofi() {
+    browser.runtime.sendMessage({ action: 'openKofi' });
 }
