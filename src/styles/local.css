@@ -57,6 +57,10 @@ svg {
     opacity: 100%;
 }
 
+.support-link:hover {
+    color: var(--accent-color);
+}
+
 .page-title {
     font-size: 4rem;
     font-weight: bold;
