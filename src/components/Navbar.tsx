@@ -31,7 +31,7 @@ export default function Navbar() {
                     <p className={`link ${path === '/settings' ? 'active' : ''}`}>Settings</p>
                 </Link>
                 <Link to="https://ko-fi.com/emmanuelleutecson" target="_blank" rel="noopener noreferrer">
-                    <p className={`link support-link ${path === '/settings' ? 'active' : ''}`}>
+                    <p className={`link support-link`}>
                         Support
                     </p>
                 </Link>
@@ -73,7 +73,7 @@ export default function Navbar() {
                     </MenuItem>
                     <MenuItem className="menu-item">
                         <Link to="https://ko-fi.com/emmanuelleutecson" target="_blank" rel="noopener noreferrer">
-                            <p className={`link support-link ${path === '/settings' ? 'active' : ''}`}>Support</p>
+                            <p className={`link support-link`}>Support</p>
                         </Link>
                     </MenuItem>
                 </Menu>
